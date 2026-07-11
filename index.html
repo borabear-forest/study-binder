@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>학습 바인더</title>
+<style>
+  :root{
+    --bg-base:#f6f8f4;
+    --ink:#2f3b32;
+    --sub:#5f6f5f;
+    --accent:#4f6b52;
+    --accent-tint:rgba(79,107,82,0.10);
+    --accent-tint-strong:rgba(79,107,82,0.16);
+    --accent-border:rgba(79,107,82,0.28);
+    --glass:rgba(255,255,255,0.5);
+    --glass-border:rgba(255,255,255,0.65);
+    --shadow-dark:rgba(170,184,163,0.5);
+    --shadow-light:rgba(255,255,255,0.9);
+    --placeholder:#5f6b58;
+    --placeholder-icon:#c1c7bc;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--bg-base);
+    color:var(--ink);
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:60px;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  .char-slot{
+    position:relative; z-index:1;
+    max-width:1100px;
+    margin:32px auto 24px;
+    padding:0 20px;
+    display:flex;
+    justify-content:center;
+  }
+  .char-slot .char-box{
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    background:var(--bg-base);
+    box-shadow:
+      8px 8px 16px var(--shadow-dark),
+      -8px -8px 16px var(--shadow-light);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .char-slot .char-box img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:50%;
+  }
+
+  .grid{
+    position:relative; z-index:1;
+    max-width:1100px;
+    margin:0 auto;
+    padding:0 20px;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:18px;
+  }
+  @media(min-width:720px){
+    .grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media(min-width:1040px){
+    .grid{grid-template-columns:repeat(3,1fr);}
+  }
+
+  .card{
+    background:var(--glass);
+    backdrop-filter:blur(18px) saturate(160%);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+    border:1px solid var(--glass-border);
+    border-radius:22px;
+    overflow:hidden;
+    align-self:start;
+    box-shadow:0 8px 32px rgba(79,107,82,0.12);
+    transition:box-shadow .2s ease, transform .2s ease;
+  }
+  .card:hover{
+    box-shadow:0 12px 36px rgba(79,107,82,0.18);
+  }
+
+  .card-head{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:20px 20px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .num{
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:32px;
+    font-weight:700;
+    color:var(--accent);
+    line-height:1;
+    width:34px;
+    flex:none;
+  }
+  .card-title{flex:1;min-width:0;}
+  .card-title .name{
+    font-size:16.5px;
+    font-weight:700;
+    margin-bottom:3px;
+  }
+  .card-title .desc{
+    font-size:12.5px;
+    color:var(--sub);
+  }
+  .chevron{
+    flex:none;
+    color:var(--sub);
+    transition:transform .25s ease, color .25s ease;
+  }
+  .card.open .chevron{transform:rotate(180deg); color:var(--accent);}
+
+  .card-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .3s ease;
+    border-top:1px solid transparent;
+  }
+  .card.open .card-body{
+    border-top:1px solid var(--accent-border);
+  }
+
+  .item-list{padding:8px 12px 12px;}
+  .item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:11px 12px;
+    border-radius:12px;
+    text-decoration:none;
+    color:var(--placeholder);
+    font-size:14px;
+    font-weight:400;
+    transition:background .15s ease;
+  }
+  a.item, a.item:visited{color:var(--placeholder);}
+  a.item:hover{background:var(--accent-tint);}
+  a.item:active{background:var(--accent-tint-strong);}
+  a.item .icon{color:var(--placeholder-icon);}
+  a.item .label{color:var(--placeholder); font-weight:400;}
+  .item .icon{flex:none;color:var(--placeholder-icon);display:flex;}
+  .item .label{flex:1;}
+  .item .arrow{flex:none;color:var(--sub);opacity:.6;}
+
+  .item.placeholder{
+    color:var(--placeholder);
+    cursor:default;
+  }
+  .item.placeholder .icon{color:var(--placeholder-icon);}
+  .item.placeholder .tag{
+    font-size:10.5px;
+    padding:2px 8px;
+    border-radius:20px;
+    background:var(--accent-tint);
+    color:var(--sub);
+    flex:none;
+  }
+</style>
+</head>
+<body>
+
+<div class="char-slot">
+  <div class="char-box"><img src="BBO.png" alt="뽀"></div>
+</div>
+
+<div class="grid" id="grid">
+
+  <!-- 1. 청소년상담사 -->
+  <div class="card">
+    <div class="card-head">
+      <div class="num">1</div>
+      <div class="card-title">
+        <div class="name">청소년상담사</div>
+        <div class="desc">2급 필기</div>
+      </div>
+      <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </div>
+    <div class="card-body">
+      <div class="item-list">
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></span><span class="label">청소년상담의 이론과 실제</span><span class="tag">예정</span></div>
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></span><span class="label">상담연구방법론의 기초</span><span class="tag">예정</span></div>
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></span><span class="label">심리측정 평가의 활용</span><span class="tag">예정</span></div>
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></span><span class="label">이상심리</span><span class="tag">예정</span></div>
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></span><span class="label">진로상담 (선택)</span><span class="tag">예정</span></div>
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></span><span class="label">집단상담 (선택)</span><span class="tag">예정</span></div>
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></span><span class="label">가족상담 (선택)</span><span class="tag">예정</span></div>
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></span><span class="label">학업상담 (선택)</span><span class="tag">예정</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 임상심리사 -->
+  <div class="card">
+    <div class="card-head">
+      <div class="num">2</div>
+      <div class="card-title">
+        <div class="name">임상심리사</div>
+        <div class="desc">2급 실기</div>
+      </div>
+      <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </div>
+    <div class="card-body">
+      <div class="item-list">
+        <a class="item" href="clinical_exam.html#sec-counsel"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></span><span class="label">상담심리</span><span class="arrow">›</span></a>
+        <a class="item" href="clinical_exam.html#sec-assess"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6a1 1 0 0 1 1 1v2H8V3a1 1 0 0 1 1-1z"></path><rect x="4" y="4" width="16" height="18" rx="2"></rect><line x1="8" y1="11" x2="16" y2="11"></line><line x1="8" y1="15" x2="16" y2="15"></line></svg></span><span class="label">심리평가</span><span class="arrow">›</span></a>
+        <a class="item" href="clinical_exam.html#sec-therapy"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path></svg></span><span class="label">심리치료</span><span class="arrow">›</span></a>
+        <a class="item" href="clinical_exam.html#sec-consult"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span><span class="label">자문 / 교육 / 재활</span><span class="arrow">›</span></a>
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span><span class="label">최빈출문제</span><span class="tag">예정</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. ADsP -->
+  <div class="card">
+    <div class="card-head">
+      <div class="num">3</div>
+      <div class="card-title">
+        <div class="name">ADsP</div>
+        <div class="desc">데이터분석준전문가</div>
+      </div>
+      <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </div>
+    <div class="card-body">
+      <div class="item-list">
+        <a class="item" href="adsp-summary.html"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></span><span class="label">개념요약</span><span class="arrow">›</span></a>
+        <a class="item" href="adsp-exam.html"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></span><span class="label">기출문제</span><span class="arrow">›</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Knou -->
+  <div class="card">
+    <div class="card-head">
+      <div class="num">4</div>
+      <div class="card-title">
+        <div class="name">Knou</div>
+        <div class="desc">청소년교육복지상담</div>
+      </div>
+      <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </div>
+    <div class="card-body">
+      <div class="item-list">
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></span><span class="label">사례관리론</span><span class="tag">예정</span></div>
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></span><span class="label">집단상담의 기초</span><span class="tag">예정</span></div>
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></span><span class="label">부부상담 및 치료</span><span class="tag">예정</span></div>
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></span><span class="label">가족상담 및 치료</span><span class="tag">예정</span></div>
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></span><span class="label">중독상담과 교육</span><span class="tag">예정</span></div>
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></span><span class="label">조직행위론</span><span class="tag">예정</span></div>
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></span><span class="label">청소년지도사 2급 (면접)</span><span class="tag">예정</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. 상담심리치료 -->
+  <div class="card">
+    <div class="card-head">
+      <div class="num">5</div>
+      <div class="card-title">
+        <div class="name">상담심리치료</div>
+        <div class="desc">상담복지정책대학원</div>
+      </div>
+      <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </div>
+    <div class="card-body">
+      <div class="item-list">
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></span><span class="label">상담기법</span><span class="tag">예정</span></div>
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></span><span class="label">집단상담</span><span class="tag">예정</span></div>
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></span><span class="label">가족상담</span><span class="tag">예정</span></div>
+        <div class="item placeholder"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></span><span class="label">상담통계분석</span><span class="tag">예정</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. 컬러리스트 -->
+  <div class="card">
+    <div class="card-head">
+      <div class="num">6</div>
+      <div class="card-title">
+        <div class="name">컬러리스트</div>
+        <div class="desc">기사 | 산업기사</div>
+      </div>
+      <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </div>
+    <div class="card-body">
+      <div class="item-list">
+        <a class="item" href="colorist-part1.html"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></span><span class="label">기사 Part 1 · 삼속성·재현·보정</span><span class="arrow">›</span></a>
+        <a class="item" href="colorist-part2.html"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></span><span class="label">기사 Part 2 · 감성배색</span><span class="arrow">›</span></a>
+        <a class="item" href="colorist-part3.html"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></span><span class="label">기사 Part 3 · 색채계획 및 디자인</span><span class="arrow">›</span></a>
+        <a class="item" href="colorist-industrial-part1.html"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></span><span class="label">산업기사 Part 1 · 삼속성·재현·보정</span><span class="arrow">›</span></a>
+        <a class="item" href="colorist-industrial-part2.html"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></span><span class="label">산업기사 Part 2 · 감성배색</span><span class="arrow">›</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. 웹디자인개발기능사 -->
+  <div class="card">
+    <div class="card-head">
+      <div class="num">7</div>
+      <div class="card-title">
+        <div class="name">웹디자인개발</div>
+        <div class="desc">기능사</div>
+      </div>
+      <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </div>
+    <div class="card-body">
+      <div class="item-list">
+        <a class="item" href="webdesign_quiz.html"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></span><span class="label">실기기출문제</span><span class="arrow">›</span></a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Toggle open/close
+  document.querySelectorAll('.card-head').forEach(head=>{
+    head.addEventListener('click', ()=>{
+      const card = head.parentElement;
+      const body = card.querySelector('.card-body');
+      const isOpen = card.classList.contains('open');
+      if(isOpen){
+        card.classList.remove('open');
+        body.style.maxHeight = null;
+      } else {
+        card.classList.add('open');
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

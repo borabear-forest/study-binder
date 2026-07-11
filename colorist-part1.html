@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>컬러리스트기사 실기 · 파트1 — 삼속성·재현·보정</title>
+<style>
+  :root{
+    --ink:#2b2620;
+    --paper:#f7f4ee;
+    --paper-2:#efe9de;
+    --line:#d8cfbe;
+    --accent:#8a5a3b;   /* 먼셀 5YR 느낌의 갈색-오렌지 */
+    --accent-2:#3b5a8a; /* b* 음수 파랑 느낌 */
+    --good:#3f7a4f;
+    --bad:#b0463e;
+    --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.6;
+  }
+  header.hero{
+    padding:56px 24px 40px;
+    background:
+      radial-gradient(1200px 300px at 10% -10%, rgba(138,90,59,.10), transparent 60%),
+      var(--paper);
+    border-bottom:1px solid var(--line);
+  }
+  .hero-inner{max-width:920px;margin:0 auto;}
+  .eyebrow{
+    font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);font-weight:700;margin-bottom:10px;
+  }
+  h1{
+    font-size:clamp(28px,4vw,42px);
+    margin:0 0 12px;
+    font-weight:800;
+    letter-spacing:-0.01em;
+  }
+  .sub{color:#5a5248;font-size:16px;max-width:640px;}
+  .swatch-strip{
+    display:flex;height:14px;border-radius:3px;overflow:hidden;margin-top:26px;
+    box-shadow:0 1px 0 rgba(0,0,0,.05);
+  }
+  .swatch-strip div{flex:1;}
+
+  nav.tabs{
+    position:sticky;top:0;z-index:20;
+    background:rgba(247,244,238,.94);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    display:flex;gap:4px;padding:10px 24px;overflow-x:auto;
+  }
+  nav.tabs button{
+    border:1px solid transparent;
+    background:transparent;
+    padding:9px 16px;
+    border-radius:999px;
+    font-size:14.5px;
+    font-weight:600;
+    color:#6b6255;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:.15s;
+  }
+  nav.tabs button:hover{background:var(--paper-2);}
+  nav.tabs button.active{
+    background:var(--ink);color:var(--paper);
+  }
+
+  main{max-width:920px;margin:0 auto;padding:40px 24px 100px;}
+  section.panel{display:none;}
+  section.panel.active{display:block;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+  h2.section-title{
+    font-size:22px;font-weight:800;margin:0 0 6px;
+    display:flex;align-items:baseline;gap:10px;
+  }
+  h2.section-title .num{color:var(--accent);font-family:var(--mono);font-size:16px;}
+  p.lead{color:#6b6255;margin-top:0;margin-bottom:28px;font-size:15px;}
+
+  .card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 24px;
+    margin-bottom:20px;
+  }
+  .card h3{margin:0 0 12px;font-size:16.5px;font-weight:800;}
+  .card h3 .tag{
+    display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;
+    border-radius:999px;background:var(--paper-2);color:var(--accent);
+    margin-left:8px;vertical-align:middle;letter-spacing:.02em;
+  }
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:680px){.grid2{grid-template-columns:1fr;}}
+
+  .axis-box{
+    display:grid;grid-template-columns:auto 1fr;gap:10px 14px;
+    font-size:14.5px;
+  }
+  .axis-box .k{font-weight:700;font-family:var(--mono);color:var(--accent);}
+
+  table.quad{width:100%;border-collapse:collapse;font-size:14px;margin-top:10px;}
+  table.quad th,table.quad td{border:1px solid var(--line);padding:8px 10px;text-align:center;}
+  table.quad th{background:var(--paper-2);}
+  .swatch-mini{
+    display:inline-block;width:34px;height:18px;border-radius:4px;
+    border:1px solid rgba(0,0,0,.12);vertical-align:middle;
+  }
+
+  .quiz-item{
+    border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:14px;background:#fff;
+  }
+  .quiz-item .prompt{font-weight:700;margin-bottom:12px;font-size:15px;}
+  .quiz-item .coord{
+    font-family:var(--mono);background:var(--paper-2);
+    padding:6px 10px;border-radius:8px;display:inline-block;margin-bottom:12px;font-size:14px;
+  }
+  .swatch-block{
+    display:inline-block;width:64px;height:44px;border-radius:8px;vertical-align:middle;
+    margin-left:10px;border:1px solid rgba(0,0,0,.15);
+  }
+  .options{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+  .options button{
+    border:1px solid var(--line);background:var(--paper);
+    padding:8px 14px;border-radius:8px;font-size:14px;cursor:pointer;font-weight:600;color:var(--ink);
+    transition:.12s;
+  }
+  .options button:hover{border-color:var(--accent);}
+  .options button.correct{background:var(--good);color:#fff;border-color:var(--good);}
+  .options button.wrong{background:var(--bad);color:#fff;border-color:var(--bad);}
+  .options button:disabled{cursor:default;}
+  .feedback{font-size:13.5px;color:#6b6255;min-height:18px;}
+  .feedback.show{color:var(--ink);}
+
+  .fillblank input{
+    font-family:var(--mono);border:1px solid var(--line);border-radius:6px;
+    padding:5px 8px;font-size:14px;width:120px;margin:0 4px;
+  }
+  .fillblank .check{
+    margin-left:10px;border:none;background:var(--ink);color:#fff;padding:7px 14px;
+    border-radius:8px;font-size:13.5px;cursor:pointer;font-weight:700;
+  }
+
+  .score-bar{
+    display:flex;align-items:center;gap:14px;margin-bottom:22px;
+    background:var(--paper-2);border-radius:12px;padding:14px 18px;font-size:14px;
+  }
+  .score-bar .num{font-size:22px;font-weight:800;color:var(--accent);font-family:var(--mono);}
+  .reset-btn{
+    margin-left:auto;border:1px solid var(--line);background:#fff;padding:6px 14px;
+    border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;
+  }
+
+  .note{
+    font-size:13.5px;color:#7a705f;background:var(--paper-2);
+    border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin-top:14px;
+  }
+  code{background:var(--paper-2);padding:1px 5px;border-radius:4px;font-family:var(--mono);}
+  .legend{display:flex;gap:16px;font-size:12.5px;color:#7a705f;margin-top:10px;flex-wrap:wrap;}
+  .legend span{display:inline-flex;align-items:center;gap:5px;}
+  .legend .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Colorist 기사 · 실기대비</div>
+    <h1>파트1 — 삼속성 테스트 &amp; 색채재현·보정</h1>
+    <p class="sub">먼셀 표기, L*a*b* 좌표, 기본색이름을 하나의 언어로 잇는 감각을 되살리는 연습장.</p>
+    <div class="swatch-strip" id="heroStrip"></div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button data-p="concept" class="active">개념정리</button>
+  <button data-p="quad">사분면 판단</button>
+  <button data-p="compare">기준·샘플 비교</button>
+  <button data-p="correction">보정계획 서술</button>
+</nav>
+
+<main>
+
+  <!-- ===================== 개념정리 ===================== -->
+  <section class="panel active" id="panel-concept">
+    <h2 class="section-title"><span class="num">01</span> 세 언어, 한 가지 색</h2>
+    <p class="lead">먼셀 표기, L*a*b* 좌표, 기본색이름은 같은 색을 다르게 말하는 방식일 뿐이에요. 이 변환 감각만 잡히면 시험 판단 속도가 확 빨라집니다.</p>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>먼셀 표기법 <span class="tag">Munsell</span></h3>
+        <div class="axis-box">
+          <div class="k">5YR 7/6</div><div>색상(Hue) 5YR · 명도(Value) 7 · 채도(Chroma) 6</div>
+          <div class="k">색상</div><div>R·YR·Y·GY·G·BG·B·PB·P·RP 10색상 + 중간색상(예: 10R, 5YR)</div>
+          <div class="k">명도</div><div>0(검정) ~ 10(흰색)</div>
+          <div class="k">채도</div><div>0(무채색)에서 커질수록 선명해짐, 색상마다 최대치가 다름</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>L*a*b* 좌표 <span class="tag">CIE Lab</span></h3>
+        <div class="axis-box">
+          <div class="k">L*</div><div>명도. 0(검정) ~ 100(흰색)</div>
+          <div class="k">a*</div><div>+ 면 빨강 쪽 / − 면 초록 쪽</div>
+          <div class="k">b*</div><div>+ 면 노랑 쪽 / − 면 파랑 쪽</div>
+          <div class="k">핵심</div><div>부호만 보면 방향, 절댓값 크기가 그 방향의 강도</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>a*·b* 사분면으로 계열 읽기</h3>
+      <table class="quad">
+        <tr><th>a*</th><th>b*</th><th>방향</th><th>계열</th><th>예시</th></tr>
+        <tr><td>+</td><td>+</td><td>빨강+노랑</td><td>주황·갈색 (YR 계열)</td><td><span class="swatch-mini" style="background:#b96b3f"></span></td></tr>
+        <tr><td>+</td><td>−</td><td>빨강+파랑</td><td>자주·보라 (RP·P 계열)</td><td><span class="swatch-mini" style="background:#8a4a6e"></span></td></tr>
+        <tr><td>−</td><td>+</td><td>초록+노랑</td><td>연두·카키 (GY 계열)</td><td><span class="swatch-mini" style="background:#7a8a3f"></span></td></tr>
+        <tr><td>−</td><td>−</td><td>초록+파랑</td><td>청록 (BG 계열)</td><td><span class="swatch-mini" style="background:#2f7a72"></span></td></tr>
+      </table>
+      <div class="note">숫자를 계산할 필요는 없어요. 부호 두 개만 보고 "이쪽 방향이구나" 감을 잡는 게 목표입니다.</div>
+    </div>
+
+    <div class="card">
+      <h3>보정계획 문장 구조 (색채재현 및 보정 3번)</h3>
+      <p style="font-size:14.5px;margin:0 0 10px;">기출 문장은 항상 이 틀을 따라요:</p>
+      <div class="axis-box">
+        <div class="k">1단계</div><div>샘플색은 기준색에 비해 명도(동일/높/낮), 채도(동일/높/낮) 평가</div>
+        <div class="k">2단계</div><div>L*를 (높이기/낮추기) 위해 (색) 추가</div>
+        <div class="k">3단계</div><div>a*를 보정하기 위해 (색) 추가</div>
+        <div class="k">4단계</div><div>b*를 보정하기 위해 (색) 추가</div>
+      </div>
+      <div class="note">여기서 쓸 수 있는 색은 딱 6가지: <code>Black, White, Blue, Yellow, Green, Red</code>. 약호(K, W 등) 쓰면 감점이니 풀네임으로.</div>
+    </div>
+  </section>
+
+  <!-- ===================== 사분면 판단 퀴즈 ===================== -->
+  <section class="panel" id="panel-quad">
+    <h2 class="section-title"><span class="num">02</span> a*b* 사분면 판단</h2>
+    <p class="lead">L*a*b* 좌표만 보고 어느 색 계열인지 빠르게 맞혀보세요. [시험1] 색채재현 및 보정 기출 ①~㉚ 30문항의 기준색 전체를 순서만 섞어서 사용해요.</p>
+    <div class="score-bar">맞힌 개수 <span class="num" id="quadScore">0</span> / <span id="quadTotal">0</span>
+      <button class="reset-btn" onclick="resetQuiz('quad')">다시 풀기</button>
+    </div>
+    <div id="quadQuiz"></div>
+  </section>
+
+  <!-- ===================== 기준·샘플 비교 퀴즈 ===================== -->
+  <section class="panel" id="panel-compare">
+    <h2 class="section-title"><span class="num">03</span> 기준색 vs 샘플색 판단</h2>
+    <p class="lead">기출 30문항의 기준색 전체를 사용해요. 샘플색 좌표는 실제 시험에서 빈칸으로 제공되는 값이라(수험자가 직접 만드는 색), 여기서는 연습을 위해 매번 임의로 생성해요.</p>
+    <div class="score-bar">맞힌 개수 <span class="num" id="cmpScore">0</span> / <span id="cmpTotal">0</span>
+      <button class="reset-btn" onclick="resetQuiz('cmp')">다시 풀기</button>
+    </div>
+    <div id="cmpQuiz"></div>
+  </section>
+
+  <!-- ===================== 보정계획 서술 ===================== -->
+  <section class="panel" id="panel-correction">
+    <h2 class="section-title"><span class="num">04</span> 보정계획 문장 완성</h2>
+    <p class="lead">빈칸에 <code>Black, White, Blue, Yellow, Green, Red</code> 중 알맞은 색을 넣어보세요. 기출 30문항의 기준색 전체를 사용하고, 샘플색은 연습용으로 매번 임의 생성돼요. 정답은 하나가 아닐 수 있지만, 방향이 맞는지 확인해줄게요.</p>
+    <div id="corrQuiz"></div>
+  </section>
+
+</main>
+
+<script>
+/* ---------------- 탭 전환 ---------------- */
+document.querySelectorAll('nav.tabs button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('section.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.p).classList.add('active');
+  });
+});
+
+/* ---------------- 유틸: Lab -> 대략적 RGB(스와치용, 정확한 변환 아님) ---------------- */
+function labToApproxRgb(L,a,b){
+  // 근사 변환 (표시용) - CIE Lab -> XYZ -> sRGB
+  const y=(L+16)/116, x=a/500+y, z=y-b/200;
+  function f(t){ const t3=t*t*t; return t3>0.008856?t3:(t-16/116)/7.787; }
+  const X=0.95047*f(x), Y=1.00000*f(y), Z=1.08883*f(z);
+  let r =  X* 3.2406 + Y*-1.5372 + Z*-0.4986;
+  let g =  X*-0.9689 + Y* 1.8758 + Z* 0.0415;
+  let bl=  X* 0.0557 + Y*-0.2040 + Z* 1.0570;
+  function gam(c){ c = c<=0.0031308 ? 12.92*c : 1.055*Math.pow(c,1/2.4)-0.055; return Math.min(1,Math.max(0,c)); }
+  r=gam(r); g=gam(g); bl=gam(bl);
+  return `rgb(${Math.round(r*255)},${Math.round(g*255)},${Math.round(bl*255)})`;
+}
+
+/* ---------------- 실제 기출 색상 데이터 (시험1 기준색 세트) ---------------- */
+// 컬러리스트기사 [시험1] 색채재현 및 보정 기준색 30문항 전체 (기출 ①~㉚)
+const dataset = [
+  {no:1,  munsell:"5P 7/8",   lab:[73.14,11.5,-16.9],  name:"보라"},
+  {no:2,  munsell:"5YR 8/8",  lab:[79.25,23.6,36.2],   name:"주황"},
+  {no:3,  munsell:"5GY 8/8",  lab:[82.11,-17.4,48.2],  name:"연두"},
+  {no:4,  munsell:"5YR 7/6",  lab:[70.53,18,26.3],     name:"주황"},
+  {no:5,  munsell:"5R 9/2",   lab:[91.37,5.1,4.1],     name:"분홍"},
+  {no:6,  munsell:"5BG 7/8",  lab:[74.77,-31.3,-3.2],  name:"청록"},
+  {no:7,  munsell:"5G 7/6",   lab:[72.56,-26.2,11.1],  name:"초록"},
+  {no:8,  munsell:"5G 3/8",   lab:[35.29,-22.8,7.9],   name:"초록"},
+  {no:9,  munsell:"5Y 4/6",   lab:[44.92,4,29.6],      name:"노랑"},
+  {no:10, munsell:"5GY 4/8",  lab:[47.91,-14.0,30],    name:"연두"},
+  {no:11, munsell:"5B 2/6",   lab:[32.14,-15.6,-13.3], name:"파랑"},
+  {no:12, munsell:"5PB 4/12", lab:[45.56,-6.5,-35.8],  name:"파랑"},
+  {no:13, munsell:"5G 7/8",   lab:[71.56,-33.9,13.8],  name:"초록"},
+  {no:14, munsell:"5GY 7/6",  lab:[69.86,-14.2,34.5],  name:"연두"},
+  {no:15, munsell:"5YR 2/4",  lab:[30.73,14.0,9.1],    name:"갈색"},
+  {no:16, munsell:"10R 7/6",  lab:[72.88,22.1,17.4],   name:"주황"},
+  {no:17, munsell:"5PB 8/4",  lab:[82.05,-5.0,-12.2],  name:"파랑"},
+  {no:18, munsell:"5P 8/4",   lab:[81.72,5.2,-8.6],    name:"보라"},
+  {no:19, munsell:"5B 5/4",   lab:[52.89,-14.2,-10.3], name:"파랑"},
+  {no:20, munsell:"10YR 7/6", lab:[71.86,11,30.9],     name:"주황"},
+  {no:21, munsell:"5B 9/2",   lab:[90.88,-9.2,-4.0],   name:"파랑"},
+  {no:22, munsell:"5P 5/4",   lab:[54.48,8.3,-12.4],   name:"보라"},
+  {no:23, munsell:"5RP 8/4",  lab:[81.19,11.4,-1.1],   name:"자주"},
+  {no:24, munsell:"5RP 7/8",  lab:[72.25,27.7,-2.2],   name:"자주"},
+  {no:25, munsell:"5P 3/8",   lab:[35.74,14.2,-22.4],  name:"보라"},
+  {no:26, munsell:"10PB 3/8", lab:[38.91,11.3,-26.3],  name:"파랑"},
+  {no:27, munsell:"5BG 7/8",  lab:[74.77,-31.3,-3.2],  name:"청록"},
+  {no:28, munsell:"5GY 8/4",  lab:[80.63,-10.6,23.7],  name:"연두"},
+  {no:29, munsell:"5BG 3/6",  lab:[35.97,-21.9,-3],    name:"청록"},
+  {no:30, munsell:"5G 9/2",   lab:[92.12,-10,6],       name:"초록"},
+];
+
+/* ---------------- 사분면 판단 퀴즈 생성 ---------------- */
+const quadOptions = [
+  {label:"주황·갈색 (a*+, b*+)", key:"pp"},
+  {label:"자주·보라 (a*+, b*−)", key:"pm"},
+  {label:"연두·카키 (a*−, b*+)", key:"mp"},
+  {label:"청록 (a*−, b*−)", key:"mm"},
+];
+function quadKey(a,b){ return (a>=0?"p":"m")+(b>=0?"p":"m"); }
+
+let quadState = {score:0,total:0};
+function buildQuad(){
+  const container = document.getElementById('quadQuiz');
+  container.innerHTML='';
+  quadState = {score:0,total:0};
+  document.getElementById('quadScore').textContent='0';
+  const items = [...dataset].sort(()=>Math.random()-0.5); // 기출 30문항 전체, 순서만 섞음
+  document.getElementById('quadTotal').textContent = items.length;
+  items.forEach((d,idx)=>{
+    const [L,a,b] = d.lab;
+    const div = document.createElement('div');
+    div.className='quiz-item';
+    div.innerHTML = `
+      <div class="prompt">Q${idx+1}. 이 좌표는 어느 계열일까요?
+        <span class="swatch-block" style="background:${labToApproxRgb(L,a,b)}"></span>
+      </div>
+      <div class="coord">L*a*b* (${L}, ${a}, ${b})</div>
+      <div class="options"></div>
+      <div class="feedback"></div>
+    `;
+    const opts = div.querySelector('.options');
+    quadOptions.forEach(o=>{
+      const btn = document.createElement('button');
+      btn.textContent = o.label;
+      btn.onclick = ()=>{
+        const correctKey = quadKey(a,b);
+        const isRight = o.key===correctKey;
+        opts.querySelectorAll('button').forEach(bt=>bt.disabled=true);
+        btn.classList.add(isRight?'correct':'wrong');
+        if(!isRight){
+          opts.querySelectorAll('button').forEach(bt2=>{
+            if(bt2.textContent === quadOptions.find(q=>q.key===correctKey).label) bt2.classList.add('correct');
+          });
+        }
+        const fb = div.querySelector('.feedback');
+        fb.classList.add('show');
+        fb.textContent = isRight
+          ? `정답! (실제 먼셀: ${d.munsell}, 기본색이름: ${d.name})`
+          : `아쉬워요. a*=${a} → ${a>=0?'빨강':'초록'} 쪽, b*=${b} → ${b>=0?'노랑':'파랑'} 쪽 (실제: ${d.munsell}, ${d.name})`;
+        quadState.total++;
+        if(isRight) quadState.score++;
+        document.getElementById('quadScore').textContent = quadState.score;
+      };
+      opts.appendChild(btn);
+    });
+    container.appendChild(div);
+  });
+}
+
+/* ---------------- 기준·샘플 비교 퀴즈 ---------------- */
+let cmpState={score:0,total:0};
+function buildCompare(){
+  const container = document.getElementById('cmpQuiz');
+  container.innerHTML='';
+  cmpState={score:0,total:0};
+  document.getElementById('cmpScore').textContent='0';
+  const pairs=[];
+  const pool = [...dataset].sort(()=>Math.random()-0.5); // 기출 30개 기준색 전체 사용
+  for(let i=0;i<pool.length;i++){
+    const base = pool[i];
+    // 가상 샘플색: 기준색에서 L, C를 임의로 살짝 이동시켜 생성
+    const dL = (Math.random()*20-10);
+    const dA = (Math.random()*16-8);
+    const dB = (Math.random()*16-8);
+    const sample = [base.lab[0]+dL, base.lab[1]+dA, base.lab[2]+dB];
+    pairs.push({base, sample});
+  }
+  document.getElementById('cmpTotal').textContent = pairs.length*2;
+
+  pairs.forEach((p,idx)=>{
+    const [bl,ba,bb] = p.base.lab;
+    const [sl,sa,sb] = p.sample;
+    const div=document.createElement('div');
+    div.className='quiz-item';
+    div.innerHTML=`
+      <div class="prompt">Q${idx+1}. 기준색 대비 샘플색의 명도·채도는?
+        <span class="swatch-block" style="background:${labToApproxRgb(bl,ba,bb)}"></span>
+        <span class="swatch-block" style="background:${labToApproxRgb(sl,sa,sb)}"></span>
+      </div>
+      <div class="coord">기준색 (${bl.toFixed(1)}, ${ba.toFixed(1)}, ${bb.toFixed(1)}) · 먼셀 ${p.base.munsell}</div><br>
+      <div class="coord">샘플색 (${sl.toFixed(1)}, ${sa.toFixed(1)}, ${sb.toFixed(1)})</div>
+      <div style="margin-top:12px;font-size:14px;font-weight:700;">명도 판단</div>
+      <div class="options" data-role="value"></div>
+      <div style="margin-top:6px;font-size:14px;font-weight:700;">채도 판단 (원점(0,0)에서의 거리 비교)</div>
+      <div class="options" data-role="chroma"></div>
+      <div class="feedback"></div>
+    `;
+    const valOpts = div.querySelector('[data-role=value]');
+    ["높다","낮다","동일"].forEach(label=>{
+      const btn=document.createElement('button');
+      btn.textContent="명도 "+label;
+      btn.onclick=()=>handleCmp(btn,valOpts,label,'value',bl,sl,ba,sa,bb,sb,div);
+      valOpts.appendChild(btn);
+    });
+    const chrOpts = div.querySelector('[data-role=chroma]');
+    ["높다","낮다","동일"].forEach(label=>{
+      const btn=document.createElement('button');
+      btn.textContent="채도 "+label;
+      btn.onclick=()=>handleCmp(btn,chrOpts,label,'chroma',bl,sl,ba,sa,bb,sb,div);
+      chrOpts.appendChild(btn);
+    });
+    container.appendChild(div);
+  });
+}
+function handleCmp(btn,group,label,role,bl,sl,ba,sa,bb,sb,div){
+  group.querySelectorAll('button').forEach(b=>b.disabled=true);
+  let correctLabel;
+  if(role==='value'){
+    const diff = sl-bl;
+    correctLabel = Math.abs(diff)<2 ? "동일" : (diff>0?"높다":"낮다");
+  }else{
+    const bc = Math.sqrt(ba*ba+bb*bb);
+    const sc = Math.sqrt(sa*sa+sb*sb);
+    const diff = sc-bc;
+    correctLabel = Math.abs(diff)<2 ? "동일" : (diff>0?"높다":"낮다");
+  }
+  const isRight = label===correctLabel;
+  btn.classList.add(isRight?'correct':'wrong');
+  if(!isRight){
+    group.querySelectorAll('button').forEach(b2=>{
+      if(b2.textContent.endsWith(correctLabel)) b2.classList.add('correct');
+    });
+  }
+  cmpState.total++;
+  if(isRight) cmpState.score++;
+  document.getElementById('cmpScore').textContent = cmpState.score;
+  const fb = div.querySelector('.feedback');
+  fb.classList.add('show');
+  fb.textContent = "채점 진행 중… 명도·채도 두 항목 다 눌러보세요.";
+}
+
+/* ---------------- 보정계획 서술 연습 ---------------- */
+const correctionWords = ["Black","White","Blue","Yellow","Green","Red"];
+function buildCorrection(){
+  const container = document.getElementById('corrQuiz');
+  container.innerHTML='';
+  const items = [...dataset].sort(()=>Math.random()-0.5); // 기출 30개 전체
+  items.forEach((d,idx)=>{
+    const [L,a,b]=d.lab;
+    const dL=(Math.random()*30-15), dA=(Math.random()*20-10), dB=(Math.random()*20-10);
+    const sample=[L+dL,a+dA,b+dB];
+    const div=document.createElement('div');
+    div.className='quiz-item';
+    div.innerHTML=`
+      <div class="prompt">Q${idx+1}. 기준색 → 샘플색 보정계획을 완성해보세요.
+        <span class="swatch-block" style="background:${labToApproxRgb(L,a,b)}"></span>
+        <span class="swatch-block" style="background:${labToApproxRgb(sample[0],sample[1],sample[2])}"></span>
+      </div>
+      <div class="coord">기준색 (${L.toFixed(1)}, ${a.toFixed(1)}, ${b.toFixed(1)}) → 샘플색 (${sample[0].toFixed(1)}, ${sample[1].toFixed(1)}, ${sample[2].toFixed(1)})</div>
+      <div class="fillblank" style="margin-top:14px;">
+        L*를 (${sample[0]>L?'높이기':'낮추기'}) 위해
+        <input type="text" data-idx="${idx}" data-part="L" placeholder="색 이름"> 추가,
+        a*를 보정하기 위해
+        <input type="text" data-idx="${idx}" data-part="a" placeholder="색 이름"> 추가,
+        b*를 보정하기 위해
+        <input type="text" data-idx="${idx}" data-part="b" placeholder="색 이름"> 추가
+        <button class="check" data-idx="${idx}">확인</button>
+      </div>
+      <div class="feedback" id="corrFb${idx}"></div>
+      <input type="hidden" class="answers-data" data-idx="${idx}"
+        data-l="${L.toFixed(2)}" data-a="${a.toFixed(2)}" data-b="${b.toFixed(2)}"
+        data-sl="${sample[0].toFixed(2)}" data-sa="${sample[1].toFixed(2)}" data-sb="${sample[2].toFixed(2)}">
+    `;
+    container.appendChild(div);
+  });
+  container.querySelectorAll('.check').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const idx = btn.dataset.idx;
+      const inputs = container.querySelectorAll(`input[data-idx="${idx}"][data-part]`);
+      const meta = container.querySelector(`.answers-data[data-idx="${idx}"]`);
+      const L=+meta.dataset.l, a=+meta.dataset.a, b=+meta.dataset.b;
+      const sl=+meta.dataset.sl, sa=+meta.dataset.sa, sb=+meta.dataset.sb;
+
+      function expected(part){
+        if(part==='L') return sl>L ? ["White"] : ["Black"];
+        if(part==='a') return sa>a ? ["Green"] : ["Red"]; // 낮추려면 반대색 추가 (기준에 맞추기 위한 보정 방향)
+        if(part==='b') return sb>b ? ["Blue"] : ["Yellow"];
+      }
+      let allOk = true;
+      let detail = [];
+      inputs.forEach(inp=>{
+        const part = inp.dataset.part;
+        const val = inp.value.trim();
+        const norm = correctionWords.find(w=>w.toLowerCase()===val.toLowerCase());
+        const exp = expected(part);
+        const ok = norm && exp.includes(norm);
+        inp.style.borderColor = ok ? 'var(--good)' : 'var(--bad)';
+        if(!ok) allOk = false;
+        detail.push(`${part}* 방향: ${exp.join('/')}`);
+      });
+      const fb = document.getElementById('corrFb'+idx);
+      fb.classList.add('show');
+      fb.textContent = (allOk? "전부 맞았어요! " : "다시 확인해보세요 — ") + detail.join(' · ') +
+        " (실제 시험은 샘플색을 기준색에 맞추는 방향이라, '샘플이 기준보다 큰 값이면 반대색을 추가'하는 원리예요.)";
+    });
+  });
+}
+
+/* ---------------- 히어로 스와치 ---------------- */
+(function(){
+  const strip = document.getElementById('heroStrip');
+  dataset.slice(0,14).forEach(d=>{
+    const div = document.createElement('div');
+    div.style.background = labToApproxRgb(...d.lab);
+    strip.appendChild(div);
+  });
+})();
+
+function resetQuiz(which){
+  if(which==='quad') buildQuad();
+  if(which==='cmp') buildCompare();
+}
+
+/* 초기 빌드 */
+buildQuad();
+buildCompare();
+buildCorrection();
+</script>
+</body>
+</html>

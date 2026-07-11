@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>컬러리스트기사 실기 · 파트2 — 감성배색</title>
+<style>
+  :root{
+    --ink:#2b2620;
+    --paper:#f7f4ee;
+    --paper-2:#efe9de;
+    --line:#d8cfbe;
+    --accent:#8a5a3b;
+    --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{overflow-x:hidden;max-width:100%;}
+  body{
+    margin:0;
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.6;
+    width:100%;
+  }
+  header.hero{
+    padding:56px 24px 40px;
+    background:
+      radial-gradient(1200px 300px at 10% -10%, rgba(138,90,59,.10), transparent 60%),
+      var(--paper);
+    border-bottom:1px solid var(--line);
+  }
+  .hero-inner{max-width:920px;margin:0 auto;}
+  .eyebrow{
+    font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);font-weight:700;margin-bottom:10px;
+  }
+  h1{font-size:clamp(28px,4vw,42px);margin:0 0 12px;font-weight:800;letter-spacing:-0.01em;}
+  .sub{color:#5a5248;font-size:16px;max-width:640px;}
+  .swatch-strip{display:flex;height:14px;border-radius:3px;overflow:hidden;margin-top:26px;box-shadow:0 1px 0 rgba(0,0,0,.05);}
+  .swatch-strip div{flex:1;}
+
+  nav.tabs{
+    position:sticky;top:0;z-index:20;
+    background:rgba(247,244,238,.94);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    display:flex;gap:4px;padding:10px 24px;overflow-x:auto;
+  }
+  nav.tabs button{
+    border:1px solid transparent;background:transparent;padding:9px 16px;
+    border-radius:999px;font-size:14.5px;font-weight:600;color:#6b6255;
+    cursor:pointer;white-space:nowrap;transition:.15s;
+  }
+  nav.tabs button:hover{background:var(--paper-2);}
+  nav.tabs button.active{background:var(--ink);color:var(--paper);}
+
+  main{max-width:920px;margin:0 auto;padding:40px 24px 100px;}
+  section.panel{display:none;}
+  section.panel.active{display:block;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+  h2.section-title{font-size:22px;font-weight:800;margin:0 0 6px;display:flex;align-items:baseline;gap:10px;}
+  h2.section-title .num{color:var(--accent);font-family:var(--mono);font-size:16px;}
+  p.lead{color:#6b6255;margin-top:0;margin-bottom:28px;font-size:15px;}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:20px;}
+  .card h3{margin:0 0 12px;font-size:16.5px;font-weight:800;}
+  .card h3 .tag{
+    display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;
+    border-radius:999px;background:var(--paper-2);color:var(--accent);
+    margin-left:8px;vertical-align:middle;letter-spacing:.02em;
+  }
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:680px){.grid2{grid-template-columns:1fr;}}
+
+  .axis-box{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;font-size:14.5px;}
+  .axis-box .k{font-weight:700;font-family:var(--mono);color:var(--accent);}
+
+  table.ref{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:10px;display:block;overflow-x:auto;white-space:normal;}
+  table.ref th,table.ref td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+  table.ref th{background:var(--paper-2);}
+
+  .scale-map{
+    position:relative;width:100%;max-width:560px;aspect-ratio:1/1;margin:18px auto 8px;
+    background:
+      linear-gradient(to right, rgba(59,90,138,.10), transparent 48%, transparent 52%, rgba(176,70,62,.10)),
+      linear-gradient(to bottom, rgba(63,122,79,.10), transparent 48%, transparent 52%, rgba(138,90,59,.12));
+    border:1px solid var(--line);border-radius:12px;
+  }
+  .scale-map .axis-label{position:absolute;font-size:12px;font-weight:700;color:#7a705f;}
+  .scale-map .lbl-top{top:6px;left:50%;transform:translateX(-50%);}
+  .scale-map .lbl-bottom{bottom:6px;left:50%;transform:translateX(-50%);}
+  .scale-map .lbl-left{left:6px;top:50%;transform:translateY(-50%);}
+  .scale-map .lbl-right{right:6px;top:50%;transform:translateY(-50%);}
+  .scale-map .pt{
+    position:absolute;transform:translate(-50%,-50%);
+    font-size:11.5px;font-weight:700;color:var(--ink);
+    background:#fff;border:1px solid var(--line);border-radius:999px;
+    padding:2px 8px;white-space:nowrap;
+  }
+
+  .quiz-item{border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:14px;background:#fff;}
+  .quiz-item .prompt{font-weight:700;margin-bottom:10px;font-size:15px;}
+  .cond-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+  .cond-tags span{
+    font-size:12px;font-weight:700;background:var(--paper-2);color:var(--accent);
+    padding:3px 10px;border-radius:999px;
+  }
+  .imgpair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+  @media(max-width:680px){.imgpair{grid-template-columns:1fr;}}
+  .imgpair .side{border:1px dashed var(--line);border-radius:10px;padding:12px;}
+  .imgpair .side .label{font-weight:800;font-size:13.5px;color:var(--accent);margin-bottom:6px;}
+  textarea{
+    width:100%;min-height:96px;border:1px solid var(--line);border-radius:10px;
+    padding:10px 12px;font-size:14px;font-family:inherit;resize:vertical;background:var(--paper);
+  }
+  .role-row{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;}
+  .role-row .rbox{flex:1;min-width:150px;}
+  .role-row label{font-size:12.5px;font-weight:700;color:#7a705f;display:block;margin-bottom:4px;}
+  .role-row input{
+    width:100%;border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:13.5px;
+  }
+  .btnrow{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
+  button.ghost{
+    border:1px solid var(--line);background:#fff;padding:8px 14px;border-radius:8px;
+    font-size:13.5px;cursor:pointer;font-weight:700;color:var(--ink);
+  }
+  button.ghost:hover{border-color:var(--accent);color:var(--accent);}
+  .hint-box{
+    display:none;font-size:13.5px;background:var(--paper-2);border-left:3px solid var(--accent);
+    padding:10px 14px;border-radius:0 8px 8px 0;margin-top:10px;
+  }
+  .hint-box.show{display:block;}
+  .note{font-size:13.5px;color:#7a705f;background:var(--paper-2);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin-top:14px;}
+  code{background:var(--paper-2);padding:1px 5px;border-radius:4px;font-family:var(--mono);}
+
+  .picker{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;max-width:100%;}
+  .picker select{
+    border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:14px;background:#fff;
+    font-family:inherit;
+    max-width:100%;
+    width:100%;
+    flex:1 1 260px;
+  }
+  @media(max-width:520px){
+    .picker select{font-size:13px;}
+  }
+  .dict-filter{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+  .dict-filter button{
+    border:1px solid var(--line);background:#fff;padding:6px 14px;border-radius:999px;
+    font-size:13px;cursor:pointer;font-weight:600;color:#6b6255;
+  }
+  .dict-filter button.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+  .model-grid{display:flex;flex-wrap:wrap;gap:3px;margin:10px 0 14px;}
+  .model-grid .cell{
+    width:26px;height:26px;border-radius:4px;border:1px solid rgba(0,0,0,.15);
+    flex:0 0 auto;
+  }
+  .model-legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+  .model-legend .chip{
+    display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;
+    background:var(--paper-2);padding:4px 10px;border-radius:999px;
+  }
+  .model-legend .chip .sw{width:14px;height:14px;border-radius:4px;border:1px solid rgba(0,0,0,.15);}
+  .model-legend .chip .role{color:var(--accent);font-size:11px;font-weight:800;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Colorist 기사 · 실기대비</div>
+    <h1>파트2 — 감성배색</h1>
+    <p class="sub">형용사 언어를 색채로 번역하는 연습. 기출 35세트 전체(①~㉟)를 바탕으로 배색의도 서술을 훈련합니다.</p>
+    <div class="swatch-strip" id="heroStrip"></div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button data-p="concept" class="active">개념정리</button>
+  <button data-p="dict">형용사 언어사전</button>
+  <button data-p="q1practice">문항1 서술연습</button>
+  <button data-p="q2practice">문항2 대표색 연습</button>
+</nav>
+
+<main>
+
+  <!-- ===================== 개념정리 ===================== -->
+  <section class="panel active" id="panel-concept">
+    <h2 class="section-title"><span class="num">01</span> 감성배색의 뼈대</h2>
+    <p class="lead">감성배색은 "형용사 → 색상·명도·채도·배색기법 → 면적비례"로 옮기는 번역 작업이에요. 이 틀만 있으면 어떤 주제가 나와도 구조적으로 답안을 짤 수 있어요.</p>
+
+    <div class="card">
+      <h3>색채 이미지스케일 <span class="tag">Image Scale</span></h3>
+      <p style="font-size:14px;color:#5a5248;margin-top:0;">두 축(따뜻함↔차가움, 부드러움↔딱딱함)으로 형용사의 위치를 가늠하면 색상·톤 선택이 쉬워져요. 아래는 기출에 나온 형용사들을 대략의 위치로 배치한 예시입니다.</p>
+      <div class="scale-map" id="scaleMap">
+        <div class="axis-label lbl-top">SOFT (부드러움)</div>
+        <div class="axis-label lbl-bottom">HARD (딱딱함)</div>
+        <div class="axis-label lbl-left">COOL (차가움)</div>
+        <div class="axis-label lbl-right">WARM (따뜻함)</div>
+      </div>
+      <div class="note">시험 실전 요령: 형용사를 이 4象限 중 하나로 먼저 위치시키고, 그 사분면의 대표 색상군(예: warm+soft → 옐로우·오렌지 저채도 고명도)을 떠올린 뒤 색을 고르면 판단이 빨라져요.</div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>이텐의 색채조화론 <span class="tag">Itten</span></h3>
+        <div class="axis-box">
+          <div class="k">Dyads</div><div>2색 조화 (색상환 정반대 2색)</div>
+          <div class="k">Triads</div><div>3색 조화 (색상환 정삼각형 3색)</div>
+          <div class="k">Tetrads</div><div>4색 조화 (색상환 정사각형 4색)</div>
+          <div class="k">Hexads</div><div>6색 조화 (보색쌍 3개, 명도 대비 큼 → 시인성·주목성 높음)</div>
+        </div>
+        <div class="note">기출 ①번 문항처럼 "6색 조화(hexads)를 활용한 홍보 포스터"가 나오면, 보색쌍을 3개 이상 조합하고 명도차를 크게 주는 것이 핵심이에요.</div>
+      </div>
+      <div class="card">
+        <h3>대표색 3분할 <span class="tag">주조·보조·강조</span></h3>
+        <div class="axis-box">
+          <div class="k">주조색</div><div>전체 면적의 약 60~70% · 이미지의 기본 톤 결정</div>
+          <div class="k">보조색</div><div>약 20~25% · 주조색을 보완하며 리듬감 부여</div>
+          <div class="k">강조색</div><div>약 5~10% · 시선을 끄는 포인트, 보색·고채도 활용 多</div>
+        </div>
+        <div class="note">기출 2번 문항(12면 이상, 5색 이상)에서는 반드시 이 3역할을 색이름과 함께 명시해야 채점됩니다.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>배색기법 정리 <span class="tag">Color Scheme</span></h3>
+      <table class="ref">
+        <tr><th>기법</th><th>정의</th><th>인상</th></tr>
+        <tr><td>톤인톤(Tone in Tone)</td><td>동일/유사 색상, 같은 톤(명도·채도)</td><td>차분, 정리된 느낌</td></tr>
+        <tr><td>톤온톤(Tone on Tone)</td><td>동일 색상, 명도차를 크게</td><td>깊이감, 그라데이션</td></tr>
+        <tr><td>토널(Tonal)</td><td>중명도·중채도 톤으로 통일</td><td>차분하고 도시적, 세련됨</td></tr>
+        <tr><td>세퍼레이션(Separation)</td><td>배색 사이 무채색(흰색·검정 등) 삽입</td><td>명확한 경계, 리듬감 강조 — 기출 ㉞번 서핑보드 문제 참고</td></tr>
+        <tr><td>그라데이션(Gradation)</td><td>색상·명도·채도를 단계적으로 변화</td><td>운동감, 자연스러운 흐름</td></tr>
+        <tr><td>카마이외(Camaieu)</td><td>거의 동일한 색으로 미세한 차이만</td><td>은은함, 고급스러움</td></tr>
+        <tr><td>비콜로(Bicolore)/트리콜로(Tricolore)</td><td>2색/3색의 명확한 대비 배색</td><td>선명, 명쾌함</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>색이름 표기 규칙 <span class="tag">KS A 0011</span></h3>
+      <p style="font-size:14px;color:#5a5248;margin-top:0;">시험지 유의사항에 명시된 대로, 색이름은 반드시 <b>한국산업표준 KS A 0011(물체색의 색이름)</b> 기준으로 서술해야 해요.</p>
+      <table class="ref">
+        <tr><th>구분</th><th>옳은 작성</th><th>틀린 작성</th></tr>
+        <tr><td>기본색이름</td><td>보라, Purple, P</td><td>퍼플, 오탈자 등</td></tr>
+      </table>
+      <div class="note">유채색은 <code>수식형용사 + 기본색이름</code> 구조(예: 선명한 빨강, 흐린 노랑연두)로, 무채색은 흰색·회색·검정 계열로 표기하는 게 안전해요.</div>
+    </div>
+
+    <div class="card">
+      <h3>배색의도 서술 4단 구조</h3>
+      <div class="axis-box">
+        <div class="k">① 주제 해석</div><div>제시된 형용사/콘셉트를 색채 언어로 재정의</div>
+        <div class="k">② 색상 선택 근거</div><div>왜 이 색상군인지 (색상환 위치, 상징성 등)</div>
+        <div class="k">③ 명도·채도 설정</div><div>고명도/저명도, 고채도/저채도 선택 이유</div>
+        <div class="k">④ 비교·차이 서술</div><div>1),2) 두 이미지가 어떻게 다른 인상을 만드는지 대비</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 형용사 언어사전 ===================== -->
+  <section class="panel" id="panel-dict">
+    <h2 class="section-title"><span class="num">02</span> 기출 형용사 언어사전</h2>
+    <p class="lead">기출 35세트에 등장한 모든 형용사/이미지 키워드를 모았어요. 필터로 계열별로 훑어보면서 감을 잡아보세요.</p>
+
+    <div class="dict-filter" id="dictFilter"></div>
+
+    <table class="ref">
+      <tr><th>세트</th><th>형용사/이미지 키워드</th><th>색채 방향 힌트</th><th>계열</th></tr>
+      <tbody id="dictBody"></tbody>
+    </table>
+  </section>
+
+  <!-- ===================== 문항1 서술연습 ===================== -->
+  <section class="panel" id="panel-q1practice">
+    <h2 class="section-title"><span class="num">03</span> 문항1 — 비교배색 서술연습</h2>
+    <p class="lead">두 개의 대비되는 이미지를 배색하고 비교 서술하는 연습이에요. 조건 태그를 확인하고 자유롭게 써보세요 (자동채점 없음 — 스스로 4단 구조 체크).</p>
+
+    <div class="picker">
+      <span style="font-size:14px;font-weight:700;">세트 선택</span>
+      <select id="q1Select"></select>
+      <button class="ghost" id="q1Random">🎲 랜덤 뽑기</button>
+    </div>
+
+    <div id="q1Container"></div>
+  </section>
+
+  <!-- ===================== 문항2 대표색 연습 ===================== -->
+  <section class="panel" id="panel-q2practice">
+    <h2 class="section-title"><span class="num">04</span> 문항2 — 실무 콘셉트 &amp; 대표색 지정연습</h2>
+    <p class="lead">실무 콘셉트에 맞춰 배색하고, 주조색·보조색·강조색을 KS 색이름으로 지정하는 연습이에요.</p>
+
+    <div class="picker">
+      <span style="font-size:14px;font-weight:700;">세트 선택</span>
+      <select id="q2Select"></select>
+      <button class="ghost" id="q2Random">🎲 랜덤 뽑기</button>
+    </div>
+
+    <div id="q2Container"></div>
+  </section>
+
+</main>
+
+<script>
+/* ================= 데이터: 기출 35세트 ================= */
+const dataset = [
+  {no:1, q1a:"귀엽고 사랑스러운 어린이 이미지", q1b:"건장하고 젊은 남자 이미지", q2:"요하네스 이텐 6색 조화(hexads)를 활용한 효율적 주목성의 홍보용 포스터", q2cond:"6색 조화 필수, 시인성"},
+  {no:2, q1a:"꽃(floral) 향의 이미지", q1b:"박하(mint) 향의 이미지", q2:"'New Art'를 의미하는 아르누보(Art Nouveau) 콘셉트, 구두 브랜드 브로슈어 — 우아함+원숙미", q2cond:"우아함, 원숙미"},
+  {no:3, q1a:"신선하고 맑은 이미지 (패스트푸드 메뉴판)", q1b:"자극적이고 즐거운 이미지 (패스트푸드 메뉴판)", q2:"동남아 열대과일 주스전문점 팝업스토어 DID — 열대지방의 강렬함", q2cond:"강렬함, 시인성"},
+  {no:4, q1a:"자유롭고 스포티한 이미지", q1b:"정적이고 우아한 이미지", q2:"'2030 여성안심귀갓길' 미디어아트 영상조명 — 노란색 강조색", q2cond:"노란색 강조 필수"},
+  {no:5, q1a:"공상적이고 꿈꾸는 듯한 이미지", q1b:"즐겁고 명랑한 이미지", q2:"깊고 웅장한 산속 전통 한옥 게스트하우스 영상디자인", q2cond:"형용사 언어 자유 선정"},
+  {no:6, q1a:"품위있고 우아한 이미지", q1b:"도회적이고 세련된 이미지", q2:"2030 대상 울릉도 관광 굿즈 패키지 — 선명하고 경쾌하게", q2cond:"선명함, 경쾌함"},
+  {no:7, q1a:"도시적인 이미지", q1b:"활기찬 이미지", q2:"4050 남성 프리미엄 바버샵 인테리어 — 중후하고 고풍스럽게", q2cond:"중후함, 고풍스러움"},
+  {no:8, q1a:"분노한 이미지", q1b:"슬픈 이미지", q2:"도심 초등학교 벽화 — 꿈과 희망의 긍정적 이미지", q2cond:"긍정적, 희망"},
+  {no:9, q1a:"강한색(색채의 강약감)", q1b:"약한색(색채의 강약감)", q2:"케이팝 댄스대회 남성 그룹 의상 — 강인하고 야성적", q2cond:"강인함, 야성적"},
+  {no:10, q1a:"열대지역의 정글 이미지", q1b:"사막지역의 오아시스 이미지", q2:"모네 '수련' 연작의 인상주의 특징을 형용사 언어로", q2cond:"형용사 언어 선정"},
+  {no:11, q1a:"노랑이 상징하는 긍정적 이미지", q1b:"노랑이 상징하는 부정적 이미지", q2:"천문우주과학관 건축물 외벽 — 전문적이고 진보적", q2cond:"전문성, 진보성"},
+  {no:12, q1a:"토속적이고 에스닉한 이미지", q1b:"고풍스럽고 견고한 이미지", q2:"웰니스워치 디자인 — 색채치료 원리, 쾌적하고 부드러운 이미지", q2cond:"색채치료 원리 적용"},
+  {no:13, q1a:"윤택감 (색과 촉감)", q1b:"조면감 (색과 촉감)", q2:"포도·대추 지역특산물 관광명소거리 입면개선 디자인", q2cond:"특산물 연상 형용사"},
+  {no:14, q1a:"로맨틱하고 청순한 이미지", q1b:"강렬하고 드라마틱한 이미지", q2:"마스크팩 패키지 — 피부 진정과 심리적 안정", q2cond:"진정, 안정"},
+  {no:15, q1a:"편안한 이미지", q1b:"온화한 이미지", q2:"무인 스터디카페 개인학습실/휴게실 — 집중력 향상", q2cond:"집중력 향상"},
+  {no:16, q1a:"감성적이고 낭만적인 이미지", q1b:"중후하고 보수적인 이미지", q2:"베지테리언 식당 인테리어 — 소박하고 꾸밈없는 이미지", q2cond:"소박함, 꾸밈없음"},
+  {no:17, q1a:"신나고 활기찬 이미지", q1b:"조용하고 안정적인 이미지", q2:"중년여성 F/W 침구류 — 고급스러운 장식의 아름다움", q2cond:"고급스러움"},
+  {no:18, q1a:"인삼 사탕 패키지 이미지", q1b:"딸기 사탕 패키지 이미지", q2:"시크(chic)하고 심플(simple)한 욕실 인테리어", q2cond:"시크함, 심플함"},
+  {no:19, q1a:"파랑이 상징하는 긍정적 이미지 (신뢰, 전문성)", q1b:"파랑이 상징하는 부정적 이미지 (슬픔, 우울)", q2:"유기농 샐러드 도시락 패키지 — '깨끗하고 바른 먹거리'", q2cond:"청결, 브랜드 콘셉트 반영"},
+  {no:20, q1a:"성숙하고 우아한 이미지 (화장품)", q1b:"여린 소녀 같은 이미지 (화장품)", q2:"겨울 바다 거친 파도 — 와일드(wild)하고 두려운 감성", q2cond:"와일드함, 두려움"},
+  {no:21, q1a:"산뜻하고 새콤한 맛 (음료)", q1b:"진하고 씁쓸한 맛 (음료)", q2:"공포영화 속 오래된 폐가의 이미지", q2cond:"공포, 폐가 이미지"},
+  {no:22, q1a:"가을 이미지 — 풍요롭고 즐거운", q1b:"가을 이미지 — 쓸쓸하고 외로운", q2:"4차 산업혁명 AI 디지털 헬스케어 체험관", q2cond:"AI, 첨단"},
+  {no:23, q1a:"빠르고 경쾌한 이미지", q1b:"느리고 묵직한 이미지", q2:"'올해의 대표 문화유산' 한복 디자인 — 전통+격식", q2cond:"전통 문화, 격식"},
+  {no:24, q1a:"주방 공간 — 편안하고 친근한", q1b:"주방 공간 — 미래적이고 하이테크한", q2:"전통 사극 뮤지컬 온라인 공연 웹사이트 — 오방색 강조색", q2cond:"오방색 강조 필수"},
+  {no:25, q1a:"어린이집 인테리어 — 학습방", q1b:"어린이집 인테리어 — 놀이방", q2:"외모에 관심 많은 남성을 위한 화장품 패키지", q2cond:"형용사 언어 선정"},
+  {no:26, q1a:"구수한 빵 이미지", q1b:"청량한 허브티 이미지", q2:"신비스럽고 초현실적인 여성 캐릭터 — 디지털 디자인", q2cond:"신비, 초현실"},
+  {no:27, q1a:"따뜻하고 풍요로운 이미지", q1b:"차갑고 쓸쓸한 이미지", q2:"메타버스 만남 홍보 포스터 (20대 대상, 전염병 대비)", q2cond:"친근함, 활발함"},
+  {no:28, q1a:"새콤달콤한 감귤 이미지", q1b:"카카오 함량 높은 초콜릿 이미지", q2:"구독형 아트스트리밍 플랫폼 — 모던하고 첨단적", q2cond:"모던, 첨단"},
+  {no:29, q1a:"내추럴 이미지", q1b:"인공적인 이미지", q2:"질병관리본부 방역 안내책자 — 위생, 소독, 청결", q2cond:"위생·소독·청결, 배색기법 서술"},
+  {no:30, q1a:"고저스한(Gorgeous) 이미지", q1b:"수수한 이미지", q2:"가전제품 렌탈 기업 홍보 웹페이지 — 심플하고 절제됨", q2cond:"심플함, 절제됨"},
+  {no:31, q1a:"묵직한 우디향(woody)", q1b:"산뜻한 시트러스향(citrus)", q2:"OTT 교육콘텐츠 런칭 숏폼 — 학습능력 향상", q2cond:"학습능력 향상"},
+  {no:32, q1a:"신선한 내추럴 이미지", q1b:"전원적인 내추럴 이미지", q2:"전국민 자전거 거치대 디자인 — 안전하고 신뢰도 있는 이미지", q2cond:"안전, 신뢰"},
+  {no:33, q1a:"중후한 남성적 이미지", q1b:"중후한 클래식 이미지", q2:"K-컬처 박람회 K-웹툰 체험·전시 부스", q2cond:"형용사 언어 선정"},
+  {no:34, q1a:"말랑말랑하고 부드러운 질감", q1b:"딱딱하며 견고한 질감", q2:"서핑보드 디자인 — 경쾌하고 다이내믹, 세퍼레이션 배색기법 부각", q2cond:"세퍼레이션 기법 필수"},
+  {no:35, q1a:"축축하고 음습한 이끼 이미지", q1b:"건조하고 메마른 낙엽 이미지", q2:"헨젤과 그레텔 그림책 표지 — 아기자기하고 달콤한, 몽환적", q2cond:"아기자기함, 몽환적"},
+];
+
+/* ================= 형용사 사전 데이터 (카테고리 분류) ================= */
+const dictData = [
+  {word:"귀엽고 사랑스러운", hint:"고명도·고채도 파스텔, 노랑/핑크 계열", cat:"soft"},
+  {word:"건장하고 젊은 남자", hint:"저명도·고채도, 블루/브라운 계열, 대비 강조", cat:"hard"},
+  {word:"꽃(floral)향", hint:"고명도 핑크·라벤더 계열, 부드러운 톤인톤", cat:"soft"},
+  {word:"박하(mint)향", hint:"고명도 저채도 청록, 시원한 인상", cat:"cool"},
+  {word:"신선하고 맑은", hint:"고명도 고채도 그린·블루", cat:"cool"},
+  {word:"자극적이고 즐거운", hint:"고채도 레드·옐로우, 강한 보색대비", cat:"warm"},
+  {word:"자유롭고 스포티한", hint:"고채도 원색 대비, 비콜로/트리콜로", cat:"warm"},
+  {word:"정적이고 우아한", hint:"저채도 중~저명도, 톤온톤", cat:"soft"},
+  {word:"공상적이고 꿈꾸는 듯한", hint:"저채도 파스텔 보라·블루, 그라데이션", cat:"cool"},
+  {word:"즐겁고 명랑한", hint:"고명도 고채도 옐로우·오렌지", cat:"warm"},
+  {word:"품위있고 우아한", hint:"저채도 중명도, 퍼플·버건디 계열", cat:"soft"},
+  {word:"도회적이고 세련된", hint:"무채색+저채도 블루, 토널", cat:"cool"},
+  {word:"도시적인", hint:"그레이시 톤, 저채도 블루·그레이", cat:"cool"},
+  {word:"활기찬", hint:"고채도 난색계, 대비 강함", cat:"warm"},
+  {word:"분노한", hint:"고채도 레드·블랙 대비", cat:"hard"},
+  {word:"슬픈", hint:"저채도 저명도 블루·그레이", cat:"cool"},
+  {word:"강한색(강약감)", hint:"고채도 순색, 대비 큼", cat:"hard"},
+  {word:"약한색(강약감)", hint:"저채도 파스텔, 대비 약함", cat:"soft"},
+  {word:"열대지역 정글", hint:"고채도 그린·옐로우그린", cat:"warm"},
+  {word:"사막 오아시스", hint:"저채도 옐로우오커+포인트 블루그린", cat:"warm"},
+  {word:"노랑 긍정(신뢰·전문성 계열 표현시 주의)", hint:"고명도 고채도 옐로우", cat:"warm"},
+  {word:"노랑 부정(불안·경고)", hint:"저채도 탁한 옐로우그린, 올리브", cat:"warm"},
+  {word:"토속적이고 에스닉한", hint:"저채도 테라코타·브라운·오커", cat:"warm"},
+  {word:"고풍스럽고 견고한", hint:"저명도 저채도, 브라운·버건디", cat:"hard"},
+  {word:"윤택감(촉감)", hint:"고채도 선명한 색, 광택 연상 대비", cat:"hard"},
+  {word:"조면감(촉감)", hint:"저채도 탁색, 매트한 브라운·베이지", cat:"soft"},
+  {word:"로맨틱하고 청순한", hint:"고명도 저채도 핑크·라벤더", cat:"soft"},
+  {word:"강렬하고 드라마틱한", hint:"고채도 레드·블랙 대비, 저명도", cat:"hard"},
+  {word:"편안한", hint:"저채도 중고명도 베이지·그린", cat:"soft"},
+  {word:"온화한", hint:"고명도 저채도 파스텔톤 전반", cat:"soft"},
+  {word:"감성적이고 낭만적인", hint:"저채도 핑크·퍼플 계열", cat:"soft"},
+  {word:"중후하고 보수적인", hint:"저명도 저채도 네이비·브라운", cat:"hard"},
+  {word:"신나고 활기찬", hint:"고채도 난색+한색 강한 대비", cat:"warm"},
+  {word:"조용하고 안정적인", hint:"저채도 중명도, 톤인톤", cat:"cool"},
+  {word:"시크(chic)하고 심플(simple)한", hint:"무채색 중심, 저채도 블랙·그레이·화이트", cat:"cool"},
+  {word:"파랑 긍정(신뢰·전문성)", hint:"중저명도 고채도 블루, 클리어한 톤", cat:"cool"},
+  {word:"파랑 부정(슬픔·우울)", hint:"저명도 저채도 블루그레이", cat:"cool"},
+  {word:"성숙하고 우아한", hint:"저채도 저명도 버건디·브라운", cat:"soft"},
+  {word:"여린 소녀 같은", hint:"고명도 저채도 파스텔 핑크", cat:"soft"},
+  {word:"와일드(wild)하고 두려운", hint:"저명도 저채도 그레이블루·블랙", cat:"hard"},
+  {word:"산뜻하고 새콤한", hint:"고명도 고채도 옐로우그린·오렌지", cat:"warm"},
+  {word:"진하고 씁쓸한", hint:"저명도 저채도 브라운·다크레드", cat:"hard"},
+  {word:"풍요롭고 즐거운(가을)", hint:"고채도 오렌지·브라운", cat:"warm"},
+  {word:"쓸쓸하고 외로운(가을)", hint:"저채도 저명도 브라운그레이", cat:"cool"},
+  {word:"빠르고 경쾌한", hint:"고채도 난색, 대비 강함", cat:"warm"},
+  {word:"느리고 묵직한", hint:"저명도 저채도, 무채색 인접", cat:"hard"},
+  {word:"전통, 격식(한복)", hint:"오방색 기반, 저채도 고급 톤", cat:"warm"},
+  {word:"편안하고 친근한(주방)", hint:"고명도 저채도 베이지·우드톤", cat:"soft"},
+  {word:"미래적이고 하이테크한", hint:"무채색+메탈릭 블루, 고명도 대비", cat:"cool"},
+  {word:"신비스럽고 초현실적인", hint:"저명도 고채도 퍼플·마젠타", cat:"cool"},
+  {word:"따뜻하고 풍요로운", hint:"고채도 오렌지·레드옐로우", cat:"warm"},
+  {word:"차갑고 쓸쓸한", hint:"저채도 저명도 블루그레이", cat:"cool"},
+  {word:"새콤달콤한(감귤)", hint:"고명도 고채도 오렌지·옐로우", cat:"warm"},
+  {word:"카카오 함량 높은(초콜릿)", hint:"저명도 저채도 다크브라운", cat:"hard"},
+  {word:"모던하고 첨단적인", hint:"무채색+포인트 블루/네온", cat:"cool"},
+  {word:"내추럴", hint:"저채도 그린·베이지", cat:"soft"},
+  {word:"인공적인", hint:"고채도 원색, 비비드 대비", cat:"hard"},
+  {word:"위생·소독·청결", hint:"고명도 저채도 화이트·블루", cat:"cool"},
+  {word:"고저스한(Gorgeous)", hint:"고채도 저명도 골드·버건디", cat:"warm"},
+  {word:"수수한", hint:"저채도 저명도 베이지·그레이", cat:"soft"},
+  {word:"묵직한 우디향(woody)", hint:"저명도 저채도 브라운", cat:"hard"},
+  {word:"산뜻한 시트러스향(citrus)", hint:"고명도 고채도 옐로우그린", cat:"warm"},
+  {word:"신선한 내추럴", hint:"고채도 그린 계열", cat:"soft"},
+  {word:"전원적인 내추럴", hint:"저채도 브라운·올리브", cat:"soft"},
+  {word:"중후한 남성적", hint:"저명도 저채도 네이비·차콜", cat:"hard"},
+  {word:"중후한 클래식", hint:"저채도 저명도 버건디·브라운", cat:"hard"},
+  {word:"말랑말랑하고 부드러운 질감", hint:"고명도 저채도 파스텔", cat:"soft"},
+  {word:"딱딱하며 견고한 질감", hint:"저명도 고채도 또는 무채색", cat:"hard"},
+  {word:"축축하고 음습한(이끼)", hint:"저명도 저채도 그린블랙", cat:"cool"},
+  {word:"건조하고 메마른(낙엽)", hint:"저채도 브라운·베이지", cat:"warm"},
+];
+
+/* ================= 히어로 스와치 (장식용 고정 팔레트) ================= */
+const heroPalette = ["#e7b7a3","#c98a5a","#8a5a3b","#5a4632","#3b5a8a","#7ea3c9","#a3c9a0","#3f7a4f","#d8b23b","#b0463e"];
+(function(){
+  const strip = document.getElementById('heroStrip');
+  heroPalette.forEach(c=>{
+    const div=document.createElement('div');
+    div.style.background=c;
+    strip.appendChild(div);
+  });
+})();
+
+/* ================= 탭 전환 ================= */
+document.querySelectorAll('nav.tabs button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('section.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.p).classList.add('active');
+  });
+});
+
+/* ================= 이미지스케일 맵 배치 ================= */
+(function(){
+  const map = document.getElementById('scaleMap');
+  const points = [
+    {label:"귀엽고 사랑스러운", x:70, y:15},
+    {label:"강렬·드라마틱", x:60, y:85},
+    {label:"청량한 민트", x:20, y:20},
+    {label:"고풍·견고", x:35, y:80},
+    {label:"우아·품위", x:30, y:35},
+    {label:"신나고 활기찬", x:80, y:60},
+    {label:"조용·안정적", x:25, y:55},
+    {label:"내추럴", x:45, y:45},
+    {label:"인공적인", x:75, y:75},
+    {label:"고저스한(Gorgeous)", x:85, y:35},
+    {label:"수수한", x:30, y:65},
+    {label:"중후·클래식", x:40, y:88},
+  ];
+  points.forEach(p=>{
+    const el=document.createElement('div');
+    el.className='pt';
+    el.style.left=p.x+'%';
+    el.style.top=p.y+'%';
+    el.textContent=p.label;
+    map.appendChild(el);
+  });
+})();
+
+/* ================= 형용사 언어사전 렌더 ================= */
+const catNames = {warm:"난색계", cool:"한색계", soft:"부드러움", hard:"딱딱함/강함"};
+function renderDict(filter){
+  const body = document.getElementById('dictBody');
+  body.innerHTML='';
+  dictData.forEach(d=>{
+    if(filter!=='all' && d.cat!==filter) return;
+    const tr=document.createElement('tr');
+    tr.innerHTML = `<td>-</td><td><b>${d.word}</b></td><td>${d.hint}</td><td>${catNames[d.cat]}</td>`;
+    body.appendChild(tr);
+  });
+}
+(function(){
+  const filterBar = document.getElementById('dictFilter');
+  const cats = [["all","전체"],["warm","난색계"],["cool","한색계"],["soft","부드러움"],["hard","딱딱함/강함"]];
+  cats.forEach(([key,label],i)=>{
+    const btn=document.createElement('button');
+    btn.textContent=label;
+    if(i===0) btn.classList.add('active');
+    btn.addEventListener('click',()=>{
+      filterBar.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderDict(key);
+    });
+    filterBar.appendChild(btn);
+  });
+  renderDict('all');
+})();
+
+/* ================= 컬러 패밀리 (모범답안용) ================= */
+const FAMILIES = {
+  F1:{name:"파스텔 난색", value:"고명도", chroma:"저채도", vibe:"고명도·저채도의 파스텔 난색조로 부드럽고 사랑스러운 인상을 표현",
+    colors:[{name:"흐린 노랑",hex:"#F2DFA0"},{name:"연분홍",hex:"#F3C7D1"},{name:"흰색",hex:"#FFFFFF"},{name:"살구색",hex:"#F4C9A8"},{name:"골드",hex:"#C9A227"}]},
+  F2:{name:"비비드 난색", value:"저명도", chroma:"고채도", vibe:"저명도·고채도의 강렬한 난색 대비로 역동적이고 강한 인상을 표현",
+    colors:[{name:"선명한 빨강",hex:"#D0333A"},{name:"선명한 주황",hex:"#E08A2E"},{name:"다크레드",hex:"#7A1F24"},{name:"오렌지브라운",hex:"#B5651D"},{name:"검정",hex:"#1B1A18"}]},
+  F3:{name:"파스텔 한색", value:"고명도", chroma:"저채도", vibe:"고명도·저채도의 파스텔 한색조로 차분하고 정적인 인상을 표현",
+    colors:[{name:"연한 하늘색",hex:"#C3DCEA"},{name:"연보라",hex:"#D9CDEE"},{name:"흰색",hex:"#FFFFFF"},{name:"페일블루",hex:"#C7DCE8"},{name:"실버그레이",hex:"#C7C5C0"}]},
+  F4:{name:"딥 한색", value:"저명도", chroma:"고채도", vibe:"저명도·고채도의 짙은 한색 계열로 단단하고 남성적인 인상을 표현",
+    colors:[{name:"다크네이비",hex:"#1C2B46"},{name:"딥틸",hex:"#144B49"},{name:"스틸블루",hex:"#4C6B8A"},{name:"어두운 청록",hex:"#234F49"},{name:"검정",hex:"#1B1A18"}]},
+  F5:{name:"뉴트럴 소프트", value:"고명도", chroma:"저채도", vibe:"고명도·저채도의 뉴트럴 톤으로 편안하고 안정적인 인상을 표현",
+    colors:[{name:"아이보리",hex:"#F2EAD8"},{name:"라이트베이지",hex:"#EFE6D3"},{name:"쿨그레이",hex:"#A6A9AC"},{name:"라이트그레이",hex:"#E3E1DC"},{name:"화이트그레이",hex:"#EDEBE6"}]},
+  F6:{name:"뉴트럴 하드", value:"저명도", chroma:"저채도", vibe:"저명도·저채도의 무채색 계열로 중후하고 견고한 인상을 표현",
+    colors:[{name:"차콜",hex:"#33302C"},{name:"다크그레이",hex:"#2E2C29"},{name:"어두운 갈색",hex:"#3B2A1E"},{name:"다크올리브",hex:"#3F401E"},{name:"검정",hex:"#1B1A18"}]},
+  F7:{name:"어스 톤", value:"중명도", chroma:"저채도", vibe:"저채도의 흙톤(어스컬러)으로 자연스럽고 토속적인 인상을 표현",
+    colors:[{name:"테라코타",hex:"#C1653D"},{name:"카키",hex:"#8A8B5C"},{name:"머스타드옐로우",hex:"#C7962B"},{name:"어두운 갈색",hex:"#3B2A1E"},{name:"올리브",hex:"#6B6B3A"}]},
+  F8:{name:"비비드 믹스", value:"중명도", chroma:"고채도", vibe:"고채도 보색 대비의 비비드 배색으로 시인성과 주목성을 강조",
+    colors:[{name:"선명한 파랑",hex:"#2A5FA8"},{name:"선명한 노랑",hex:"#EFC94C"},{name:"선명한 보라",hex:"#7C4FA0"},{name:"선명한 초록",hex:"#2E9E52"},{name:"선명한 빨강",hex:"#D0333A"}]},
+  F9:{name:"파스텔 드림", value:"고명도", chroma:"저채도", vibe:"고명도·저채도의 몽환적 파스텔톤으로 공상적이고 부드러운 인상을 표현",
+    colors:[{name:"연보라",hex:"#D9CDEE"},{name:"파스텔민트",hex:"#BFE6DA"},{name:"연분홍",hex:"#F6D3DC"},{name:"라벤더그레이",hex:"#C9C3D6"},{name:"흰색",hex:"#FFFFFF"}]},
+  F10:{name:"네이처 그린", value:"중명도", chroma:"중채도", vibe:"중채도의 그린 계열로 자연스럽고 신선한 인상을 표현",
+    colors:[{name:"세이지그린",hex:"#A9B98C"},{name:"짙은 초록",hex:"#1F4A34"},{name:"올리브",hex:"#6B6B3A"},{name:"연두",hex:"#A9C98A"},{name:"카키",hex:"#8A8B5C"}]},
+  F11:{name:"로맨틱 핑크", value:"고명도", chroma:"저채도", vibe:"고명도의 로맨틱한 핑크·라벤더 계열로 청순하고 감성적인 인상을 표현",
+    colors:[{name:"연분홍",hex:"#F6D3DC"},{name:"로즈",hex:"#C9576B"},{name:"연보라",hex:"#D9CDEE"},{name:"흰색",hex:"#FFFFFF"},{name:"골드",hex:"#C9A227"}]},
+  F12:{name:"드라마 다크", value:"저명도", chroma:"고채도", vibe:"저명도·고채도의 짙은 레드·와인 계열로 강렬하고 드라마틱한 인상을 표현",
+    colors:[{name:"다크레드",hex:"#7A1F24"},{name:"차콜",hex:"#33302C"},{name:"짙은 와인색",hex:"#5C2233"},{name:"검정",hex:"#1B1A18"},{name:"골드",hex:"#C9A227"}]},
+  F13:{name:"프레시 시트러스", value:"고명도", chroma:"고채도", vibe:"고명도·고채도의 시트러스 계열로 산뜻하고 청량한 인상을 표현",
+    colors:[{name:"노랑연두",hex:"#B7C24A"},{name:"선명한 노랑",hex:"#EFC94C"},{name:"연두",hex:"#A9C98A"},{name:"흰색",hex:"#FFFFFF"},{name:"하늘색",hex:"#8FC1DD"}]},
+  F14:{name:"비터 딥", value:"저명도", chroma:"중채도", vibe:"저명도의 짙은 브라운·와인 계열로 깊고 씁쓸한 인상을 표현",
+    colors:[{name:"어두운 갈색",hex:"#3B2A1E"},{name:"다크레드",hex:"#7A1F24"},{name:"차콜",hex:"#33302C"},{name:"짙은 와인색",hex:"#5C2233"},{name:"머스타드옐로우",hex:"#C7962B"}]},
+  F15:{name:"오션 와일드", value:"저명도", chroma:"저채도", vibe:"저명도·저채도의 짙은 블루·그레이 계열로 거칠고 차가운 인상을 표현",
+    colors:[{name:"짙은 파랑",hex:"#16345C"},{name:"스틸블루",hex:"#4C6B8A"},{name:"차콜",hex:"#33302C"},{name:"다크그레이",hex:"#2E2C29"},{name:"쿨그레이",hex:"#A6A9AC"}]},
+  F16:{name:"한복 전통색", value:"중명도", chroma:"중채도", vibe:"버건디·남색·금색의 전통색 조합으로 격식있고 우리다운 인상을 표현",
+    colors:[{name:"짙은 다홍",hex:"#6E2436"},{name:"다크네이비",hex:"#1C2B46"},{name:"골드",hex:"#C9A227"},{name:"흰색",hex:"#FFFFFF"},{name:"검정",hex:"#1B1A18"}]},
+  F17:{name:"퓨처 테크", value:"중명도", chroma:"저채도", vibe:"실버·네이비·화이트의 무채색+포인트 컬러 조합으로 미래적이고 첨단적인 인상을 표현",
+    colors:[{name:"실버그레이",hex:"#C7C5C0"},{name:"다크네이비",hex:"#1C2B46"},{name:"하늘색",hex:"#8FC1DD"},{name:"차콜",hex:"#33302C"},{name:"흰색",hex:"#FFFFFF"}]},
+  F18:{name:"미스틱 서리얼", value:"저명도", chroma:"고채도", vibe:"퍼플·핫핑크의 고채도 배색으로 신비롭고 초현실적인 인상을 표현",
+    colors:[{name:"짙은 보라",hex:"#4B2E63"},{name:"선명한 분홍",hex:"#E24585"},{name:"선명한 파랑",hex:"#2A5FA8"},{name:"검정",hex:"#1B1A18"},{name:"연보라",hex:"#D9CDEE"}]},
+  F19:{name:"클린 하이진", value:"고명도", chroma:"저채도", vibe:"화이트·파우더블루 계열의 저채도 배색으로 청결하고 위생적인 인상을 표현",
+    colors:[{name:"흰색",hex:"#FFFFFF"},{name:"연한 하늘색",hex:"#B9D3E4"},{name:"하늘색",hex:"#8FC1DD"},{name:"라이트그레이",hex:"#E3E1DC"},{name:"짙은 청록",hex:"#144B49"}]},
+  F20:{name:"고저스 럭셔리", value:"저명도", chroma:"고채도", vibe:"골드·버건디·퍼플의 짙고 화려한 배색으로 고급스럽고 화려한 인상을 표현",
+    colors:[{name:"골드",hex:"#C9A227"},{name:"짙은 다홍",hex:"#6E2436"},{name:"짙은 보라",hex:"#4B2E63"},{name:"검정",hex:"#1B1A18"},{name:"실버그레이",hex:"#C7C5C0"}]}
+};
+
+const SET_FAM = {
+  1:{a:'F1',b:'F4',q2:'F8'},   2:{a:'F11',b:'F9',q2:'F20'},  3:{a:'F13',b:'F2',q2:'F2'},
+  4:{a:'F2',b:'F5',q2:'F8'},   5:{a:'F9',b:'F1',q2:'F7'},    6:{a:'F20',b:'F17',q2:'F13'},
+  7:{a:'F17',b:'F2',q2:'F6'},  8:{a:'F12',b:'F15',q2:'F1'},  9:{a:'F8',b:'F5',q2:'F6'},
+  10:{a:'F10',b:'F7',q2:'F9'},11:{a:'F13',b:'F14',q2:'F17'},12:{a:'F7',b:'F6',q2:'F3'},
+  13:{a:'F8',b:'F7',q2:'F18'},14:{a:'F11',b:'F12',q2:'F3'},15:{a:'F5',b:'F3',q2:'F10'},
+  16:{a:'F11',b:'F6',q2:'F7'},17:{a:'F2',b:'F5',q2:'F20'}, 18:{a:'F7',b:'F11',q2:'F19'},
+  19:{a:'F17',b:'F15',q2:'F10'},20:{a:'F20',b:'F9',q2:'F15'},21:{a:'F13',b:'F14',q2:'F6'},
+  22:{a:'F7',b:'F14',q2:'F17'},23:{a:'F2',b:'F6',q2:'F16'},24:{a:'F5',b:'F17',q2:'F16'},
+  25:{a:'F10',b:'F1',q2:'F6'},26:{a:'F7',b:'F13',q2:'F18'},27:{a:'F2',b:'F15',q2:'F8'},
+  28:{a:'F13',b:'F14',q2:'F17'},29:{a:'F10',b:'F8',q2:'F19'},30:{a:'F20',b:'F5',q2:'F17'},
+  31:{a:'F14',b:'F13',q2:'F10'},32:{a:'F10',b:'F7',q2:'F17'},33:{a:'F6',b:'F20',q2:'F18'},
+  34:{a:'F1',b:'F6',q2:'F15'},35:{a:'F10',b:'F7',q2:'F9'}
+};
+
+function buildGrid(fam, cellsArr){
+  const colors = fam.colors.slice(0, cellsArr.length);
+  let html = '<div class="model-grid">';
+  colors.forEach((c,i)=>{
+    for(let n=0;n<cellsArr[i];n++){
+      html += `<div class="cell" style="background:${c.hex}" title="${c.name}"></div>`;
+    }
+  });
+  html += '</div>';
+  return html;
+}
+function buildLegend(fam, cellsArr, roles){
+  const colors = fam.colors.slice(0, cellsArr.length);
+  let html = '<div class="model-legend">';
+  colors.forEach((c,i)=>{
+    html += `<div class="chip"><span class="sw" style="background:${c.hex}"></span>${c.name}${roles? ' <span class="role">'+roles[i]+'</span>':''}</div>`;
+  });
+  html += '</div>';
+  return html;
+}
+
+/* ================= 문항1 서술연습 ================= */
+function fillSelect(selectEl){
+  selectEl.innerHTML='';
+  dataset.forEach(d=>{
+    const opt=document.createElement('option');
+    opt.value=d.no;
+    opt.textContent = `세트 ${d.no} — ${d.q1a} / ${d.q1b}`;
+    selectEl.appendChild(opt);
+  });
+}
+function renderQ1(no){
+  const d = dataset.find(x=>x.no===Number(no));
+  const fam = SET_FAM[d.no];
+  const famA = FAMILIES[fam.a], famB = FAMILIES[fam.b];
+  const cells10 = [4,3,3];
+  const textA = `${d.q1a}를 표현하기 위해 ${famA.colors.slice(0,3).map(c=>c.name).join(', ')}을 4:3:3 비율로 10면에 면적 배분하였다. ${famA.vibe}.`;
+  const textB = `${d.q1b}를 표현하기 위해 ${famB.colors.slice(0,3).map(c=>c.name).join(', ')}을 4:3:3 비율로 10면에 면적 배분하였다. ${famB.vibe}.`;
+  const textCompare = `1)은 명도가 ${famA.value}, 채도가 ${famA.chroma}인 반면 2)는 명도가 ${famB.value}, 채도가 ${famB.chroma}로 설정되어, 같은 주제 안에서도 ${d.q1a}과(와) ${d.q1b}의 대비되는 인상을 명확히 구분하였다.`;
+  const container = document.getElementById('q1Container');
+  container.innerHTML = `
+    <div class="quiz-item">
+      <div class="prompt">세트 ${d.no}. 두 이미지를 비교하여 배색의도를 서술하시오.</div>
+      <div class="cond-tags">
+        <span>3색 이상 사용</span><span>10면 이상 면적비례</span><span>명도·채도 고려</span><span>KS색이름 표기</span>
+      </div>
+      <div class="imgpair">
+        <div class="side">
+          <div class="label">1) ${d.q1a}</div>
+          ${buildGrid(famA, cells10)}
+          ${buildLegend(famA, cells10)}
+          <textarea>${textA}</textarea>
+        </div>
+        <div class="side">
+          <div class="label">2) ${d.q1b}</div>
+          ${buildGrid(famB, cells10)}
+          ${buildLegend(famB, cells10)}
+          <textarea>${textB}</textarea>
+        </div>
+      </div>
+      <textarea>${textCompare}</textarea>
+      <div class="btnrow">
+        <button class="ghost" id="q1HintBtn">💡 서술 템플릿 보기</button>
+      </div>
+      <div class="hint-box" id="q1Hint">
+        <b>템플릿:</b> "1)은 [형용사]를 표현하기 위해 [색상군]을 주조로 하고, 명도는 [고/중/저], 채도는 [고/중/저]로 설정하여 [인상]을 표현하였다. 반면 2)는 [형용사]를 위해 [색상군]을 사용하고 명도·채도를 [대비되게] 조정하여 [인상]의 차이를 두었다."
+      </div>
+    </div>
+  `;
+  document.getElementById('q1HintBtn').addEventListener('click', ()=>{
+    document.getElementById('q1Hint').classList.toggle('show');
+  });
+}
+(function(){
+  const sel = document.getElementById('q1Select');
+  fillSelect(sel);
+  renderQ1(sel.value);
+  sel.addEventListener('change', ()=>renderQ1(sel.value));
+  document.getElementById('q1Random').addEventListener('click', ()=>{
+    const r = dataset[Math.floor(Math.random()*dataset.length)];
+    sel.value = r.no;
+    renderQ1(r.no);
+  });
+})();
+
+/* ================= 문항2 대표색 연습 ================= */
+function fillSelect2(selectEl){
+  selectEl.innerHTML='';
+  dataset.forEach(d=>{
+    const opt=document.createElement('option');
+    opt.value=d.no;
+    opt.textContent = `세트 ${d.no} — ${d.q2.slice(0,26)}...`;
+    selectEl.appendChild(opt);
+  });
+}
+function renderQ2(no){
+  const d = dataset.find(x=>x.no===Number(no));
+  const fam = SET_FAM[d.no];
+  const famQ2 = FAMILIES[fam.q2];
+  const cells12 = [4,3,2,2,1];
+  const roles12 = ['주조','보조','보조','강조','강조'];
+  const text2 = `${d.q2} 콘셉트에 맞추어 ${famQ2.colors.map(c=>c.name).join(', ')} 5색을 사용하여 12면 면적비례(4:3:2:2:1)로 배색하였다. 대표 주조색은 ${famQ2.colors[0].name}, 보조색은 ${famQ2.colors[2].name}, 강조색은 ${famQ2.colors[4].name}으로 지정하였다. ${famQ2.vibe}. (${d.q2cond} 조건을 반영함)`;
+  const container = document.getElementById('q2Container');
+  container.innerHTML = `
+    <div class="quiz-item">
+      <div class="prompt">세트 ${d.no}. ${d.q2}</div>
+      <div class="cond-tags">
+        <span>5색 이상 사용</span><span>12면 이상 면적비례</span><span>주조·보조·강조색 지정</span><span>${d.q2cond}</span>
+      </div>
+      ${buildGrid(famQ2, cells12)}
+      ${buildLegend(famQ2, cells12, roles12)}
+      <textarea>${text2}</textarea>
+      <div class="role-row">
+        <div class="rbox"><label>대표 주조색 (60~70%)</label><input type="text" value="${famQ2.colors[0].name}"></div>
+        <div class="rbox"><label>대표 보조색 (20~25%)</label><input type="text" value="${famQ2.colors[2].name}"></div>
+        <div class="rbox"><label>대표 강조색 (5~10%)</label><input type="text" value="${famQ2.colors[4].name}"></div>
+      </div>
+      <div class="btnrow">
+        <button class="ghost" id="q2HintBtn">💡 색이름 표기 리마인드</button>
+      </div>
+      <div class="hint-box" id="q2Hint">
+        <b>KS A 0011 기준:</b> "수식형용사 + 기본색이름" 구조로 쓰세요. 예) 흐린 파랑, 탁한 노랑연두, 어두운 빨강. 약어(P, Y, PB 등)를 병기하면 더 정확해요. "퍼플", "핑크" 같은 외래어 단독 표기는 감점 대상이에요.
+      </div>
+    </div>
+  `;
+  document.getElementById('q2HintBtn').addEventListener('click', ()=>{
+    document.getElementById('q2Hint').classList.toggle('show');
+  });
+}
+(function(){
+  const sel = document.getElementById('q2Select');
+  fillSelect2(sel);
+  renderQ2(sel.value);
+  sel.addEventListener('change', ()=>renderQ2(sel.value));
+  document.getElementById('q2Random').addEventListener('click', ()=>{
+    const r = dataset[Math.floor(Math.random()*dataset.length)];
+    sel.value = r.no;
+    renderQ2(r.no);
+  });
+})();
+
+
+</script>
+</body>
+</html>

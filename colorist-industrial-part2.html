@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>컬러리스트산업기사 실기 · 파트2 — 감성배색 (모범답안)</title>
+<style>
+  :root{
+    --ink:#2b2620;
+    --paper:#f7f4ee;
+    --paper-2:#efe9de;
+    --line:#d8cfbe;
+    --accent:#8a5a3b;
+    --good:#3f7a4f;
+    --bad:#b0463e;
+    --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{overflow-x:hidden;max-width:100%;}
+  body{
+    margin:0;
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.6;
+    width:100%;
+  }
+  header.hero{
+    padding:56px 24px 40px;
+    background:
+      radial-gradient(1200px 300px at 10% -10%, rgba(138,90,59,.10), transparent 60%),
+      var(--paper);
+    border-bottom:1px solid var(--line);
+  }
+  .hero-inner{max-width:920px;margin:0 auto;}
+  .eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:10px;}
+  h1{font-size:clamp(28px,4vw,42px);margin:0 0 12px;font-weight:800;letter-spacing:-0.01em;}
+  .sub{color:#5a5248;font-size:16px;max-width:660px;}
+  .swatch-strip{display:flex;height:14px;border-radius:3px;overflow:hidden;margin-top:26px;box-shadow:0 1px 0 rgba(0,0,0,.05);}
+  .swatch-strip div{flex:1;}
+
+  nav.tabs{
+    position:sticky;top:0;z-index:20;
+    background:rgba(247,244,238,.94);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    display:flex;gap:4px;padding:10px 24px;overflow-x:auto;
+  }
+  nav.tabs button{
+    border:1px solid transparent;background:transparent;padding:9px 16px;
+    border-radius:999px;font-size:14.5px;font-weight:600;color:#6b6255;
+    cursor:pointer;white-space:nowrap;transition:.15s;
+  }
+  nav.tabs button:hover{background:var(--paper-2);}
+  nav.tabs button.active{background:var(--ink);color:var(--paper);}
+
+  main{max-width:920px;margin:0 auto;padding:40px 24px 100px;}
+  section.panel{display:none;}
+  section.panel.active{display:block;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+  h2.section-title{font-size:22px;font-weight:800;margin:0 0 6px;display:flex;align-items:baseline;gap:10px;}
+  h2.section-title .num{color:var(--accent);font-family:var(--mono);font-size:16px;}
+  p.lead{color:#6b6255;margin-top:0;margin-bottom:28px;font-size:15px;}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:20px;}
+  .card h3{margin:0 0 12px;font-size:16.5px;font-weight:800;}
+  .card h3 .tag{
+    display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;
+    border-radius:999px;background:var(--paper-2);color:var(--accent);
+    margin-left:8px;vertical-align:middle;letter-spacing:.02em;
+  }
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:680px){.grid2{grid-template-columns:1fr;}}
+
+  .axis-box{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;font-size:14.5px;}
+  .axis-box .k{font-weight:700;font-family:var(--mono);color:var(--accent);white-space:nowrap;}
+
+  table.ref{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:10px;display:block;overflow-x:auto;white-space:normal;}
+  table.ref th,table.ref td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;}
+  table.ref th{background:var(--paper-2);white-space:nowrap;}
+  .swatch-mini{display:inline-block;width:30px;height:16px;border-radius:4px;border:1px solid rgba(0,0,0,.12);vertical-align:middle;}
+
+  .note{font-size:13.5px;color:#7a705f;background:var(--paper-2);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin-top:14px;}
+  code{background:var(--paper-2);padding:1px 5px;border-radius:4px;font-family:var(--mono);}
+
+  /* 키워드 사전 */
+  .kw-search{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;margin-bottom:18px;background:#fff;color:var(--ink);}
+  .kw-item{border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:12px;background:#fff;}
+  .kw-item h4{margin:0 0 6px;font-size:15.5px;font-weight:800;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;}
+  .kw-item h4 .en{font-weight:600;font-size:13px;color:var(--accent);font-family:var(--mono);}
+  .kw-item p{margin:0 0 6px;font-size:14px;color:#4a453c;}
+  .kw-item .used{font-size:12.5px;color:#8a8171;}
+  .kw-item .used b{color:var(--accent);}
+
+  /* 서술연습 - 선택형(part3 방식) */
+  .picker{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;max-width:100%;}
+  .picker select{
+    border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:14px;background:#fff;
+    font-family:inherit;max-width:100%;width:100%;flex:1 1 260px;
+  }
+  @media(max-width:520px){.picker select{font-size:13px;}}
+  button.ghost{border:1px solid var(--line);background:#fff;padding:8px 14px;border-radius:8px;font-size:13.5px;cursor:pointer;font-weight:700;color:var(--ink);}
+  button.ghost:hover{border-color:var(--accent);color:var(--accent);}
+
+  .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;}
+  .filter-row button{border:1px solid var(--line);background:#fff;padding:7px 13px;border-radius:999px;font-size:13px;cursor:pointer;font-weight:600;color:#6b6255;}
+  .filter-row button.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+  .q-block{border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px;background:#fff;}
+  .q-block .prompt{font-weight:700;margin-bottom:6px;font-size:14.5px;}
+  .q-block .cond-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+  .q-block .cond-tags span{font-size:11.5px;font-weight:700;background:var(--paper-2);color:var(--accent);padding:3px 10px;border-radius:999px;}
+  .q-block .prompt .time-plain{font-weight:600;color:var(--accent);font-size:13px;}
+  .ans-box{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-top:10px;background:var(--paper);font-size:14px;}
+  .ans-box .lbl{font-weight:800;color:var(--accent);font-size:12px;letter-spacing:.02em;margin-bottom:8px;display:block;}
+  .swatchrow{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;}
+  .swatchrow .sw{
+    display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);
+    border-radius:999px;padding:4px 12px 4px 4px;font-size:12.5px;font-weight:700;
+  }
+  .swatchrow .sw .dot{width:20px;height:20px;border-radius:50%;border:1px solid rgba(0,0,0,.15);flex:0 0 auto;}
+  .swatchrow .sw .role{color:var(--accent);font-family:var(--mono);font-size:11px;margin-right:2px;}
+  .ratio-bar{display:flex;height:22px;border-radius:6px;overflow:hidden;margin-top:10px;border:1px solid var(--line);}
+  .ratio-bar div{display:flex;align-items:center;justify-content:center;font-size:9.5px;color:#fff;font-weight:700;text-shadow:0 1px 1px rgba(0,0,0,.3);padding:0 2px;overflow:hidden;white-space:nowrap;}
+  .cut-grid{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px;}
+  .cut-grid .cell{
+    width:42px;height:42px;border-radius:4px;border:1px solid rgba(0,0,0,.18);
+    flex:0 0 auto;position:relative;
+  }
+  .cut-grid-cap{font-size:11.5px;color:#8a8171;margin-top:6px;}
+  .desc-text{margin:10px 0 0;font-size:14px;color:#3a352d;}
+  .set-title{font-size:15.5px;font-weight:800;margin-bottom:2px;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="eyebrow">Colorist 산업기사 · 실기대비</div>
+  <div class="hero-inner">
+    <h1>파트2 — 감성배색</h1>
+    <p class="sub">기출 ①~㉟ 35세트 140문항 전체에 대해 합격 가능한 수준의 <b>배색·색이름·배색의도 서술 모범답안</b>을 직접 채워 넣었어요. 배색기법 용어를 정확히 녹여 쓰는 감각을 여기서 눈으로 먼저 익히세요.</p>
+    <div class="swatch-strip" id="heroStrip"></div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button data-p="concept" class="active">개념정리</button>
+  <button data-p="glossary">키워드 사전</button>
+  <button data-p="practice">감성배색</button>
+</nav>
+
+<main>
+
+  <!-- ===================== 개념정리 ===================== -->
+  <section class="panel active" id="panel-concept">
+    <h2 class="section-title"><span class="num">01</span> 감성배색, 무엇을 채점하는가</h2>
+    <p class="lead">감성배색은 "정답 색"이 하나로 고정된 시험이 아니라 <b>제시된 형용사·상황 → 배색기법 → 색이름 서술</b>의 논리 사슬이 끊기지 않는지를 보는 시험이에요. 아래 규칙만 지키면 감각이 약해도 논리로 합격점을 만들 수 있어요.</p>
+
+    <div class="card">
+      <h3>시험 구성 <span class="tag">공통 요구사항</span></h3>
+      <div class="axis-box">
+        <div class="k">시험시간</div><div>2시간 30분</div>
+        <div class="k">표현재료</div><div>색지, 포스터컬러(흑·백 포함 12색) 또는 기타 채색재료 중 임의 선택·병용</div>
+        <div class="k">구성</div><div>매 세트 4문항 — 1)단일기법 배색 2)3색 이상 배색 3)5색 이상·7면 이상(주조·보조·강조) 4)5색 이상·12면 이상(대표 주조·보조·강조)</div>
+        <div class="k">색 표기</div><div>반드시 KS A 0011 기준 — <code>수식형용사 + 기본색이름</code>(예: 흐린 파랑, 탁한 노랑) 또는 무채색(하양·회색·검정) 조합</div>
+        <div class="k">감점 사유</div><div>배색의도 미서술, 요구 면수·색상 수 미달, 검은색 필기구 외 사용 시 해당 문항 0점</div>
+      </div>
+      <div class="note">3, 4번 문항의 점선은 "채색 안내선"일 뿐 특정 형태(하트, 별 등)를 연상시키는 분할은 금지예요.</div>
+    </div>
+
+    <div class="card">
+      <h3>배색의도 서술 문장 골격 <span class="tag">이대로 쓰면 감점 안 남</span></h3>
+      <div class="axis-box">
+        <div class="k">1번 문항</div><div>"[형용사/상황]의 이미지를 표현하기 위해 [색이름들]을 [배색기법]으로 배색하였다. [형용사]는 (색상/명도/채도 축)이 (강/약)일 때 강화되므로, ~을 통해 이미지를 구체화하였다."</div>
+        <div class="k">2번 문항</div><div>위 골격 + "3가지 이상의 색상을 사용하여 명도·채도 차를 두어 ~을 표현" (색상 수 조건 충족 여부를 문장에 꼭 명시)</div>
+        <div class="k">3·4번 문항</div><div>"주조색은 [색이름]으로 전체 면적의 60~70%를 차지해 (전체 분위기/배경)을 담당, 보조색은 [색이름]으로 20~30%를 차지해 주조색과의 (조화/대비)를 형성, 강조색은 [색이름]으로 5~10%의 소면적에 사용해 (포인트/시선유도)를 담당하였다."</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>색채 이미지 축 — 형용사를 색으로 옮기는 3단 논리 트리</h3>
+      <div class="axis-box">
+        <div class="k">① 색상</div><div>이 형용사는 난색(빨강·주황·노랑 — 따뜻함·활동적·정열) 쪽인가, 한색(파랑·청록·남색 — 차분함·지적·신뢰) 쪽인가?</div>
+        <div class="k">② 명도</div><div>고명도(가볍고 맑고 유아적·청순) 인가, 저명도(무겁고 중후하고 성숙함) 인가?</div>
+        <div class="k">③ 채도</div><div>고채도(화려하고 강렬하고 활기참·경쾌) 인가, 저채도/탁색(차분하고 고급스럽고 성숙함) 인가?</div>
+      </div>
+      <div class="note">형용사가 애매하면 이 3단 질문을 순서대로 던져보세요. 육안 대신 논리 트리로 색을 좁혀가는 방법이에요.</div>
+    </div>
+
+    <div class="card">
+      <h3>주조·보조·강조색 면적비례 감각</h3>
+      <p style="font-size:14px;color:#5a5248;margin-top:0;">3·4번 문항 배색분포는 통상 <b>주조색 60~70% · 보조색 20~30% · 강조색 5~10%</b> 범위로 짜는 게 안전해요. 이 사이트의 모범답안은 65 / 25 / 10 비율을 기본값으로 사용했어요.</p>
+      <div class="ratio-bar">
+        <div style="flex:65;background:#8a5a3b;">주조 65%</div>
+        <div style="flex:25;background:#c9a06a;">보조 25%</div>
+        <div style="flex:10;background:#b0463e;">강조 10%</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>KS A 0011 색이름 표기 복습</h3>
+      <div class="table-wrap" style="overflow-x:auto;">
+      <table class="ref">
+        <tr><th>한글</th><th>영어</th><th>약호</th><th>예</th></tr>
+        <tr><td>빨강</td><td>Red</td><td>R</td><td><span class="swatch-mini" style="background:#c0392b"></span></td></tr>
+        <tr><td>주황</td><td>Orange</td><td>YR</td><td><span class="swatch-mini" style="background:#c9752f"></span></td></tr>
+        <tr><td>노랑</td><td>Yellow</td><td>Y</td><td><span class="swatch-mini" style="background:#d8b93a"></span></td></tr>
+        <tr><td>연두</td><td>Green Yellow</td><td>GY</td><td><span class="swatch-mini" style="background:#8ea23f"></span></td></tr>
+        <tr><td>초록</td><td>Green</td><td>G</td><td><span class="swatch-mini" style="background:#3f8a5a"></span></td></tr>
+        <tr><td>청록</td><td>Blue Green</td><td>BG</td><td><span class="swatch-mini" style="background:#2f8a82"></span></td></tr>
+        <tr><td>파랑</td><td>Blue</td><td>B</td><td><span class="swatch-mini" style="background:#3060a0"></span></td></tr>
+        <tr><td>남색</td><td>Purple Blue</td><td>PB</td><td><span class="swatch-mini" style="background:#3d3f8a"></span></td></tr>
+        <tr><td>보라</td><td>Purple</td><td>P</td><td><span class="swatch-mini" style="background:#7a4a8a"></span></td></tr>
+        <tr><td>자주</td><td>Red Purple</td><td>RP</td><td><span class="swatch-mini" style="background:#9a3f6a"></span></td></tr>
+        <tr><td>분홍</td><td>Pink</td><td>-</td><td><span class="swatch-mini" style="background:#d99bb0"></span></td></tr>
+        <tr><td>갈색</td><td>Brown</td><td>-</td><td><span class="swatch-mini" style="background:#7a5236"></span></td></tr>
+        <tr><td>하양</td><td>White</td><td>N9.5</td><td><span class="swatch-mini" style="background:#f2f0ea"></span></td></tr>
+        <tr><td>회색</td><td>Gray</td><td>N5</td><td><span class="swatch-mini" style="background:#9a938a"></span></td></tr>
+        <tr><td>검정</td><td>Black</td><td>N1</td><td><span class="swatch-mini" style="background:#2b2620"></span></td></tr>
+      </table>
+      </div>
+      <div class="note">"퍼플", "핑크빛" 같은 외래어·의역, 오탈자는 오답 처리돼요. 이 페이지의 모든 모범답안은 <code>수식형용사 + 기본색이름</code> 형식만 사용했어요.</div>
+    </div>
+  </section>
+
+  <!-- ===================== 키워드 사전 ===================== -->
+  <section class="panel" id="panel-glossary">
+    <h2 class="section-title"><span class="num">02</span> 배색기법·개념 키워드 사전</h2>
+    <p class="lead">기출 35세트에 실제로 등장했거나 모범답안에서 활용한 배색기법·색채이론 용어만 모았어요.</p>
+    <input type="text" class="kw-search" id="kwSearch" placeholder="용어 검색 (예: 톤인톤, 오간색, 비렌)">
+    <div id="kwList"></div>
+  </section>
+
+  <!-- ===================== 서술연습(모범답안) ===================== -->
+  <section class="panel" id="panel-practice">
+    <h2 class="section-title"><span class="num">03</span> 감성배색 (①~㉟)</h2>
+    <p class="lead">세트를 고르면 4문항 전체의 <b>지정 색이름·배색기법·배색의도 서술</b>이 모범답안 형태로 채워집니다. 3·4번 문항은 주조·보조·강조 비율까지 색 띠로 확인할 수 있어요. 그대로 옮겨 쓰기보다, 굵게 표시된 배색기법 용어와 서술 구조를 익혀서 자기 문장으로 바꿔보는 걸 추천해요.</p>
+
+    <div class="picker">
+      <span style="font-size:14px;font-weight:700;">세트 선택</span>
+      <select id="pSelect"></select>
+      <button class="ghost" id="pRandom">🎲 랜덤 뽑기</button>
+    </div>
+    <div class="filter-row" id="techFilter"></div>
+
+    <div id="pContainer"></div>
+  </section>
+
+</main>
+
+<script>
+/* ---------------- 탭 전환 ---------------- */
+document.querySelectorAll('nav.tabs button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('section.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.p).classList.add('active');
+  });
+});
+
+/* ---------------- 히어로 스와치 ---------------- */
+(function(){
+  const strip = document.getElementById('heroStrip');
+  const hexes = ["#c0392b","#c9752f","#d8b93a","#8ea23f","#3f8a5a","#2f8a82","#3060a0","#3d3f8a","#7a4a8a","#9a3f6a","#7a5236","#2b2620"];
+  hexes.forEach(h=>{
+    const div = document.createElement('div');
+    div.style.background = h;
+    strip.appendChild(div);
+  });
+})();
+
+/* ---------------- 색이름 -> 대략 hex (스와치 표시용) ---------------- */
+const colorMap = {
+  "빨강":"#c94a3a","주황":"#d9822b","노랑":"#d8b23b","연두":"#9ab648","초록":"#3f7a4f",
+  "청록":"#3b8a82","파랑":"#3b6b9a","남색":"#3b4f8a","보라":"#7a4f8a","자주":"#9a3b6b",
+  "분홍":"#d99bb0","갈색":"#7a5236","하양":"#f2f0ea","회색":"#9a938a","검정":"#2b2620"
+};
+function pickSwatch(text){
+  let best=null;
+  for(const key in colorMap){
+    if(text.includes(key)){ if(!best || key.length>best.length) best=key; }
+  }
+  return best ? colorMap[best] : "#c9a06a";
+}
+
+/* ==================================================================
+   키워드 사전
+   ================================================================== */
+const glossary = [
+  {term:"톤 온 톤(Tone on Tone)", en:"tone on tone",
+   desc:"같은 색상(Hue)을 유지한 채 명도차를 크게 두어 배색하는 기법. 형태보다 색상 통일감을 강조하고 싶을 때 사용.",
+   used:"①-1, ⑤-1, ⑧-1(톤인톤과 대비), ⑬-1, ⑯-1, ㉒-1, ㉖-1, ㉜-1"},
+  {term:"톤 인 톤(Tone in Tone)", en:"tone in tone",
+   desc:"색상은 다르지만 명도·채도(톤)를 동일하게 맞춰 배색하는 기법. 색상은 자유롭게 바뀌되 분위기(톤)의 통일감을 줌.",
+   used:"⑬-1, ㉔-1, ㉕-1"},
+  {term:"유사색상 유사색조", en:"analogous hue & tone",
+   desc:"색상환에서 인접한 색상(유사색상)을 명도·채도도 비슷하게(유사색조) 배색. 조화롭고 안정적, 통일감 있는 인상.",
+   used:"②-1, ④-1, ⑦-1, ⑨-1, ⑫-1, ㉑-1, ㉘-1, ㉛-1, ㉞-1"},
+  {term:"유사색상 반대색조", en:"analogous hue, contrasting tone",
+   desc:"색상은 인접하게 유지하되 명도·채도 차이는 크게 두는 배색. 색상 통일감은 지키며 대비로 포인트를 줌.",
+   used:"⑩-1"},
+  {term:"반대색상 반대색조(보색 대비)", en:"complementary hue & tone",
+   desc:"색상환에서 마주보는 보색을, 명도·채도차도 크게 배색. 가장 강한 대비·자극으로 강렬함·역동성을 표현.",
+   used:"⑥-1"},
+  {term:"반대색상·유사색조", en:"complementary hue, similar tone",
+   desc:"색상은 반대(보색)이지만 명도·채도는 비슷하게 맞춰 대비는 살리되 톤의 안정감으로 자극을 완화.",
+   used:"⑱-1"},
+  {term:"까마이외(Camaïeu)", en:"camaïeu",
+   desc:"거의 구별하기 힘들 정도로 미세한 색상·명도·채도 차이만 두는 배색. 동일계열 배색의 극단형.",
+   used:"⑪-1"},
+  {term:"도미넌트(Dominant) 컬러", en:"dominant color",
+   desc:"특정 색을 화면 전체에 지배적으로 사용해 그 색이 주는 이미지를 강하게 각인시키는 배색.",
+   used:"⑭-1"},
+  {term:"토널(Tonal) 배색", en:"tonal",
+   desc:"중명도·중채도의 탁한 톤을 사용하는 배색. 차분하고 절제된 이미지, 자연물·소재감 표현에 적합.",
+   used:"⑮-1, ㉝-1"},
+  {term:"분리배색(Separation)", en:"separation",
+   desc:"두 색이 부딪혀 보이는 강한 대비를 완화하기 위해 그 사이에 무채색 또는 다른 색을 끼워 넣는 배색기법.",
+   used:"④-3, ㉗-1, ㉟-2"},
+  {term:"악센트(Accent) 배색", en:"accent",
+   desc:"전체를 지배하는 색조 속에 소량의 강한 대비색을 포인트로 넣어 시선을 집중시키는 배색.",
+   used:"㉞-2"},
+  {term:"반복배색(Repetition)", en:"repetition",
+   desc:"동일한 색이나 색의 패턴을 일정 간격으로 되풀이해 리듬감·경쾌함을 만드는 배색기법.",
+   used:"⑭-2"},
+  {term:"보색대비(Complementary Contrast)", en:"complementary contrast",
+   desc:"색상환에서 정반대에 위치한 두 색을 나란히 배치해 서로를 가장 선명하게 보이도록 하는 대비.",
+   used:"⑰-1"},
+  {term:"오간색(五間色)", en:"secondary traditional colors",
+   desc:"한국 전통색 체계에서 오방색이 혼합되어 나온 다섯 간색 — 녹색·벽색·홍색·유황색·자색.",
+   used:"⑳-3"},
+  {term:"오방색(五方色)", en:"five cardinal colors",
+   desc:"한국 전통 색채관의 기본 5색 — 청(동)·백(서)·적(남)·흑(북)·황(중앙).",
+   used:"④-4"},
+  {term:"파버 비렌(Faber Birren) 색채조화론", en:"Faber Birren color harmony",
+   desc:"색을 색상·백색량·흑색량의 삼각좌표(비렌의 색삼각형)로 배열하고 좌표상 가까운 색끼리 배색하면 조화롭다고 본 이론.",
+   used:"⑬-4"},
+  {term:"주조색·보조색·강조색", en:"dominant / sub / accent color",
+   desc:"3·4번 문항의 핵심 채점 축. 주조색(60~70%, 전체 분위기) · 보조색(20~30%, 보완) · 강조색(5~10%, 포인트).",
+   used:"세트 대부분의 3·4번 문항 공통"},
+  {term:"퍼스널컬러(Personal Color)", en:"personal color",
+   desc:"개인의 피부·머리·눈동자 색과 어울리는 색을 유형화한 진단 체계. 보통 웜톤(봄·가을)·쿨톤(여름·겨울) 4계절 분류.",
+   used:"㉑-3(여름), ㉝-4(겨울)"},
+  {term:"유니버설디자인(Universal Design)", en:"universal design",
+   desc:"연령·장애 유무와 관계없이 누구나 안전하고 편리하게 이용할 수 있도록 하는 설계 개념.",
+   used:"㉟-4"},
+  {term:"조닝(Zoning)", en:"zoning",
+   desc:"공간을 기능·동선별 구역으로 구분하는 계획. 색채계획에서는 구역마다 다른 색을 배정해 인지하기 쉽게 함.",
+   used:"㉞-3"},
+];
+
+function renderGlossary(filter){
+  const list = document.getElementById('kwList');
+  list.innerHTML='';
+  const f = (filter||'').trim().toLowerCase();
+  const items = glossary.filter(g=>
+    !f || g.term.toLowerCase().includes(f) || g.en.toLowerCase().includes(f) || g.desc.toLowerCase().includes(f)
+  );
+  if(items.length===0){ list.innerHTML = '<div class="note">검색 결과가 없어요.</div>'; return; }
+  items.forEach(g=>{
+    const div=document.createElement('div');
+    div.className='kw-item';
+    div.innerHTML = `<h4>${g.term} <span class="en">${g.en}</span></h4><p>${g.desc}</p><div class="used">기출 등장: <b>${g.used}</b></div>`;
+    list.appendChild(div);
+  });
+}
+document.getElementById('kwSearch').addEventListener('input', e=>renderGlossary(e.target.value));
+renderGlossary('');
+
+/* ==================================================================
+   기출 35세트 모범답안 데이터
+   item1: 단일기법 배색 / item2: 3색이상 / item3,4: 5색이상+주조보조강조
+   ================================================================== */
+const sets = [
+{no:"①",items:[
+ {label:"1",q:"무섭고 거친 이미지를 톤 온 톤으로 배색하고 배색의도를 서술하시오.",tech:"톤온톤",
+  colors:["어두운 회보라","탁한 자주","진한 회색","검정"],
+  desc:"저명도 위주로 색상은 회보라~자주 계열을 유지하며 명도차만 크게 두는 톤 온 톤 배색을 적용했다. 무섭고 거친 이미지는 저명도·저채도일 때 강화되므로, 어두운 회보라에서 검정까지 명도를 급격히 낮춰 위협적이고 음산한 분위기를 표현하였다."},
+ {label:"2",q:"경쾌한 리듬감과 발랄함이 느껴지는 곡의 리듬체조 의상 이미지를 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["밝은 노랑","진한 빨강","선명한 청록"],
+  desc:"경쾌함과 발랄함은 고채도·고명도의 난색 계열에서 강화되므로 밝은 노랑을 바탕으로 진한 빨강과 선명한 청록을 리듬감 있게 반복 배치했다. 3색 모두 채도를 높게 유지하여 움직임에 따라 시각적 경쾌함이 더욱 강조되도록 하였다."},
+ {label:"3",q:"배지테리언을 위한 도시락 패키지를 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"밝은 연두",p:35},{r:"주조",n:"흐린 초록",p:30},{r:"보조",n:"하양",p:15},{r:"보조",n:"밝은 노랑",p:10},{r:"강조",n:"진한 갈색",p:10}],
+  desc:"주조색은 밝은 연두와 흐린 초록으로 채소·식물성 식재료의 신선함을 표현하고, 보조색 하양은 청결함을, 밝은 노랑은 곡물의 온기를 더한다. 강조색 진한 갈색은 포장 라벨에 소면적으로 사용해 자연식 원료의 신뢰감을 포인트로 강조하였다."},
+ {label:"4",q:"힐링 스파 센터 내부(아로마 테라피 등)를 현대적·모던한 이미지로 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"흐린 회청록",p:35},{r:"주조",n:"연한 회색",p:30},{r:"보조",n:"하양",p:20},{r:"보조",n:"탁한 파랑",p:5},{r:"강조",n:"진한 청록",p:10}],
+  desc:"대표 주조색 흐린 회청록과 연한 회색은 저채도·중명도로 모던하면서도 차분한 치유 공간의 분위기를 형성한다. 보조색 하양은 개방감을, 탁한 파랑은 안정감을 더하며, 강조색 진한 청록을 포인트 벽면에 배치해 아로마·물의 이미지를 현대적으로 마무리하였다."}
+]},
+{no:"②",items:[
+ {label:"1",q:"풍부함과 중후함의 이미지가 연상되도록 유사색상 유사색조로 배색하고 배색의도를 서술하시오.",tech:"유사색상유사색조",
+  colors:["진한 갈색","어두운 주황","탁한 노랑","진한 빨강"],
+  desc:"색상환에서 인접한 갈색·주황·노랑·빨강(난색 계열)을 저명도·저채도의 유사한 톤으로 맞춘 유사색상 유사색조 배색이다. 풍부함과 중후함은 저채도의 난색 계열이 통일감 있게 이어질 때 강화되므로, 톤 차이를 최소화해 묵직하고 안정적인 인상을 표현하였다."},
+ {label:"2",q:"20~30대 남성 대상 스마트워치. 세련되고 하이테크한 이미지를 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["검정","연한 회색","선명한 파랑"],
+  desc:"세련되고 하이테크한 이미지는 무채색과 고채도 한색의 대비에서 강화되므로 검정과 연한 회색으로 절제된 바탕을 만들고, 선명한 파랑을 포인트로 배치해 디지털 기기의 첨단감을 표현하였다."},
+ {label:"3",q:"경쾌한 공유자전거 플랫폼의 주목성 강한 색채배색, 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"밝은 주황",p:35},{r:"주조",n:"선명한 노랑",p:30},{r:"보조",n:"하양",p:20},{r:"보조",n:"연한 회색",p:5},{r:"강조",n:"검정",p:10}],
+  desc:"주조색 밝은 주황과 선명한 노랑은 고채도·고명도로 도심 속 주목성을 확보하고, 보조색 하양·연한 회색은 가독성과 여백감을 더한다. 강조색 검정은 로고·안내 문구에 소면적 사용해 정보 전달의 명료성을 높였다."},
+ {label:"4",q:"자연친화적 전원주택. 자연친화적 공간으로 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"흐린 초록",p:35},{r:"주조",n:"탁한 갈색",p:30},{r:"보조",n:"밝은 회색",p:20},{r:"보조",n:"연한 노랑",p:5},{r:"강조",n:"진한 초록",p:10}],
+  desc:"대표 주조색 흐린 초록과 탁한 갈색은 숲과 흙을 상징하며 자연친화적 이미지를 형성한다. 보조색 밝은 회색·연한 노랑은 건축 마감재와 채광의 온기를 표현하고, 강조색 진한 초록을 창틀·문 등에 배치해 자연과의 조화를 강조하였다."}
+]},
+{no:"③",items:[
+ {label:"1",q:"신비로움과 우아함의 이미지가 연상되도록 톤 온 톤으로 배색하고 배색의도를 서술하시오.",tech:"톤온톤",
+  colors:["어두운 보라","진한 남색","탁한 자주","연한 보라"],
+  desc:"보라 계열의 동일 색상 안에서 명도차를 크게 둔 톤 온 톤 배색이다. 신비로움과 우아함은 저채도·중저명도의 보라·남색 계열에서 강화되므로, 어두운 보라에서 연한 보라까지 명도 단계를 이용해 깊이감을 표현하였다."},
+ {label:"2",q:"자연친화적 소재의 업사이클링 파우치 디자인을 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["탁한 갈색","흐린 초록","하양"],
+  desc:"업사이클링 소재의 자연스러움은 저채도의 갈색·초록 조합에서 강화되므로 탁한 갈색과 흐린 초록을 주 색상으로, 하양을 배색해 재활용 소재의 담백하고 친환경적인 이미지를 표현하였다."},
+ {label:"3",q:"유기농 딸기잼 패키지, 새콤달콤한 맛의 이미지를 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"진한 빨강",p:35},{r:"주조",n:"밝은 분홍",p:30},{r:"보조",n:"하양",p:20},{r:"보조",n:"연한 노랑",p:5},{r:"강조",n:"흐린 초록",p:10}],
+  desc:"주조색 진한 빨강과 밝은 분홍은 딸기의 새콤달콤한 맛을 직접적으로 연상시키며, 보조색 하양·연한 노랑은 유기농의 신선함과 당도를 더한다. 강조색 흐린 초록은 딸기 꼭지를 상징하며 라벨 포인트로 배치해 천연 재료의 신뢰감을 강조하였다."},
+ {label:"4",q:"캐주얼 브랜드 F/W 의상 론칭 디스플레이. MZ세대 개성을 반영한 배색과 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"하양",p:35},{r:"주조",n:"연한 회색",p:30},{r:"보조",n:"선명한 노랑",p:20},{r:"보조",n:"밝은 주황",p:5},{r:"강조",n:"검정",p:10}],
+  desc:"대표 주조색 하양·연한 회색은 캐주얼하고 편안한 바탕을 만들고, 보조색 선명한 노랑·밝은 주황은 MZ세대의 개성과 생동감을 표현한다. 강조색 검정을 그래픽 포인트에 사용해 톡톡 튀는 대비감을 완성하였다."}
+]},
+{no:"④",items:[
+ {label:"1",q:"'소박하고 자연적인' 이미지를 유사색상, 유사색조를 사용하여 배색하고 배색의도를 서술하시오.",tech:"유사색상유사색조",
+  colors:["탁한 갈색","흐린 노랑","탁한 연두"],
+  desc:"인접한 갈색·노랑·연두를 저채도의 유사한 톤으로 맞춘 유사색상 유사색조 배색이다. 소박함은 저채도, 자연적임은 흙·풀을 연상시키는 난색~중성색 계열에서 강화되므로 톤 차이를 최소화해 편안하고 담백한 인상을 표현하였다."},
+ {label:"2",q:"뉴 실버 세대 남성 스카프를 '댄디하고 시크한' 이미지로 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["진한 남색","회색","하양"],
+  desc:"댄디하고 시크한 이미지는 저채도의 한색과 무채색 조합에서 강화되므로 진한 남색을 주색으로 회색·하양을 배색해 절제되고 품격 있는 성숙한 이미지를 표현하였다."},
+ {label:"3",q:"스마트 사무실, 에코테크놀로지 이미지를 분리배색으로 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상, 분리배색 활용",
+  roles:[{r:"주조",n:"흐린 초록",p:35},{r:"주조",n:"연한 회색",p:30},{r:"보조",n:"하양",p:20},{r:"보조",n:"탁한 청록",p:5},{r:"강조",n:"검정",p:10}],
+  desc:"주조색 흐린 초록·연한 회색은 에코와 테크가 결합된 이미지를 형성하며, 두 색이 접하는 경계에 하양(무채색)을 끼워 넣는 분리배색으로 색의 부딪힘을 정돈하였다. 강조색 검정은 사무기기 라인에 소면적 배치해 첨단감을 더하였다."},
+ {label:"4",q:"칼럼니스트 웹페이지, 한국적 이미지를 강조색 오방색으로 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상, 강조색은 오방색",
+  roles:[{r:"주조",n:"하양",p:35},{r:"주조",n:"연한 회색",p:30},{r:"보조",n:"검정",p:20},{r:"보조",n:"탁한 파랑",p:5},{r:"강조",n:"진한 빨강(오방색 적)",p:10}],
+  desc:"대표 주조색 하양·연한 회색은 웹페이지의 가독성과 여백을 확보하고, 보조색 검정·탁한 파랑은 텍스트의 명료성을 더한다. 강조색은 오방색 중 적색 계열인 진한 빨강을 포인트로 사용해 한국적 이미지를 상징적으로 강조하였다."}
+]},
+{no:"⑤",items:[
+ {label:"1",q:"믿음과 신뢰의 이미지가 연상되도록 톤 온 톤으로 배색하고 배색의도를 서술하시오.",tech:"톤온톤",
+  colors:["진한 남색","탁한 파랑","연한 파랑","하양"],
+  desc:"파랑 계열의 동일 색상에서 명도차를 크게 둔 톤 온 톤 배색이다. 믿음과 신뢰는 저채도·중저명도의 파랑 계열에서 강화되므로 진한 남색에서 하양까지 명도 단계를 활용해 안정적이고 신뢰감 있는 인상을 표현하였다."},
+ {label:"2",q:"천연재료 사과떡볶이 밀키트 패키지를 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["진한 빨강","밝은 주황","하양"],
+  desc:"사과의 단맛과 떡볶이의 매운맛이 어우러지는 이미지는 난색 계열의 고채도 조합에서 강화되므로 진한 빨강과 밝은 주황을 주 색상으로, 하양을 배색해 천연재료의 신선함을 함께 표현하였다."},
+ {label:"3",q:"트라이애슬론 홍보 포스터, 힘과 열정·에너지를 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"진한 파랑",p:35},{r:"주조",n:"선명한 파랑",p:30},{r:"보조",n:"하양",p:20},{r:"보조",n:"회색",p:5},{r:"강조",n:"진한 빨강",p:10}],
+  desc:"주조색 진한 파랑·선명한 파랑은 물과 힘찬 에너지를 상징하며, 보조색 하양·회색은 속도감을 더한다. 강조색 진한 빨강은 보색대비로 소면적에 배치해 열정과 강렬한 승부욕을 포인트로 강조하였다."},
+ {label:"4",q:"헬시 플레저 요가아카데미 론칭. 건강을 중시하는 여성을 위한 공간으로 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"흐린 연두",p:35},{r:"주조",n:"연한 회색",p:30},{r:"보조",n:"하양",p:20},{r:"보조",n:"흐린 분홍",p:5},{r:"강조",n:"진한 초록",p:10}],
+  desc:"대표 주조색 흐린 연두·연한 회색은 건강하고 편안한 이미지를, 보조색 하양·흐린 분홍은 여성 고객층의 온화하고 밝은 정서를 더한다. 강조색 진한 초록을 매트·소품에 배치해 활력을 포인트로 강조하였다."}
+]},
+{no:"⑥",items:[
+ {label:"1",q:"기름지고 끈끈한 점착감이 연상되도록 반대색상 반대색조로 배색하고 배색의도를 서술하시오.",tech:"반대색상반대색조",
+  colors:["진한 노랑","어두운 남색","탁한 주황","진한 파랑"],
+  desc:"색상환에서 마주보는 노랑-남색 계열을 명도·채도차도 크게 둔 반대색상 반대색조 배색이다. 기름지고 끈끈한 점착감은 강한 색상 대비에서 오는 자극적 인상으로 강화되므로, 보색 관계를 그대로 살려 강렬하고 불쾌한 듯한 질감을 표현하였다."},
+ {label:"2",q:"AI 기술 모바일 홈 트레이닝 앱을 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["검정","선명한 초록","연한 회색"],
+  desc:"AI 기반 앱의 첨단 이미지는 무채색과 고채도 한색·중성색 계열의 대비에서 강화되므로 검정을 바탕으로 선명한 초록을 포인트로 배치하고 연한 회색으로 화면 요소를 정리해 하이테크한 인상을 표현하였다."},
+ {label:"3",q:"국가대표 축구선수 운동복, 강인한 이미지를 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"진한 빨강",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"진한 남색",p:20},{r:"보조",n:"회색",p:5},{r:"강조",n:"진한 노랑",p:10}],
+  desc:"주조색 진한 빨강·하양은 태극기 색채를 연상시키며 강인한 국가 대표성을 표현한다. 보조색 진한 남색은 안정감을, 강조색 진한 노랑은 소매·번호에 배치해 활력과 승리에 대한 열망을 포인트로 강조하였다."},
+ {label:"4",q:"도시재생 프로젝트 홍보 브로슈어, 지역의 다양성과 유연성을 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"흐린 주황",p:35},{r:"주조",n:"연한 노랑",p:30},{r:"보조",n:"하양",p:20},{r:"보조",n:"흐린 청록",p:5},{r:"강조",n:"진한 주황",p:10}],
+  desc:"대표 주조색 흐린 주황·연한 노랑은 지역의 다양성을 따뜻하고 유연하게 표현하고, 보조색 하양·흐린 청록은 열린 소통의 이미지를 더한다. 강조색 진한 주황을 그래픽 포인트에 배치해 도시재생의 활력을 강조하였다."}
+]},
+{no:"⑦",items:[
+ {label:"1",q:"신맛과 달콤한 맛이 연상되는 케이크를 유사색상 유사색조로 배색하고 배색의도를 서술하시오.",tech:"유사색상유사색조",
+  colors:["밝은 노랑","밝은 주황","연한 분홍"],
+  desc:"인접한 노랑·주황·분홍을 고명도의 유사한 톤으로 맞춘 유사색상 유사색조 배색이다. 신맛과 달콤함은 고명도·고채도의 난색 계열에서 강화되므로 톤을 밝게 통일해 새콤달콤하고 사랑스러운 인상을 표현하였다."},
+ {label:"2",q:"유기농 유아용 두유 패키지를 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["하양","흐린 노랑","탁한 초록"],
+  desc:"유기농 유아용 제품의 안전하고 순수한 이미지는 고명도 저채도의 색 조합에서 강화되므로 하양을 바탕으로 흐린 노랑·탁한 초록을 배색해 천연 원료의 담백함을 표현하였다."},
+ {label:"3",q:"유소년 야구클럽 라커룸, 휴식과 열정의 공간을 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"연한 회색",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"진한 남색",p:20},{r:"보조",n:"회색",p:5},{r:"강조",n:"진한 빨강",p:10}],
+  desc:"주조색 연한 회색·하양은 휴식을 위한 차분한 공간을 형성하며, 보조색 진한 남색은 팀의 단결력을 더한다. 강조색 진한 빨강을 로커·사물함 라인에 배치해 열정과 승부욕을 포인트로 강조하였다."},
+ {label:"4",q:"K-뷰티 메이크업 숏폼 콘텐츠. 콘셉트를 선정하여 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"연한 분홍",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"밝은 주황",p:20},{r:"보조",n:"연한 노랑",p:5},{r:"강조",n:"진한 자주",p:10}],
+  desc:"'화사하고 생기있는' 콘셉트로, 대표 주조색 연한 분홍·하양은 K-뷰티의 청순하고 화사한 이미지를 형성한다. 보조색 밝은 주황·연한 노랑은 생기와 화사함을 더하고, 강조색 진한 자주를 립·포인트 메이크업에 배치해 세련미를 강조하였다."}
+]},
+{no:"⑧",items:[
+ {label:"1",q:"온화하고 부드러운 이미지를 톤 인 톤으로 배색하고 배색의도를 서술하시오.",tech:"톤인톤",
+  colors:["흐린 분홍","연한 노랑","흐린 연두"],
+  desc:"색상은 다르지만 고명도·저채도의 유사한 톤(파스텔 톤)으로 맞춘 톤 인 톤 배색이다. 온화하고 부드러운 이미지는 고명도·저채도에서 강화되므로 분홍·노랑·연두의 톤을 일치시켜 편안하고 온화한 인상을 표현하였다."},
+ {label:"2",q:"아트페어 기념품 가방, 개성이 뚜렷한 내방자 선호 이미지를 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색, 명도·채도 고려",
+  colors:["진한 자주","선명한 노랑","검정"],
+  desc:"예술적 개성은 고채도의 색상 대비와 무채색 조합에서 강화되므로 진한 자주와 선명한 노랑을 강한 대비로 배치하고 검정으로 정돈해 예술적이고 개성 있는 이미지를 표현하였다."},
+ {label:"3",q:"자전거 라이딩 대회 유니폼, 경쾌한 이미지를 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"선명한 노랑",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"진한 파랑",p:20},{r:"보조",n:"회색",p:5},{r:"강조",n:"진한 주황",p:10}],
+  desc:"주조색 선명한 노랑·하양은 속도감과 시인성을 확보하고, 보조색 진한 파랑은 팀 아이덴티티를 더한다. 강조색 진한 주황을 소매 라인에 배치해 경쾌하고 역동적인 이미지를 포인트로 강조하였다."},
+ {label:"4",q:"요양병원 공사현장 가림벽, 시민 안전을 고려한 배색과 대표 주조·보조·강조색의 색이름 및 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"흐린 파랑",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"연한 회색",p:20},{r:"보조",n:"흐린 초록",p:5},{r:"강조",n:"선명한 노랑",p:10}],
+  desc:"대표 주조색 흐린 파랑·하양은 안전하고 청결한 병원 이미지를 형성하고, 보조색 연한 회색·흐린 초록은 안정감을 더한다. 강조색 선명한 노랑을 안전 표시 라인에 배치해 시민 안전을 위한 시인성을 확보하였다."}
+]},
+{no:"⑨",items:[
+ {label:"1",q:"'따뜻하고 사랑스러운' 이미지를 유사색상, 유사색조로 배색하고 배색의도를 서술하시오.",tech:"유사색상유사색조",
+  colors:["연한 분홍","흐린 주황","밝은 노랑"],
+  desc:"인접한 분홍·주황·노랑을 고명도의 유사한 톤으로 맞춘 유사색상 유사색조 배색이다. 따뜻하고 사랑스러운 이미지는 고명도 난색 계열에서 강화되므로 톤을 통일해 부드럽고 다정한 인상을 표현하였다."},
+ {label:"2",q:"신혼부부 하우스 파티용 와인 패키지(라벨·박스·쇼핑백)를 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["진한 자주","금빛에 가까운 노랑","검정"],
+  desc:"와인의 달콤하고 고급스러운 맛의 이미지는 저명도·고채도의 자주 계열과 노랑의 조합에서 강화되므로 진한 자주를 주색으로, 노랑·검정을 배색해 신혼의 특별함과 고급스러움을 표현하였다."},
+ {label:"3",q:"100세 시대 스마트 헬스 케어 디바이스, 하이테크 이미지를 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"하양",p:35},{r:"주조",n:"연한 회색",p:30},{r:"보조",n:"검정",p:20},{r:"보조",n:"탁한 파랑",p:5},{r:"강조",n:"선명한 파랑",p:10}],
+  desc:"주조색 하양·연한 회색은 첨단 의료기기의 청결하고 정밀한 이미지를 형성하고, 보조색 검정·탁한 파랑은 신뢰감을 더한다. 강조색 선명한 파랑을 디스플레이 포인트에 배치해 하이테크한 인상을 강조하였다."},
+ {label:"4",q:"욜로족 숲속 캠핑장 카라반 디자인, 욜로족 특성이 나타나도록 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"흐린 초록",p:35},{r:"주조",n:"탁한 갈색",p:30},{r:"보조",n:"하양",p:20},{r:"보조",n:"밝은 주황",p:5},{r:"강조",n:"진한 노랑",p:10}],
+  desc:"대표 주조색 흐린 초록·탁한 갈색은 자연 속 자유로운 삶을 상징하고, 보조색 하양·밝은 주황은 개성 있는 라이프스타일을 더한다. 강조색 진한 노랑을 카라반 그래픽에 배치해 욜로족의 활기찬 개성을 강조하였다."}
+]},
+{no:"⑩",items:[
+ {label:"1",q:"날카롭고 예리한 금속이미지를 유사색상 반대색조로 배색하고 배색의도를 서술하시오.",tech:"유사색상반대색조",
+  colors:["연한 회색","진한 회색","검정","하양"],
+  desc:"무채색(회색 계열)을 유사색상으로 유지하되 명도차를 극단적으로 둔 유사색상 반대색조 배색이다. 날카롭고 예리한 금속 이미지는 무채색의 강한 명도 대비에서 강화되므로 하양과 검정의 극명한 대비를 활용해 날카로운 광택감을 표현하였다."},
+ {label:"2",q:"빈센트 반 고흐 '밤의 카페 테라스'의 이미지를 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["진한 남색","선명한 노랑","탁한 파랑"],
+  desc:"작품 특유의 밤하늘과 조명 대비는 저명도의 남색·파랑과 고채도 노랑의 대비에서 강화되므로 진한 남색을 바탕으로 선명한 노랑을 조명 포인트로, 탁한 파랑으로 밤의 깊이를 표현하였다."},
+ {label:"3",q:"봄꽃축제 초대장, 봄의 밝고 부드러운 이미지를 강조하여 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"연한 분홍",p:35},{r:"주조",n:"흐린 연두",p:30},{r:"보조",n:"하양",p:20},{r:"보조",n:"연한 노랑",p:5},{r:"강조",n:"진한 분홍",p:10}],
+  desc:"주조색 연한 분홍·흐린 연두는 봄꽃과 새싹의 밝고 부드러운 이미지를 형성하고, 보조색 하양·연한 노랑은 화사함을 더한다. 강조색 진한 분홍을 타이포 포인트에 배치해 축제의 생동감을 강조하였다."},
+ {label:"4",q:"알뜰폰 중저가 요금제 홍보 배너, 친근하고 경쾌하게 시인성을 고려해 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"밝은 주황",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"선명한 노랑",p:20},{r:"보조",n:"연한 회색",p:5},{r:"강조",n:"진한 파랑",p:10}],
+  desc:"대표 주조색 밝은 주황·하양은 친근하고 경쾌한 이미지를 형성하며 시인성을 높인다. 보조색 선명한 노랑은 합리적 가격의 밝은 이미지를 더하고, 강조색 진한 파랑을 요금 정보 박스에 배치해 신뢰감과 가독성을 강조하였다."}
+]},
+{no:"⑪",items:[
+ {label:"1",q:"거칠고 푸석푸석한 이미지를 까마이외(camaïeu) 배색하고 배색의도를 서술하시오.",tech:"까마이외",
+  colors:["탁한 회갈색","흐린 회갈색","연한 회갈색","진한 회갈색"],
+  desc:"거의 구분되지 않을 정도로 미세한 명도·채도 차이만 둔 까마이외 배색이다. 거칠고 푸석푸석한 질감은 저채도의 미묘한 색차에서 자연스럽게 강화되므로 회갈색 한 계열 안에서 극히 좁은 톤 차이로 마른 질감을 표현하였다."},
+ {label:"2",q:"우아하고 고급스러운 한복이미지를 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["진한 남색","연한 분홍","금빛에 가까운 노랑"],
+  desc:"우아하고 고급스러운 이미지는 저채도 한색과 은은한 난색의 조화에서 강화되므로 진한 남색을 주색으로, 연한 분홍·노랑을 배색해 전통 한복의 기품 있는 색채감을 표현하였다."},
+ {label:"3",q:"'주민참여 아나바다' 체험관 부스, 경쾌하고 생동감 있게 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"밝은 노랑",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"선명한 초록",p:20},{r:"보조",n:"밝은 주황",p:5},{r:"강조",n:"진한 파랑",p:10}],
+  desc:"주조색 밝은 노랑·하양은 재사용·재활용의 밝고 친근한 이미지를 형성하고, 보조색 선명한 초록·밝은 주황은 생동감을 더한다. 강조색 진한 파랑을 안내 사인에 배치해 정보 전달력을 강조하였다."},
+ {label:"4",q:"찾아가는 건강의료서비스 의료버스, 친근하고 신뢰감 있는 색채로 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"하양",p:35},{r:"주조",n:"흐린 파랑",p:30},{r:"보조",n:"연한 회색",p:20},{r:"보조",n:"밝은 초록",p:5},{r:"강조",n:"진한 파랑",p:10}],
+  desc:"대표 주조색 하양·흐린 파랑은 의료서비스의 청결함과 신뢰감을 형성하고, 보조색 연한 회색·밝은 초록은 친근한 이미지를 더한다. 강조색 진한 파랑을 십자 마크·안내선에 배치해 의료기관의 전문성을 강조하였다."}
+]},
+{no:"⑫",items:[
+ {label:"1",q:"슬프고 우울한 이미지를 유사색상 유사색조로 배색하고 배색의도를 서술하시오.",tech:"유사색상유사색조",
+  colors:["어두운 남색","진한 회청","탁한 파랑"],
+  desc:"인접한 남색·청색 계열을 저명도·저채도의 유사한 톤으로 맞춘 유사색상 유사색조 배색이다. 슬프고 우울한 이미지는 저명도·저채도의 한색 계열에서 강화되므로 톤을 무겁게 통일해 가라앉은 정서를 표현하였다."},
+ {label:"2",q:"20대 여성 타깃 세련되고 감각적인 태블릿 케이스를 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["진한 자주","연한 회색","검정"],
+  desc:"세련되고 감각적인 이미지는 저채도 무채색과 자주 계열의 조합에서 강화되므로 진한 자주를 포인트로, 연한 회색과 검정을 배색해 감각적이고 고급스러운 인상을 표현하였다."},
+ {label:"3",q:"무인판매샵 키오스크, 도시적이고 미니멀한 디자인을 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"연한 회색",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"검정",p:20},{r:"보조",n:"탁한 파랑",p:5},{r:"강조",n:"선명한 파랑",p:10}],
+  desc:"주조색 연한 회색·하양은 미니멀하고 절제된 도시적 이미지를 형성하고, 보조색 검정·탁한 파랑은 차분함을 더한다. 강조색 선명한 파랑을 터치스크린 버튼에 배치해 디지털 기기의 시인성을 강조하였다."},
+ {label:"4",q:"'다둥이 행복카드', 사랑스럽고 즐거운 이미지를 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"연한 분홍",p:35},{r:"주조",n:"흐린 노랑",p:30},{r:"보조",n:"하양",p:20},{r:"보조",n:"밝은 하늘빛 파랑",p:5},{r:"강조",n:"진한 분홍",p:10}],
+  desc:"대표 주조색 연한 분홍·흐린 노랑은 가족과 아이의 사랑스럽고 밝은 이미지를 형성하고, 보조색 하양·파랑은 다둥이 가족의 다양성을 담는다. 강조색 진한 분홍을 카드 포인트에 배치해 즐겁고 화사한 느낌을 강조하였다."}
+]},
+{no:"⑬",items:[
+ {label:"1",q:"발랄하고 젊은 이미지를 톤 인 톤 배색으로 배색하고 배색의도를 서술하시오.",tech:"톤인톤",
+  colors:["밝은 노랑","밝은 분홍","밝은 청록"],
+  desc:"색상은 다르지만 고명도·고채도의 유사한 톤으로 맞춘 톤 인 톤 배색이다. 발랄하고 젊은 이미지는 고명도·고채도에서 강화되므로 노랑·분홍·청록의 톤을 밝고 선명하게 통일해 생기 있는 인상을 표현하였다."},
+ {label:"2",q:"감수성이 예민한 30대 후반 남성의 생일 선물 포장지를 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["탁한 남색","연한 회색","진한 갈색"],
+  desc:"감수성 있는 성숙한 남성 이미지는 저채도의 한색·중성색 계열에서 강화되므로 탁한 남색을 주색으로 연한 회색·진한 갈색을 배색해 차분하고 사려 깊은 인상을 표현하였다."},
+ {label:"3",q:"네일샵 인테리어, 화려하고 다양한 네일 컬러가 돋보이는 배색과 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"하양",p:35},{r:"주조",n:"연한 회색",p:30},{r:"보조",n:"연한 분홍",p:20},{r:"보조",n:"검정",p:5},{r:"강조",n:"진한 자주",p:10}],
+  desc:"주조색 하양·연한 회색은 다양한 네일 컬러가 돋보이도록 절제된 배경을 만들고, 보조색 연한 분홍·검정은 여성스러움과 세련미를 더한다. 강조색 진한 자주를 진열대 포인트에 배치해 화려함을 강조하였다."},
+ {label:"4",q:"호러무비 포스터, 공포와 불안 이미지를 파버 비렌의 색채 조화론을 적용해 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"검정",p:35},{r:"주조",n:"어두운 회색",p:30},{r:"보조",n:"진한 회보라",p:20},{r:"보조",n:"탁한 초록",p:5},{r:"강조",n:"진한 빨강",p:10}],
+  desc:"파버 비렌의 색삼각형에서 흑색량이 높은 저명도·저채도 색끼리 인접 배치해 조화를 이루었다. 대표 주조색 검정·어두운 회색은 공포와 불안을, 보조색 회보라·초록은 음산함을 더하며, 강조색 진한 빨강을 소면적에 배치해 위협적 긴장감을 강조하였다."}
+]},
+{no:"⑭",items:[
+ {label:"1",q:"박하향 사탕의 이미지를 도미넌트(dominant) 컬러로 배색하고 배색의도를 서술하시오.",tech:"도미넌트",
+  colors:["밝은 청록","연한 청록","흐린 청록","하양"],
+  desc:"청록 계열이 화면 전체를 지배하는 도미넌트 배색이다. 박하향의 시원하고 청량한 이미지는 고명도의 청록 계열이 지배적일 때 강화되므로 밝기 단계만 다른 청록을 전체에 반복 사용해 청량감을 각인시켰다."},
+ {label:"2",q:"리듬감과 경쾌함이 느껴지는 이미지를 반복 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["선명한 빨강","선명한 노랑","선명한 파랑"],
+  desc:"고채도의 삼원색을 일정한 간격으로 되풀이하는 반복배색이다. 리듬감과 경쾌함은 고채도 색의 반복적 패턴에서 강화되므로 빨강·노랑·파랑을 균등한 간격으로 배치해 시각적 리듬을 표현하였다."},
+ {label:"3",q:"S/S 패션 트렌드, 고급스럽고 차분한 미니멀리즘을 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"연한 회색",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"탁한 베이지빛 노랑",p:20},{r:"보조",n:"검정",p:5},{r:"강조",n:"진한 남색",p:10}],
+  desc:"주조색 연한 회색·하양은 미니멀하고 절제된 고급스러움을 형성하고, 보조색 탁한 노랑·검정은 차분함을 더한다. 강조색 진한 남색을 액세서리 포인트에 배치해 트렌디한 세련미를 강조하였다."},
+ {label:"4",q:"4등급 경유차 조기폐차 캠페인 포스터, 대기오염 심각성과 친환경 이미지를 대비시켜 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"어두운 회색",p:35},{r:"주조",n:"탁한 검정",p:30},{r:"보조",n:"흐린 초록",p:20},{r:"보조",n:"하양",p:5},{r:"강조",n:"선명한 초록",p:10}],
+  desc:"대표 주조색 어두운 회색·검정은 대기오염의 심각성을 시각적으로 경고하고, 보조색 흐린 초록·하양은 대비되는 친환경 이미지를 형성한다. 강조색 선명한 초록을 캠페인 로고에 배치해 개선 방향을 명확히 강조하였다."}
+]},
+{no:"⑮",items:[
+ {label:"1",q:"자연적이고 풍성한 이미지를 토널(tonal) 배색하고 배색의도를 서술하시오.",tech:"토널",
+  colors:["탁한 초록","탁한 갈색","탁한 노랑"],
+  desc:"중명도·중채도의 탁한 톤을 사용하는 토널 배색이다. 자연적이고 풍성한 이미지는 저채도의 중간 톤에서 강화되므로 초록·갈색·노랑을 모두 탁한 톤으로 맞춰 자연의 깊이감을 표현하였다."},
+ {label:"2",q:"40대 여성 겨냥 기능적이고 세련된 골프웨어를 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["하양","연한 회색","선명한 청록"],
+  desc:"기능적이고 세련된 이미지는 무채색과 고채도 한색의 대비에서 강화되므로 하양·연한 회색을 바탕으로 선명한 청록을 포인트로 배치해 활동적이면서도 세련된 인상을 표현하였다."},
+ {label:"3",q:"공항 서비스 엠블럼(얼굴 스캔 수속), 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"진한 파랑",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"연한 회색",p:20},{r:"보조",n:"탁한 파랑",p:5},{r:"강조",n:"선명한 파랑",p:10}],
+  desc:"주조색 진한 파랑·하양은 신뢰감 있는 첨단 서비스 이미지를 형성하고, 보조색 연한 회색·탁한 파랑은 정밀함을 더한다. 강조색 선명한 파랑을 엠블럼 라인에 배치해 미래지향적인 인상을 강조하였다."},
+ {label:"4",q:"필름콘서트 오케스트라 무대 디자인, 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"진한 남색",p:35},{r:"주조",n:"검정",p:30},{r:"보조",n:"진한 자주",p:20},{r:"보조",n:"회색",p:5},{r:"강조",n:"금빛에 가까운 노랑",p:10}],
+  desc:"대표 주조색 진한 남색·검정은 클래식 공연장의 웅장하고 감성적인 분위기를 형성하고, 보조색 진한 자주는 영화적 감성을 더한다. 강조색 노랑(금빛)을 조명 포인트에 배치해 화려함을 강조하였다."}
+]},
+{no:"⑯",items:[
+ {label:"1",q:"'합리적이고 하이테크한' 이미지를 톤 온 톤으로 배색하고 배색의도를 서술하시오.",tech:"톤온톤",
+  colors:["진한 회색","연한 회색","하양","검정"],
+  desc:"무채색 계열의 동일 색상에서 명도차를 크게 둔 톤 온 톤 배색이다. 합리적이고 하이테크한 이미지는 무채색의 명도 대비에서 강화되므로 검정에서 하양까지 명도 단계를 활용해 첨단감을 표현하였다."},
+ {label:"2",q:"대학생 에코백, 밝고 명랑한 느낌과 명시성을 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["밝은 노랑","선명한 초록","하양"],
+  desc:"밝고 명랑한 이미지와 명시성은 고명도·고채도 색의 조합에서 강화되므로 밝은 노랑과 선명한 초록을 주 색상으로, 하양을 배색해 명랑하고 눈에 잘 띄는 인상을 표현하였다."},
+ {label:"3",q:"윈터 스노우 페스티벌 포스터, 겨울 스포츠의 낭만과 즐거움을 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"하양",p:35},{r:"주조",n:"연한 하늘빛 파랑",p:30},{r:"보조",n:"연한 회색",p:20},{r:"보조",n:"진한 파랑",p:5},{r:"강조",n:"진한 빨강",p:10}],
+  desc:"주조색 하양·연한 하늘빛 파랑은 설원의 낭만적 이미지를 형성하고, 보조색 연한 회색·진한 파랑은 겨울의 차가움을 더한다. 강조색 진한 빨강을 그래픽 포인트에 배치해 즐거운 축제 분위기를 강조하였다."},
+ {label:"4",q:"오래된 한옥 리모델링, 자연의 거칠고 소박한 소재와 생활 편리성을 보완한 배색과 대표 주조·보조·강조색의 색이름 및 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"탁한 갈색",p:35},{r:"주조",n:"연한 회색",p:30},{r:"보조",n:"하양",p:20},{r:"보조",n:"흐린 초록",p:5},{r:"강조",n:"진한 갈색",p:10}],
+  desc:"대표 주조색 탁한 갈색·연한 회색은 한옥의 나무와 흙벽의 소박한 질감을 표현하고, 보조색 하양·흐린 초록은 현대적 편리성을 더한다. 강조색 진한 갈색을 서까래·문틀에 배치해 전통미를 강조하였다."}
+]},
+{no:"⑰",items:[
+ {label:"1",q:"붉게 잘 익은 과일을 강렬한 보색대비와 함께 돋보이도록 배색하고 배색의도를 서술하시오.",tech:"보색대비",
+  colors:["진한 빨강","선명한 초록","하양","진한 청록"],
+  desc:"빨강과 초록의 보색대비를 활용한 배색이다. 잘 익은 과일의 신선함과 강렬함은 색상환 정반대에 위치한 색의 대비에서 극대화되므로, 진한 빨강을 선명한 초록·청록 배경 위에 배치해 과일이 가장 선명하게 돋보이도록 표현하였다."},
+ {label:"2",q:"'즐거운, 활동적인' 형용사를 참고한 어린이 선호 교통카드 이미지를 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["선명한 노랑","선명한 주황","선명한 파랑"],
+  desc:"즐겁고 활동적인 이미지는 고채도의 다채로운 난색·한색 조합에서 강화되므로 노랑·주황·파랑을 모두 선명한 톤으로 사용해 어린이의 발랄한 활동성을 표현하였다."},
+ {label:"3",q:"패스트 패션에 지친 소비자 타깃 F/W 의상, 절제미와 모던한 콘셉트를 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"검정",p:35},{r:"주조",n:"연한 회색",p:30},{r:"보조",n:"하양",p:20},{r:"보조",n:"탁한 갈색",p:5},{r:"강조",n:"진한 남색",p:10}],
+  desc:"주조색 검정·연한 회색은 절제되고 모던한 이미지를 형성하고, 보조색 하양·탁한 갈색은 자연스러운 소재감을 더한다. 강조색 진한 남색을 디테일 포인트에 배치해 현대적으로 재해석된 세련미를 강조하였다."},
+ {label:"4",q:"대학생 대상 화상 교육 플랫폼 메인 화면, 스마트하고 감각적이면서 집중력을 높이는 배색과 대표 주조·보조·강조색의 색이름 및 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"하양",p:35},{r:"주조",n:"연한 회색",p:30},{r:"보조",n:"흐린 파랑",p:20},{r:"보조",n:"검정",p:5},{r:"강조",n:"선명한 파랑",p:10}],
+  desc:"대표 주조색 하양·연한 회색은 학습 집중에 필요한 절제된 배경을 형성하고, 보조색 흐린 파랑·검정은 안정감을 더한다. 강조색 선명한 파랑을 인터페이스 버튼에 배치해 스마트하고 감각적인 인상을 강조하였다."}
+]},
+{no:"⑱",items:[
+ {label:"1",q:"부드럽고 동화적인 이미지를 반대색상·유사색조로 배색하고 배색의도를 서술하시오.",tech:"반대색상유사색조",
+  colors:["흐린 노랑","흐린 남색","연한 분홍","연한 청록"],
+  desc:"색상은 반대(보색)이지만 명도·채도는 비슷한 파스텔 톤으로 맞춘 반대색상 유사색조 배색이다. 부드럽고 동화적인 이미지는 대비되는 색상이라도 톤이 부드러우면 강화되므로, 고명도 저채도의 톤으로 통일해 온화한 대비를 표현하였다."},
+ {label:"2",q:"'청결한, 신선한, 샤프한' 형용사를 참고한 30대 남성 욕실 타일 이미지를 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["하양","연한 회색","선명한 청록"],
+  desc:"청결하고 신선하며 샤프한 이미지는 무채색과 고채도 청록의 조합에서 강화되므로 하양·연한 회색을 바탕으로 선명한 청록을 포인트로 배치해 위생적이고 시원한 인상을 표현하였다."},
+ {label:"3",q:"은행 어플리케이션, 친근하고 편안한 느낌을 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"하양",p:35},{r:"주조",n:"흐린 파랑",p:30},{r:"보조",n:"연한 회색",p:20},{r:"보조",n:"밝은 노랑",p:5},{r:"강조",n:"진한 파랑",p:10}],
+  desc:"주조색 하양·흐린 파랑은 신뢰감 있고 편안한 금융 서비스 이미지를 형성하고, 보조색 연한 회색·밝은 노랑은 친근함을 더한다. 강조색 진한 파랑을 버튼·아이콘에 배치해 사용성과 신뢰도를 강조하였다."},
+ {label:"4",q:"전자제품 예술적 감성, 개성적이고 위트있는 차별화된 배색과 대표 주조·보조·강조색의 색이름 및 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"하양",p:35},{r:"주조",n:"검정",p:30},{r:"보조",n:"연한 회색",p:20},{r:"보조",n:"선명한 노랑",p:5},{r:"강조",n:"진한 자주",p:10}],
+  desc:"대표 주조색 하양·검정은 절제된 제품 본체의 이미지를 형성하고, 보조색 연한 회색·선명한 노랑은 위트를 더한다. 강조색 진한 자주를 버튼·로고에 배치해 예술적이고 차별화된 개성을 강조하였다."}
+]},
+{no:"⑲",items:[
+ {label:"1",q:"라벤다 향이 연상되도록 방향제(디퓨저)를 배색하고 배색의도를 서술하시오.",tech:"단일소재",
+  colors:["흐린 보라","연한 보라","연한 회보라","하양"],
+  desc:"보라 계열의 저채도 톤을 중심으로 배색하였다. 라벤다 향의 은은하고 차분한 이미지는 저채도·고명도의 보라 계열에서 강화되므로 흐린 보라를 중심으로 톤을 밝게 유지해 은은한 향의 이미지를 표현하였다."},
+ {label:"2",q:"고요하고 정적인 필라테스 운동복을 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["연한 회색","흐린 청록","하양"],
+  desc:"고요하고 정적인 이미지는 저채도·중고명도의 한색 계열에서 강화되므로 연한 회색을 주색으로 흐린 청록·하양을 배색해 차분하고 안정된 인상을 표현하였다."},
+ {label:"3",q:"매운 음식 유튜브 채널의 배경 이미지, 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"진한 빨강",p:35},{r:"주조",n:"검정",p:30},{r:"보조",n:"어두운 회색",p:20},{r:"보조",n:"진한 주황",p:5},{r:"강조",n:"선명한 노랑",p:10}],
+  desc:"주조색 진한 빨강·검정은 맵고 자극적인 이미지를 강렬하게 표현하고, 보조색 어두운 회색·진한 주황은 뜨거운 열기를 더한다. 강조색 선명한 노랑을 채널 로고에 배치해 시선을 사로잡는 포인트로 사용하였다."},
+ {label:"4",q:"Virtual Artist 싱글앨범 무대 색채, 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"검정",p:35},{r:"주조",n:"진한 남색",p:30},{r:"보조",n:"진한 자주",p:20},{r:"보조",n:"회색",p:5},{r:"강조",n:"선명한 파랑",p:10}],
+  desc:"'신비롭고 미래적인' 형용사를 선정하여, 대표 주조색 검정·진한 남색은 디지털 아티스트의 신비로운 무대 배경을 형성한다. 보조색 진한 자주는 몽환적 분위기를 더하고, 강조색 선명한 파랑을 조명 라인에 배치해 미래적 감성을 강조하였다."}
+]},
+{no:"⑳",items:[
+ {label:"1",q:"모리스 데리베레의 무스크(musk)향이 연상되도록 배색하고 배색의도를 서술하시오.",tech:"단일소재",
+  colors:["진한 갈색","탁한 자주","어두운 회색","검정"],
+  desc:"무스크 향의 관능적이고 깊이 있는 이미지는 저명도의 갈색·자주 계열에서 강화되므로 진한 갈색을 중심으로 탁한 자주·어두운 회색을 배색해 신비롭고 묵직한 향의 이미지를 표현하였다."},
+ {label:"2",q:"차이콥스키 '백조의 호수'의 신비하고 우아한 이미지를 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["하양","연한 회색","진한 남색"],
+  desc:"백조의 신비하고 우아한 이미지는 고명도 무채색과 저명도 한색의 조합에서 강화되므로 하양·연한 회색을 바탕으로 진한 남색을 배색해 우아하고 몽환적인 발레의 정취를 표현하였다."},
+ {label:"3",q:"전통 놀이문화 팽이디자인, 오간색을 활용한 배색과 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"녹색(오간색)",p:35},{r:"주조",n:"자색(오간색)",p:30},{r:"보조",n:"벽색(오간색)",p:20},{r:"보조",n:"유황색(오간색)",p:5},{r:"강조",n:"진한 빨강",p:10}],
+  desc:"오방색 사이의 다섯 간색인 녹색·자색·벽색·유황색을 주·보조색으로 활용해 전통 놀이문화의 정취를 표현하였다. 강조색 진한 빨강을 팽이 중심에 배치해 회전 시의 시각적 리듬감을 강조하였다."},
+ {label:"4",q:"무알콜 음료 패키지, 캐주얼하고 경쾌한 이미지를 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"선명한 노랑",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"밝은 청록",p:20},{r:"보조",n:"연한 회색",p:5},{r:"강조",n:"진한 주황",p:10}],
+  desc:"대표 주조색 선명한 노랑·하양은 캐주얼하고 경쾌한 이미지를 형성하고, 보조색 밝은 청록은 청량감을 더한다. 강조색 진한 주황을 라벨 포인트에 배치해 젊은 층을 겨냥한 활기를 강조하였다."}
+]},
+{no:"㉑",items:[
+ {label:"1",q:"보수적이고 고상한 이미지를 유사색상·유사색조로 배색하고 배색의도를 서술하시오.",tech:"유사색상유사색조",
+  colors:["진한 남색","탁한 보라","어두운 회색"],
+  desc:"인접한 남색·보라를 저채도·저명도의 유사한 톤으로 맞춘 유사색상 유사색조 배색이다. 보수적이고 고상한 이미지는 저채도·저명도의 한색·보라 계열에서 강화되므로 톤을 무겁게 통일해 격식 있는 인상을 표현하였다."},
+ {label:"2",q:"디자인 문구·생활 잡화 쇼핑몰 웹디자인, 아기자기하고 즐거운 이미지를 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["연한 분홍","밝은 노랑","연한 청록"],
+  desc:"아기자기하고 즐거운 이미지는 고명도의 파스텔톤 조합에서 강화되므로 분홍·노랑·청록을 모두 밝고 부드러운 톤으로 맞춰 사랑스러운 인상을 표현하였다."},
+ {label:"3",q:"퍼스널컬러 여름 유형(피부가 희고 얇으며 차가운 핑크빛)에 어울리는 배색과 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"연한 회색",p:35},{r:"주조",n:"흐린 파랑",p:30},{r:"보조",n:"연한 분홍",p:20},{r:"보조",n:"하양",p:5},{r:"강조",n:"진한 회보라",p:10}],
+  desc:"여름 유형은 차가운 언더톤과 낮은 채도가 어울리므로 주조색 연한 회색·흐린 파랑으로 쿨톤 베이스를 형성하고, 보조색 연한 분홍·하양으로 화사함을 더한다. 강조색 진한 회보라를 포인트로 배치해 여름 타입의 우아함을 강조하였다."},
+ {label:"4",q:"제주도 게스트하우스 휴게실·공유공간 리디자인, 고즈넉한 힐링 이미지를 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"흐린 청록",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"연한 회색",p:20},{r:"보조",n:"탁한 갈색",p:5},{r:"강조",n:"진한 청록",p:10}],
+  desc:"대표 주조색 흐린 청록·하양은 제주 바다의 고즈넉한 이미지를 형성하고, 보조색 연한 회색·탁한 갈색은 자연 소재감을 더한다. 강조색 진한 청록을 소품 포인트에 배치해 힐링의 깊이감을 강조하였다."}
+]},
+{no:"㉒",items:[
+ {label:"1",q:"무거운 무게감과 거친 질감의 이미지를 톤 온 톤으로 배색하고 배색의도를 서술하시오.",tech:"톤온톤",
+  colors:["어두운 갈색","진한 회갈색","탁한 갈색","연한 회색"],
+  desc:"갈색 계열의 동일 색상에서 명도차를 크게 둔 톤 온 톤 배색이다. 무거운 무게감과 거친 질감은 저명도의 갈색·회갈색 계열에서 강화되므로 어두운 갈색에서 연한 회색까지 명도 단계를 활용해 표현하였다."},
+ {label:"2",q:"한국사 교육 웹사이트, 전통색을 포함하여 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["진한 빨강(전통 홍색)","진한 남색(전통 남색)","하양"],
+  desc:"외국인의 흥미를 이끄는 전통 이미지는 한국 고유의 홍색·남색 조합에서 강화되므로 진한 빨강·진한 남색을 주 색상으로, 하양을 배색해 전통색의 정체성을 살렸다."},
+ {label:"3",q:"'반려동물 사랑 나눔 축제' 홍보 포스터, 사랑스럽고 친근한 반려동물 이미지를 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"밝은 주황",p:35},{r:"주조",n:"연한 노랑",p:30},{r:"보조",n:"하양",p:20},{r:"보조",n:"연한 회색",p:5},{r:"강조",n:"진한 주황",p:10}],
+  desc:"주조색 밝은 주황·연한 노랑은 반려동물의 사랑스럽고 친근한 이미지를 형성하고, 보조색 하양·연한 회색은 안정감을 더한다. 강조색 진한 주황을 포스터 타이포에 배치해 축제의 활기를 강조하였다."},
+ {label:"4",q:"30대 전문직 여성 주방·홈오피스 복합공간, 깔끔하고 세련된 이미지를 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"하양",p:35},{r:"주조",n:"연한 회색",p:30},{r:"보조",n:"검정",p:20},{r:"보조",n:"탁한 갈색",p:5},{r:"강조",n:"진한 남색",p:10}],
+  desc:"대표 주조색 하양·연한 회색은 깔끔하고 세련된 공간 이미지를 형성하고, 보조색 검정·탁한 갈색은 실용성과 고급감을 더한다. 강조색 진한 남색을 가구 포인트에 배치해 전문직 여성의 절제된 감각을 강조하였다."}
+]},
+{no:"㉓",items:[
+ {label:"1",q:"마시는 비타민 음료 패키지를 배색하고 배색의도를 서술하시오.",tech:"단일소재",
+  colors:["밝은 노랑","선명한 주황","하양","연한 회색"],
+  desc:"비타민의 상큼하고 건강한 이미지는 고채도의 노랑·주황 계열에서 강화되므로 밝은 노랑과 선명한 주황을 중심으로, 하양·연한 회색을 배색해 상쾌하고 신뢰감 있는 이미지를 표현하였다."},
+ {label:"2",q:"섹시하고 화려한 이미지를 콘셉트로 하는 여성 아이돌 그룹의 패션디자인을 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["진한 빨강","검정","금빛에 가까운 노랑"],
+  desc:"섹시하고 화려한 이미지는 저명도 무채색과 고채도 난색의 강한 대비에서 강화되므로 진한 빨강과 검정을 주 색상으로, 노랑(금빛)을 배색해 화려하고 강렬한 인상을 표현하였다."},
+ {label:"3",q:"알폰스 무하의 일러스트에서 느껴지는 아르누보 색채, 주조·보조·강조색의 배색의도를 작성하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"흐린 청록",p:35},{r:"주조",n:"탁한 노랑",p:30},{r:"보조",n:"연한 회색",p:20},{r:"보조",n:"진한 자주",p:5},{r:"강조",n:"금빛에 가까운 노랑",p:10}],
+  desc:"주조색 흐린 청록·탁한 노랑은 아르누보 특유의 장식적이고 신비로운 이미지를 형성하고, 보조색 연한 회색·진한 자주는 우아함을 더한다. 강조색 노랑(금빛)을 곡선 장식 라인에 배치해 화려한 장식성을 강조하였다."},
+ {label:"4",q:"30대 그루밍족 남성 헤어샵 인테리어, 고급스럽고 세련된 위스키향 이미지를 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"진한 갈색",p:35},{r:"주조",n:"검정",p:30},{r:"보조",n:"연한 회색",p:20},{r:"보조",n:"탁한 주황",p:5},{r:"강조",n:"금빛에 가까운 노랑",p:10}],
+  desc:"대표 주조색 진한 갈색·검정은 위스키의 묵직하고 고급스러운 이미지를 형성하고, 보조색 연한 회색·탁한 주황은 우드톤의 따뜻함을 더한다. 강조색 노랑(금빛)을 조명·소품에 배치해 세련미를 강조하였다."}
+]},
+{no:"㉔",items:[
+ {label:"1",q:"'산뜻하고 시원한 바람' 이미지를 톤 인 톤으로 배색하고 배색의도를 서술하시오.",tech:"톤인톤",
+  colors:["연한 청록","연한 파랑","하양"],
+  desc:"색상은 다르지만 고명도·저채도의 유사한 톤으로 맞춘 톤 인 톤 배색이다. 산뜻하고 시원한 바람의 이미지는 고명도의 한색 계열에서 강화되므로 청록·파랑·하양의 톤을 맑게 통일해 청량감을 표현하였다."},
+ {label:"2",q:"유아용 놀이블록 패키지, '귀엽고 경쾌한' 이미지를 유사색조로 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["선명한 노랑","선명한 빨강","선명한 파랑"],
+  desc:"귀엽고 경쾌한 이미지는 고채도의 원색 계열이 비슷한 톤(유사색조)으로 맞춰질 때 강화되므로 노랑·빨강·파랑을 모두 선명한 톤으로 통일해 명랑한 인상을 표현하였다."},
+ {label:"3",q:"차이나타운 관광 인포메이션 센터 사인, 주목성과 가독성을 확보하되 중국문화를 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"진한 빨강",p:35},{r:"주조",n:"금빛에 가까운 노랑",p:30},{r:"보조",n:"검정",p:20},{r:"보조",n:"하양",p:5},{r:"강조",n:"진한 노랑",p:10}],
+  desc:"주조색 진한 빨강·노랑(금빛)은 중국 문화의 상징색으로 주목성을 확보하고, 보조색 검정·하양은 사인의 가독성을 더한다. 강조색 진한 노랑을 화살표·아이콘에 배치해 안내 기능을 강조하였다."},
+ {label:"4",q:"클래식음악 공연장 무대·객석, 차분하고 편안한 이미지를 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"진한 자주",p:35},{r:"주조",n:"어두운 갈색",p:30},{r:"보조",n:"연한 회색",p:20},{r:"보조",n:"금빛에 가까운 노랑",p:5},{r:"강조",n:"검정",p:10}],
+  desc:"대표 주조색 진한 자주·어두운 갈색은 공연장의 차분하고 웅장한 이미지를 형성하고, 보조색 연한 회색·노랑(금빛)은 품격을 더한다. 강조색 검정을 무대 프레임에 배치해 집중감을 강조하였다."}
+]},
+{no:"㉕",items:[
+ {label:"1",q:"둔하고 탁한 소리가 연상되도록 톤 인 톤 배색하고 배색의도를 서술하시오.",tech:"톤인톤",
+  colors:["탁한 갈색","탁한 회보라","탁한 회색"],
+  desc:"색상은 다르지만 저채도의 유사한 톤(탁색)으로 맞춘 톤 인 톤 배색이다. 둔하고 탁한 소리의 이미지는 저채도의 여러 색상이 비슷한 흐림 정도로 섞일 때 강화되므로 갈색·회보라·회색을 모두 탁한 톤으로 통일해 표현하였다."},
+ {label:"2",q:"무인 인형 뽑기 샵 전면 이미지, 귀엽고 경쾌하게 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["연한 분홍","밝은 노랑","선명한 파랑"],
+  desc:"귀엽고 경쾌한 이미지는 고명도 파스텔과 고채도 포인트의 조합에서 강화되므로 연한 분홍·밝은 노랑을 바탕으로 선명한 파랑을 포인트로 배치해 발랄한 인상을 표현하였다."},
+ {label:"3",q:"퇴행성 뇌질환(치매) 신약 치료제 패키지, 안전성과 유효성이 전달되도록 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"하양",p:35},{r:"주조",n:"연한 회색",p:30},{r:"보조",n:"흐린 파랑",p:20},{r:"보조",n:"검정",p:5},{r:"강조",n:"진한 파랑",p:10}],
+  desc:"주조색 하양·연한 회색은 의약품의 안전성과 청결함을 형성하고, 보조색 흐린 파랑·검정은 신뢰감을 더한다. 강조색 진한 파랑을 성분 정보 박스에 배치해 유효성에 대한 신뢰를 강조하였다."},
+ {label:"4",q:"건강기능 팝업스토어(무농약·저탄소 GAP), 매장 인테리어 콘셉트를 설정해 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"흐린 초록",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"연한 회색",p:20},{r:"보조",n:"탁한 갈색",p:5},{r:"강조",n:"진한 초록",p:10}],
+  desc:"'건강하고 친환경적인' 콘셉트로, 대표 주조색 흐린 초록·하양은 무농약·저탄소 인증 이미지를 형성한다. 보조색 연한 회색·탁한 갈색은 자연 소재감을 더하고, 강조색 진한 초록을 인증 마크 포인트에 배치해 신뢰도를 강조하였다."}
+]},
+{no:"㉖",items:[
+ {label:"1",q:"행복하고 유쾌한 이미지가 연상되도록 톤 온 톤으로 배색하고 배색의도를 서술하시오.",tech:"톤온톤",
+  colors:["밝은 노랑","선명한 노랑","진한 노랑","연한 노랑"],
+  desc:"노랑 계열의 동일 색상에서 명도차를 둔 톤 온 톤 배색이다. 행복하고 유쾌한 이미지는 고명도·고채도의 노랑 계열에서 강화되므로 톤 단계를 다양하게 배치해 밝고 긍정적인 인상을 표현하였다."},
+ {label:"2",q:"역동적이고 강렬한 이미지의 스포츠 음료 패키지, 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["선명한 파랑","선명한 노랑","검정"],
+  desc:"역동적이고 강렬한 이미지는 고채도 한색·난색의 대비와 무채색의 조합에서 강화되므로 선명한 파랑·노랑을 강한 대비로 배치하고 검정으로 정돈해 스포츠의 에너지를 표현하였다."},
+ {label:"3",q:"100주년 대학병원 간호사 유니폼, 전문적이고 정갈한 이미지를 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"하양",p:35},{r:"주조",n:"연한 회색",p:30},{r:"보조",n:"흐린 파랑",p:20},{r:"보조",n:"회색",p:5},{r:"강조",n:"진한 파랑",p:10}],
+  desc:"주조색 하양·연한 회색은 전문적이고 정갈한 이미지를 형성하고, 보조색 흐린 파랑·회색은 신뢰감을 더한다. 강조색 진한 파랑을 유니폼 라인·배지에 배치해 전문성을 강조하였다."},
+ {label:"4",q:"폐교를 자연사 박물관으로 리모델링, 세월의 흔적과 자연의 깊이감을 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"탁한 갈색",p:35},{r:"주조",n:"어두운 회색",p:30},{r:"보조",n:"흐린 초록",p:20},{r:"보조",n:"연한 회색",p:5},{r:"강조",n:"진한 갈색",p:10}],
+  desc:"대표 주조색 탁한 갈색·어두운 회색은 세월의 흔적을 담은 낡은 건축물의 질감을 형성하고, 보조색 흐린 초록은 자연의 깊이감을 더한다. 강조색 진한 갈색을 전시대 포인트에 배치해 역사성을 강조하였다."}
+]},
+{no:"㉗",items:[
+ {label:"1",q:"견고하고 남성적인 이미지 언어를 무채색 N5 분리색을 사용하여 배색하고 배색의도를 서술하시오.",tech:"분리배색",
+  colors:["진한 남색","검정","회색(N5)","진한 회색"],
+  desc:"견고하고 남성적인 이미지는 저명도의 한색·무채색 조합에서 강화되므로 진한 남색과 검정을 대비시키되, 그 사이에 회색(N5)을 분리색으로 끼워 넣어 강한 대비를 정돈된 견고함으로 완화하여 표현하였다."},
+ {label:"2",q:"백화점 전문 식품관 생선 횟집 홍보용 DID를 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["진한 파랑","하양","연한 회색"],
+  desc:"신선한 해산물의 이미지는 고명도 무채색과 저명도 파랑의 조합에서 강화되므로 진한 파랑을 주 색상으로 하양·연한 회색을 배색해 청결하고 신선한 인상을 표현하였다."},
+ {label:"3",q:"디저트 카페 리뉴얼, 빈티지 & 레트로 이미지를 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"진한 갈색",p:35},{r:"주조",n:"탁한 주황",p:30},{r:"보조",n:"흐린 노랑",p:20},{r:"보조",n:"연한 회색",p:5},{r:"강조",n:"진한 초록",p:10}],
+  desc:"주조색 진한 갈색·탁한 주황은 커피와 베이커리의 빈티지한 향을 시각화하고, 보조색 흐린 노랑·연한 회색은 레트로한 따뜻함을 더한다. 강조색 진한 초록을 간판·소품 포인트에 배치해 복고적 감성을 강조하였다."},
+ {label:"4",q:"불우 어린이 후원 공익 캠페인 '사랑 나눔', 형용사 언어를 선정해 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"연한 분홍",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"밝은 노랑",p:20},{r:"보조",n:"흐린 주황",p:5},{r:"강조",n:"진한 분홍",p:10}],
+  desc:"'따뜻하고 희망적인' 형용사를 선정하여, 대표 주조색 연한 분홍·하양은 사랑과 나눔의 온화한 이미지를 형성한다. 보조색 밝은 노랑·흐린 주황은 희망을 더하고, 강조색 진한 분홍을 캠페인 로고에 배치해 대중의 호응을 이끄는 포인트로 강조하였다."}
+]},
+{no:"㉘",items:[
+ {label:"1",q:"보수적이고 고상한 이미지를 유사색상·유사색조로 배색하고 배색의도를 서술하시오.",tech:"유사색상유사색조",
+  colors:["진한 남색","탁한 보라","어두운 회색"],
+  desc:"인접한 남색·보라를 저채도·저명도의 유사한 톤으로 맞춘 유사색상 유사색조 배색이다. 보수적이고 고상한 이미지는 저채도·저명도의 한색·보라 계열에서 강화되므로 톤을 무겁게 통일해 격식 있는 인상을 표현하였다."},
+ {label:"2",q:"항구도시 아침, 습하고 뿌연 느낌을 배색하고 배색의도를 서술하시오. (무채색 제외)",cond:"3가지 이상의 색상, 명도·채도 고려, 무채색 제외",
+  colors:["탁한 파랑","흐린 청록","탁한 남색"],
+  desc:"습하고 뿌연 항구 아침의 이미지는 저채도의 한색 계열(무채색 제외)에서 강화되므로 탁한 파랑·흐린 청록·탁한 남색을 배색해 안개 낀 듯한 흐릿한 분위기를 표현하였다."},
+ {label:"3",q:"신생아·유아용 제품 매장, 엄마의 사랑과 아이의 순수함을 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"연한 분홍",p:35},{r:"주조",n:"흐린 노랑",p:30},{r:"보조",n:"하양",p:20},{r:"보조",n:"연한 청록",p:5},{r:"강조",n:"밝은 분홍",p:10}],
+  desc:"주조색 연한 분홍·흐린 노랑은 엄마의 사랑과 아이의 순수함을 온화하게 표현하고, 보조색 하양·연한 청록은 청결함을 더한다. 강조색 밝은 분홍을 매장 사인에 배치해 사랑스러운 이미지를 강조하였다."},
+ {label:"4",q:"뮤지컬 무대 색채계획, 강인하고 다이내믹한 이미지를 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 쓰시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"진한 빨강",p:35},{r:"주조",n:"검정",p:30},{r:"보조",n:"어두운 회색",p:20},{r:"보조",n:"진한 남색",p:5},{r:"강조",n:"금빛에 가까운 노랑",p:10}],
+  desc:"대표 주조색 진한 빨강·검정은 주인공의 강인한 의지와 다이내믹한 서사를 형성하고, 보조색 어두운 회색·진한 남색은 역경의 무게감을 더한다. 강조색 노랑(금빛)을 클라이맥스 조명에 배치해 성공의 희망을 강조하였다."}
+]},
+{no:"㉙",items:[
+ {label:"1",q:"근육통을 완화시킬 수 있는 릴렉싱 온열패치를 배색하고 배색의도를 서술하시오.",tech:"단일소재",
+  colors:["흐린 주황","연한 노랑","하양","탁한 갈색"],
+  desc:"온열패치의 따뜻하고 편안한 이미지는 고명도의 난색 계열에서 강화되므로 흐린 주황을 중심으로 연한 노랑·하양·탁한 갈색을 배색해 따뜻한 이완감을 표현하였다."},
+ {label:"2",q:"구수하고 진한 된장 육수 베이스 라면전문점 시그니처 메인 음식 이미지를 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["진한 갈색","탁한 노랑","진한 빨강"],
+  desc:"구수하고 진한 된장 육수의 이미지는 저명도의 갈색·노랑 계열에서 강화되므로 진한 갈색을 주색으로 탁한 노랑·진한 빨강을 배색해 깊고 진한 맛의 이미지를 표현하였다."},
+ {label:"3",q:"도서권역 지붕색채, '푸른바다, 환상의 섬'을 콘셉트로 반대색상 배색하고 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상, 반대색상",
+  roles:[{r:"주조",n:"진한 파랑",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"진한 주황",p:20},{r:"보조",n:"연한 회색",p:5},{r:"강조",n:"선명한 노랑",p:10}],
+  desc:"주조색 진한 파랑·하양은 푸른 바다의 청량한 이미지를 형성하고, 보조색 진한 주황은 파랑과 반대색상 대비를 이뤄 지붕의 존재감을 살린다. 강조색 선명한 노랑을 지붕 라인에 배치해 환상적인 섬의 개성을 강조하였다."},
+ {label:"4",q:"스타트업 기업 연매출 상승효과와 미래 기대감을 인포그래픽으로 점진적인 느낌으로 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"연한 파랑",p:35},{r:"주조",n:"흐린 파랑",p:30},{r:"보조",n:"진한 파랑",p:20},{r:"보조",n:"하양",p:5},{r:"강조",n:"선명한 주황",p:10}],
+  desc:"대표 주조색 연한 파랑에서 진한 파랑까지 동일 색상의 명도 단계를 점진적으로 배치해 성장의 흐름을 시각화했다. 보조색 하양은 여백을, 강조색 선명한 주황은 핵심 데이터 포인트에 배치해 미래 기대감을 강조하였다."}
+]},
+{no:"㉚",items:[
+ {label:"1",q:"은은한 홍차와 달콤한 흑임자 케이크가 연상되도록 배색하고 배색의도를 서술하시오.",tech:"단일소재",
+  colors:["탁한 자주","진한 갈색","연한 회색","하양"],
+  desc:"홍차와 흑임자의 은은하고 고소한 이미지는 저채도의 자주·갈색 계열에서 강화되므로 탁한 자주와 진한 갈색을 중심으로 연한 회색·하양을 배색해 은은한 디저트의 정취를 표현하였다."},
+ {label:"2",q:"대학 축제 경쾌하고 활기찬 사물놀이 의상을 배색하고 배색의도를 서술하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["진한 빨강","선명한 파랑","선명한 노랑"],
+  desc:"경쾌하고 활기찬 사물놀이 의상의 이미지는 전통 오방색 계열의 고채도 조합에서 강화되므로 빨강·파랑·노랑을 선명한 톤으로 배색해 흥겨운 전통 축제의 활력을 표현하였다."},
+ {label:"3",q:"섭식장애 환자를 위한 식사대용 음료 패키지, 주조·보조·강조색의 배색의도를 서술하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"하양",p:35},{r:"주조",n:"흐린 초록",p:30},{r:"보조",n:"연한 회색",p:20},{r:"보조",n:"연한 노랑",p:5},{r:"강조",n:"진한 초록",p:10}],
+  desc:"주조색 하양·흐린 초록은 건강 회복을 돕는 안전하고 신뢰감 있는 이미지를 형성하고, 보조색 연한 회색·연한 노랑은 부드러운 인상을 더한다. 강조색 진한 초록을 영양정보 포인트에 배치해 신뢰도를 강조하였다."},
+ {label:"4",q:"배달 로봇, 깨끗하고 친근한 이미지를 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 서술하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"하양",p:35},{r:"주조",n:"연한 회색",p:30},{r:"보조",n:"밝은 하늘빛 파랑",p:20},{r:"보조",n:"연한 노랑",p:5},{r:"강조",n:"진한 파랑",p:10}],
+  desc:"대표 주조색 하양·연한 회색은 깨끗하고 위생적인 이미지를 형성하고, 보조색 하늘빛 파랑·연한 노랑은 친근함을 더한다. 강조색 진한 파랑을 로봇 눈·안내등에 배치해 편리성과 신뢰감을 강조하였다."}
+]},
+{no:"㉛",items:[
+ {label:"1",q:"중후하고 클래식한 이미지를 유사색상·유사색조로 배색하고 배색의도를 작성하시오.",tech:"유사색상유사색조",
+  colors:["진한 갈색","어두운 자주","탁한 남색"],
+  desc:"인접한 갈색·자주·남색을 저명도·저채도의 유사한 톤으로 맞춘 유사색상 유사색조 배색이다. 중후하고 클래식한 이미지는 저채도·저명도 계열에서 강화되므로 톤을 무겁게 통일해 고전적인 품격을 표현하였다."},
+ {label:"2",q:"신규 런칭 SUV 차량 외부, 현대적이고 도시적인 이미지를 배색하고 배색의도를 작성하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["연한 회색","검정","선명한 파랑"],
+  desc:"현대적이고 도시적인 이미지는 무채색과 고채도 한색의 조합에서 강화되므로 연한 회색·검정을 바탕으로 선명한 파랑을 포인트로 배치해 세련된 도시적 감성을 표현하였다."},
+ {label:"3",q:"반려견 유기농 간식 패키지, 반대색상을 사용해 배색하고 배색의도를 작성하시오.",cond:"5색 이상·7면 이상, 반대색상",
+  roles:[{r:"주조",n:"흐린 초록",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"탁한 주황",p:20},{r:"보조",n:"연한 회색",p:5},{r:"강조",n:"진한 초록",p:10}],
+  desc:"주조색 흐린 초록·하양은 유기농 원료의 건강한 이미지를 형성하고, 보조색 탁한 주황은 초록과 반대색상 대비를 이뤄 식욕을 돋우는 포인트가 된다. 강조색 진한 초록을 브랜드 로고에 배치해 신뢰감을 강조하였다."},
+ {label:"4",q:"'국제 청소년 교육 협회' 정기 행사 포스터, 젊고 활기찬 이미지와 가독성을 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 작성하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"선명한 파랑",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"밝은 노랑",p:20},{r:"보조",n:"연한 회색",p:5},{r:"강조",n:"진한 주황",p:10}],
+  desc:"대표 주조색 선명한 파랑·하양은 국제적이고 신뢰감 있는 젊은 이미지를 형성하고, 보조색 밝은 노랑은 활기를 더한다. 강조색 진한 주황을 행사 타이틀에 배치해 가독성과 참여 열기를 강조하였다."}
+]},
+{no:"㉜",items:[
+ {label:"1",q:"따뜻한 온도감과 부드러움의 이미지가 연상되도록 톤 온 톤 배색하고 배색의도를 작성하시오.",tech:"톤온톤",
+  colors:["진한 주황","밝은 주황","연한 주황","흐린 노랑"],
+  desc:"주황 계열의 동일 색상에서 명도차를 둔 톤 온 톤 배색이다. 따뜻한 온도감과 부드러움은 고명도로 갈수록 강화되는 난색 계열에서 표현되므로 명도 단계를 활용해 온화한 느낌을 표현하였다."},
+ {label:"2",q:"20~30대 여성 핸드폰 케이스, 사랑스럽고 달콤한 이미지를 배색하고 배색의도를 작성하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["연한 분홍","밝은 분홍","하양"],
+  desc:"사랑스럽고 달콤한 이미지는 고명도의 분홍 계열 조합에서 강화되므로 연한 분홍과 밝은 분홍을 중심으로 하양을 배색해 달콤하고 여성스러운 인상을 표현하였다."},
+ {label:"3",q:"프리미엄 티(Tea) 패키지, 고급스럽고 기품 있는 이미지를 배색하고 배색의도를 작성하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"진한 초록",p:35},{r:"주조",n:"검정",p:30},{r:"보조",n:"연한 회색",p:20},{r:"보조",n:"탁한 갈색",p:5},{r:"강조",n:"금빛에 가까운 노랑",p:10}],
+  desc:"주조색 진한 초록·검정은 허브티의 깊고 풍부한 풍미를 고급스럽게 표현하고, 보조색 연한 회색·탁한 갈색은 기품을 더한다. 강조색 노랑(금빛)을 라벨 테두리에 배치해 프리미엄 이미지를 강조하였다."},
+ {label:"4",q:"초등학교 저학년 학습용 태블릿 메인페이지, 집중력 향상과 학습효과를 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 작성하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"하양",p:35},{r:"주조",n:"연한 회색",p:30},{r:"보조",n:"밝은 노랑",p:20},{r:"보조",n:"흐린 파랑",p:5},{r:"강조",n:"선명한 초록",p:10}],
+  desc:"대표 주조색 하양·연한 회색은 저학년 학습에 방해되지 않는 차분한 배경을 형성하고, 보조색 밝은 노랑·흐린 파랑은 흥미를 유도한다. 강조색 선명한 초록을 학습 진행 버튼에 배치해 성취감을 강조하였다."}
+]},
+{no:"㉝",items:[
+ {label:"1",q:"친근하고 전원적인 이미지를 토널(Tonal) 배색하고 배색의도를 작성하시오.",tech:"토널",
+  colors:["탁한 초록","탁한 노랑","탁한 갈색"],
+  desc:"중명도·중채도의 탁한 톤을 사용하는 토널 배색이다. 친근하고 전원적인 이미지는 저채도의 중간 톤에서 강화되므로 초록·노랑·갈색을 모두 탁한 톤으로 맞춰 편안한 시골의 정취를 표현하였다."},
+ {label:"2",q:"조개껍질 안쪽의 은은한 광택감을 유사색상 유사색조로 배색하고 배색의도를 작성하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["연한 청록","흐린 보라","하양"],
+  desc:"인접한 청록·보라를 고명도의 유사한 톤으로 맞춘 유사색상 유사색조 배색이다. 조개껍질의 은은한 광택감은 고명도·저채도의 진주빛 계열에서 강화되므로 톤을 밝고 은은하게 통일해 표현하였다."},
+ {label:"3",q:"어린이 전문 병원 대기실, 안정감을 유지하고 지루하지 않은 이미지를 배색하고 배색의도를 작성하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"흐린 노랑",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"밝은 청록",p:20},{r:"보조",n:"연한 분홍",p:5},{r:"강조",n:"선명한 노랑",p:10}],
+  desc:"주조색 흐린 노랑·하양은 어린이에게 안정감을 주는 밝고 온화한 이미지를 형성하고, 보조색 밝은 청록·연한 분홍은 지루하지 않은 다채로움을 더한다. 강조색 선명한 노랑을 캐릭터 포인트에 배치해 즐거움을 강조하였다."},
+ {label:"4",q:"겨울 타입 여성 퍼스널 컬러 가이드북, 트렌드에 민감한 소비자 대상 배색과 대표 주조·보조·강조색의 색이름 및 배색의도를 작성하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"검정",p:35},{r:"주조",n:"진한 자주",p:30},{r:"보조",n:"하양",p:20},{r:"보조",n:"진한 남색",p:5},{r:"강조",n:"선명한 파랑",p:10}],
+  desc:"겨울 타입은 차갑고 선명한 대비가 어울리므로 대표 주조색 검정·진한 자주로 뚜렷한 쿨톤 대비를 형성하고, 보조색 하양·진한 남색은 선명함을 더한다. 강조색 선명한 파랑을 포인트 컬러로 제시해 겨울 타입의 화려함을 강조하였다."}
+]},
+{no:"㉞",items:[
+ {label:"1",q:"우아하고 세련된 이미지를 유사색상, 유사색조로 배색하고 배색의도를 작성하시오.",tech:"유사색상유사색조",
+  colors:["탁한 자주","흐린 보라","연한 회색"],
+  desc:"인접한 자주·보라를 저채도의 유사한 톤으로 맞춘 유사색상 유사색조 배색이다. 우아하고 세련된 이미지는 저채도·중명도의 자주·보라 계열에서 강화되므로 톤을 통일해 절제된 우아함을 표현하였다."},
+ {label:"2",q:"물빛의 이미지를 악센트(Accent) 배색하고 배색의도를 작성하시오.",cond:"3가지 이상의 색상, 명도·채도 고려",
+  colors:["연한 회색","흐린 파랑","선명한 청록"],
+  desc:"전체를 지배하는 연한 회색·흐린 파랑 톤 속에 선명한 청록을 소량의 대비색으로 넣는 악센트 배색이다. 반짝이는 물빛은 저채도 바탕에 고채도 포인트가 있을 때 강화되므로 청록을 악센트로 배치해 표현하였다."},
+ {label:"3",q:"아파트 신규 대단지 지하 주차장, 편의성과 조닝(Zoning)계획·공간특성을 배색하고 배색의도를 작성하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"연한 회색",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"흐린 파랑",p:20},{r:"보조",n:"밝은 노랑",p:5},{r:"강조",n:"진한 파랑",p:10}],
+  desc:"주조색 연한 회색·하양은 쾌적하고 트렌디한 주거공간의 이미지를 형성하고, 보조색 흐린 파랑·밝은 노랑은 구역(조닝)별 구분을 돕는다. 강조색 진한 파랑을 구역 번호·동선 표시에 배치해 편의성을 강조하였다."},
+ {label:"4",q:"'지속 가능한 디자인의 미학' 컨퍼런스 포스터·배너, 연상 형용사를 선정해 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 작성하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"흐린 초록",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"연한 회색",p:20},{r:"보조",n:"탁한 갈색",p:5},{r:"강조",n:"진한 초록",p:10}],
+  desc:"'조화롭고 지속가능한' 형용사를 선정하여, 대표 주조색 흐린 초록·하양은 자연과 인간의 조화 이미지를 형성한다. 보조색 연한 회색·탁한 갈색은 지속가능한 소재감을 더하고, 강조색 진한 초록을 포스터 타이틀에 배치해 주제를 강조하였다."}
+]},
+{no:"㉟",items:[
+ {label:"1",q:"노랑의 긍정적 이미지를 선정하여 유사색상으로 배색하고 배색의도를 작성하시오.",tech:"유사색상",
+  colors:["밝은 노랑","선명한 노랑","연한 노랑","흐린 주황"],
+  desc:"노랑을 중심으로 인접한 주황까지 포함하는 유사색상 배색이다. 노랑의 긍정적 이미지(希望·활력)는 고명도·고채도일 때 강화되므로 톤 단계를 밝게 배치해 긍정적 에너지를 표현하였다."},
+ {label:"2",q:"시끄럽고 폭력적이며 자극적인 고음을 무채색을 포함하여 분리배색하고 배색의도를 작성하시오.",cond:"3가지 이상의 색상, 명도·채도 고려, 분리배색",
+  colors:["진한 빨강","선명한 노랑","검정"],
+  desc:"진한 빨강과 선명한 노랑의 강한 보색 대비 사이에 검정(무채색)을 분리색으로 끼워 넣는 분리배색이다. 시끄럽고 폭력적인 고음의 자극적 이미지는 강한 색상 대비에서 강화되므로, 무채색으로 대비를 정돈하면서도 자극적 인상은 유지하도록 표현하였다."},
+ {label:"3",q:"주름개선 기능성 화장품 패키지, 원숙한 화려함과 전통적인 고전미를 배색하고 배색의도를 작성하시오.",cond:"5색 이상·7면 이상",
+  roles:[{r:"주조",n:"진한 자주",p:35},{r:"주조",n:"검정",p:30},{r:"보조",n:"연한 회색",p:20},{r:"보조",n:"탁한 보라",p:5},{r:"강조",n:"금빛에 가까운 노랑",p:10}],
+  desc:"주조색 진한 자주·검정은 원숙한 화려함을 형성하고, 보조색 연한 회색·탁한 보라는 전통적 고전미를 더한다. 강조색 노랑(금빛)을 패키지 테두리에 배치해 고가 화장품의 품격을 강조하였다."},
+ {label:"4",q:"유니버설디자인을 적용한 치매센터 실내 색채계획, 안전하고 힐링이 될 수 있는 형용사 이미지언어를 선정해 배색하고 대표 주조·보조·강조색의 색이름과 배색의도를 작성하시오.",cond:"5색 이상·12면 이상",
+  roles:[{r:"주조",n:"흐린 노랑",p:35},{r:"주조",n:"하양",p:30},{r:"보조",n:"연한 회색",p:20},{r:"보조",n:"흐린 초록",p:5},{r:"강조",n:"밝은 주황",p:10}],
+  desc:"'안전하고 편안한' 형용사를 선정하여, 대표 주조색 흐린 노랑·하양은 치매센터 이용자에게 안정감과 시인성을 동시에 제공한다. 보조색 연한 회색·흐린 초록은 힐링의 분위기를 더하고, 강조색 밝은 주황을 동선 표시·손잡이에 배치해 안전성을 강조하였다."}
+]}
+];
+
+/* 필터용 대표 기법 태그 */
+const techTags = ["전체","톤온톤","톤인톤","유사색상유사색조","반대색상반대색조","까마이외","도미넌트","토널","분리배색","악센트"];
+let activeTech = "전체";
+
+function renderTechFilter(){
+  const row = document.getElementById('techFilter');
+  row.innerHTML='';
+  techTags.forEach(t=>{
+    const btn=document.createElement('button');
+    btn.textContent=t;
+    if(t===activeTech) btn.classList.add('active');
+    btn.onclick=()=>{ activeTech=t; renderTechFilter(); rebuildSelect(); };
+    row.appendChild(btn);
+  });
+}
+
+const pSelect = document.getElementById('pSelect');
+let filteredSets = sets;
+
+function rebuildSelect(){
+  filteredSets = activeTech==="전체" ? sets : sets.filter(s=> s.items.some(it=> (it.tech||'').includes(activeTech)) );
+  pSelect.innerHTML='';
+  filteredSets.forEach((s,i)=>{
+    const opt=document.createElement('option');
+    opt.value=i;
+    opt.textContent = `${s.no} 세트`;
+    pSelect.appendChild(opt);
+  });
+  if(filteredSets.length>0) renderPractice(0);
+  else document.getElementById('pContainer').innerHTML = '<div class="note">해당 기법이 포함된 세트가 없어요.</div>';
+}
+
+/* 퍼센트 -> 정수 칸수 배분 (최대잔여법), 합계가 total과 정확히 일치하도록 보정 */
+function allocateCells(roles, total){
+  const raw = roles.map(r => r.p/100*total);
+  const floors = raw.map(Math.floor);
+  let remainder = total - floors.reduce((a,b)=>a+b,0);
+  const order = raw.map((v,i)=>({i,frac:v-floors[i]})).sort((a,b)=>b.frac-a.frac);
+  const counts = floors.slice();
+  for(let k=0;k<remainder;k++){ counts[order[k % order.length].i]++; }
+  return counts.map(c=>Math.max(1,c)); // 최소 1칸은 보이도록
+}
+
+const timeMap = {"1":15,"2":30,"3":45,"4":60};
+
+function renderPractice(idx){
+  const s = filteredSets[idx];
+  const container = document.getElementById('pContainer');
+  container.innerHTML='';
+  const head = document.createElement('div');
+  head.className='set-title';
+  head.textContent = `${s.no} 기출 세트 — 모범답안`;
+  container.appendChild(head);
+
+  s.items.forEach(it=>{
+    const qb = document.createElement('div');
+    qb.className='q-block';
+    let inner = `<div class="prompt">${it.label}. ${it.q} <span class="time-plain">(${timeMap[it.label]}분 이내)</span></div>`;
+    if(it.cond){ inner += `<div class="cond-tags"><span>${it.cond}</span>${it.tech?`<span>${it.tech}</span>`:''}</div>`; }
+    else if(it.tech){ inner += `<div class="cond-tags"><span>${it.tech}</span></div>`; }
+
+    if(it.roles){
+      const total = it.label==="4" ? 12 : 7; // 3번 문항=7면 이상, 4번 문항=12면 이상
+      const counts = allocateCells(it.roles, total);
+      let cells = [];
+      it.roles.forEach((r,i)=>{
+        for(let c=0;c<counts[i];c++) cells.push(pickSwatch(r.n));
+      });
+      inner += `<div class="ans-box"><span class="lbl">지정 색이름 · 주조/보조/강조</span>
+        <div class="swatchrow">${it.roles.map(r=>`<div class="sw"><span class="role">${r.r}</span><span class="dot" style="background:${pickSwatch(r.n)}"></span>${r.n}</div>`).join('')}</div>
+        <div class="cut-grid">${cells.map(h=>`<div class="cell" style="background:${h}"></div>`).join('')}</div>
+        <div class="cut-grid-cap">칸 배분 예시 — 총 ${total}면 기준 (실제 답안지 격자에 맞춰 칸 수·모양은 자유롭게 조정, 특정 형태를 연상시키는 분할은 금지)</div>
+        <p class="desc-text">${it.desc}</p>
+      </div>`;
+    } else {
+      inner += `<div class="ans-box"><span class="lbl">지정 색이름</span>
+        <div class="swatchrow">${it.colors.map(c=>`<div class="sw"><span class="dot" style="background:${pickSwatch(c)}"></span>${c}</div>`).join('')}</div>
+        <p class="desc-text">${it.desc}</p>
+      </div>`;
+    }
+    qb.innerHTML = inner;
+    container.appendChild(qb);
+  });
+}
+
+pSelect.addEventListener('change', e=>renderPractice(+e.target.value));
+document.getElementById('pRandom').addEventListener('click', ()=>{
+  const i = Math.floor(Math.random()*filteredSets.length);
+  pSelect.value = i;
+  renderPractice(i);
+});
+
+renderTechFilter();
+rebuildSelect();
+</script>
+</body>
+</html>

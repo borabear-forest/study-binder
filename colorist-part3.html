@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>컬러리스트기사 실기 · 파트3 — 색채계획 및 디자인</title>
+<style>
+  :root{
+    --ink:#2b2620;
+    --paper:#f7f4ee;
+    --paper-2:#efe9de;
+    --line:#d8cfbe;
+    --accent:#8a5a3b;
+    --good:#3f7a4f;
+    --bad:#b0463e;
+    --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{overflow-x:hidden;max-width:100%;}
+  body{
+    margin:0;
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.6;
+    width:100%;
+  }
+  header.hero{
+    padding:56px 24px 40px;
+    background:
+      radial-gradient(1200px 300px at 10% -10%, rgba(138,90,59,.10), transparent 60%),
+      var(--paper);
+    border-bottom:1px solid var(--line);
+  }
+  .hero-inner{max-width:920px;margin:0 auto;}
+  .eyebrow{
+    font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);font-weight:700;margin-bottom:10px;
+  }
+  h1{font-size:clamp(28px,4vw,42px);margin:0 0 12px;font-weight:800;letter-spacing:-0.01em;}
+  .sub{color:#5a5248;font-size:16px;max-width:640px;}
+  .swatch-strip{display:flex;height:14px;border-radius:3px;overflow:hidden;margin-top:26px;box-shadow:0 1px 0 rgba(0,0,0,.05);}
+  .swatch-strip div{flex:1;}
+
+  nav.tabs{
+    position:sticky;top:0;z-index:20;
+    background:rgba(247,244,238,.94);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    display:flex;gap:4px;padding:10px 24px;overflow-x:auto;
+  }
+  nav.tabs button{
+    border:1px solid transparent;background:transparent;padding:9px 16px;
+    border-radius:999px;font-size:14.5px;font-weight:600;color:#6b6255;
+    cursor:pointer;white-space:nowrap;transition:.15s;
+  }
+  nav.tabs button:hover{background:var(--paper-2);}
+  nav.tabs button.active{background:var(--ink);color:var(--paper);}
+
+  main{max-width:920px;margin:0 auto;padding:40px 24px 100px;}
+  section.panel{display:none;}
+  section.panel.active{display:block;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+  h2.section-title{font-size:22px;font-weight:800;margin:0 0 6px;display:flex;align-items:baseline;gap:10px;}
+  h2.section-title .num{color:var(--accent);font-family:var(--mono);font-size:16px;}
+  p.lead{color:#6b6255;margin-top:0;margin-bottom:28px;font-size:15px;}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:20px;}
+  .card h3{margin:0 0 12px;font-size:16.5px;font-weight:800;}
+  .card h3 .tag{
+    display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;
+    border-radius:999px;background:var(--paper-2);color:var(--accent);
+    margin-left:8px;vertical-align:middle;letter-spacing:.02em;
+  }
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:680px){.grid2{grid-template-columns:1fr;}}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+  @media(max-width:780px){.grid3{grid-template-columns:1fr;}}
+
+  .axis-box{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;font-size:14.5px;}
+  .axis-box .k{font-weight:700;font-family:var(--mono);color:var(--accent);}
+
+  table.ref{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:10px;display:block;overflow-x:auto;white-space:normal;}
+  table.ref th,table.ref td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;}
+  table.ref th{background:var(--paper-2);white-space:nowrap;}
+
+  .step-list{counter-reset:step;list-style:none;padding:0;margin:0;}
+  .step-list li{
+    counter-increment:step;position:relative;padding:10px 0 10px 40px;
+    border-bottom:1px dashed var(--line);font-size:14.5px;
+  }
+  .step-list li:last-child{border-bottom:none;}
+  .step-list li::before{
+    content:counter(step);position:absolute;left:0;top:8px;
+    width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;
+    font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;
+  }
+  .step-list b{color:var(--accent);}
+
+  .quiz-item{border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:14px;background:#fff;}
+  .quiz-item .prompt{font-weight:700;margin-bottom:10px;font-size:15px;}
+  .cond-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+  .cond-tags span{
+    font-size:12px;font-weight:700;background:var(--paper-2);color:var(--accent);
+    padding:3px 10px;border-radius:999px;
+  }
+  .ans-box{
+    border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-top:10px;
+    background:var(--paper);font-size:14px;
+  }
+  .ans-box .lbl{font-weight:800;color:var(--accent);font-size:12.5px;letter-spacing:.02em;margin-bottom:6px;display:block;}
+  .swatchrow{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+  .swatchrow .sw{
+    display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);
+    border-radius:999px;padding:4px 12px 4px 4px;font-size:12.5px;font-weight:700;
+  }
+  .swatchrow .sw .dot{width:20px;height:20px;border-radius:50%;border:1px solid rgba(0,0,0,.15);flex:0 0 auto;}
+  .ratio-bar{display:flex;height:22px;border-radius:6px;overflow:hidden;margin-top:8px;border:1px solid var(--line);}
+  .ratio-bar div{display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;font-weight:700;text-shadow:0 1px 1px rgba(0,0,0,.3);padding:0 2px;overflow:hidden;white-space:nowrap;}
+  @media(max-width:400px){.ratio-bar div{font-size:8px;}}
+
+  .picker{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;max-width:100%;}
+  .picker select{
+    border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:14px;background:#fff;
+    font-family:inherit;max-width:100%;width:100%;flex:1 1 260px;
+  }
+  @media(max-width:520px){.picker select{font-size:13px;}}
+  button.ghost{
+    border:1px solid var(--line);background:#fff;padding:8px 14px;border-radius:8px;
+    font-size:13.5px;cursor:pointer;font-weight:700;color:var(--ink);
+  }
+  button.ghost:hover{border-color:var(--accent);color:var(--accent);}
+
+  .dict-filter{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+  .dict-filter button{
+    border:1px solid var(--line);background:#fff;padding:6px 14px;border-radius:999px;
+    font-size:13px;cursor:pointer;font-weight:600;color:#6b6255;
+  }
+  .dict-filter button.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+  .note{font-size:13.5px;color:#7a705f;background:var(--paper-2);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin-top:14px;}
+  code{background:var(--paper-2);padding:1px 5px;border-radius:4px;font-family:var(--mono);}
+  .warn{font-size:13.5px;color:#7a2e28;background:#fbeceb;border-left:3px solid var(--bad);padding:10px 14px;border-radius:0 8px 8px 0;margin-top:14px;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Colorist 기사 · 실기대비 · 시험3 전용</div>
+    <h1>파트3 — 색채계획 및 디자인</h1>
+    <p class="sub">문서작업(한글) + 디자인작업(포토샵), 2시간 20분. 기출 35세트 전체를 시장환경·컬러트렌드·소비자 분석부터 주조·보조·강조색 배색기법까지 모범답안으로 채워 넣었어요.</p>
+    <div class="swatch-strip" id="heroStrip"></div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button data-p="concept" class="active">개념정리</button>
+  <button data-p="dict">키워드 사전</button>
+  <button data-p="practice">서술연습 (35세트)</button>
+  <button data-p="workflow">포토샵 작업가이드</button>
+</nav>
+
+<main>
+
+  <!-- ===================== 개념정리 ===================== -->
+  <section class="panel active" id="panel-concept">
+    <h2 class="section-title"><span class="num">01</span> 시험3의 구조</h2>
+    <p class="lead">시험3은 파트1·2와 달리 <b>실무 브리프 하나</b>를 문서(기획서)와 디자인(도면 채색)으로 동시에 풀어내는 종합 문제예요. 배점은 분석력과 논리적 일관성, 그리고 실제 배색 완성도 두 축으로 나뉩니다.</p>
+
+    <div class="card">
+      <h3>시간 배분 & 제출물 <span class="tag">2시간 20분</span></h3>
+      <div class="axis-box">
+        <div class="k">문서작업</div><div>한글(HWP) — 색채계획 대상 분석(시장환경·컬러트렌드·소비자) + 콘셉트 설정 및 색채계획 의도(콘셉트 키워드·방향설정, 주조·보조·강조색 적용의도와 배색기법) → A3 출력 2장</div>
+        <div class="k">디자인작업</div><div>포토샵 — 배색분포도(주조·보조·강조 비율 반영) + 도면 채색 → JPEG 200dpi, CMYK, A3 출력 1장</div>
+        <div class="k">색이름 표기</div><div>KS A 0011 기본색이름 기준 (예: 보라, Purple, P — "퍼플"·오탈자 등은 오답 처리)</div>
+        <div class="k">금지사항</div><div>임의 면 분할/병합/그러데이션 표현, 해상도·색상모드(CMYK)·이미지 크기 변경 → 0점</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>문서작업 4단 구조 <span class="tag">뼈대</span></h3>
+      <ol class="step-list">
+        <li><b>① 시장환경</b> — 이 대상이 놓인 산업·시장의 현황과 경쟁 구도, 트렌드 배경을 서술 (왜 지금 이 디자인이 필요한가)</li>
+        <li><b>② 컬러트렌드</b> — 해당 시장/시즌에서 부상하는 색채 경향을 짚고 이번 계획에 어떻게 반영할지 연결</li>
+        <li><b>③ 소비자</b> — 타깃의 연령·라이프스타일·니즈를 구체화하고 그들이 선호할 색채 방향을 도출</li>
+        <li><b>④ 콘셉트 키워드 & 방향설정</b> — 주제문에서 형용사/핵심어를 뽑아 2~4개 키워드로 압축, 색채계획의 큰 방향 제시</li>
+        <li><b>⑤ 주조·보조·강조색 적용의도와 배색기법</b> — 각 역할색의 색상·톤과 그 색을 고른 이유, 적용할 배색기법(동일색상·톤온톤·톤인톤·세퍼레이션·그라데이션·반대색상·반대색조 등)과 기대효과</li>
+      </ol>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>배색기법 핵심 정리 <span class="tag">기출 빈출</span></h3>
+        <table class="ref">
+          <tr><th>기법</th><th>정의</th><th>효과/키워드</th></tr>
+          <tr><td>동일색상 배색</td><td>같은 색상, 명도·채도만 변화</td><td>통일감, 정리된 느낌</td></tr>
+          <tr><td>톤온톤(tone on tone)</td><td>동일/유사색상 + 톤 차이(명도차 큼)</td><td>선명하지만 안정적, 콘트라스트 있는 통일감</td></tr>
+          <tr><td>톤인톤(tone in tone)</td><td>유사색상 + 유사톤(명도·채도 유사)</td><td>부드럽고 온화한 통일감</td></tr>
+          <tr><td>세퍼레이션(separation)</td><td>배색 사이에 무채색/금·은색 등을 끼워 분리</td><td>애매한 배색 정리, 명쾌함·다이내믹 강조</td></tr>
+          <tr><td>그라데이션</td><td>색상·톤을 단계적으로 점이시킴 (※ 시험3 도면에서는 금지)</td><td>유동감, 리듬감 — 단 실기에서는 표현 자체가 금지사항</td></tr>
+          <tr><td>반대색상 배색</td><td>색상환 정반대 색상 조합</td><td>화려함, 강한 대비, 주목성</td></tr>
+          <tr><td>반대색조 배색</td><td>톤 스케일상 정반대 톤 조합(예: vivid ↔ pale)</td><td>임팩트, 다이내믹, 개성</td></tr>
+          <tr><td>까마이외(camaieu)</td><td>거의 구분 안 되는 아주 미세한 색차</td><td>은은함, 고급스러운 통일감</td></tr>
+          <tr><td>포까마이외(faux camaieu)</td><td>까마이외에 가까운 유사색상+유사톤(약간 더 차이)</td><td>부드러운 변화감</td></tr>
+          <tr><td>비콜로/트리콜로</td><td>2색/3색 선명한 배색(국기 배색 등)</td><td>경쾌함, 스포티, 원색적 활력</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>색채조화론 필수 암기 <span class="tag">문제④·⑮·㉝</span></h3>
+        <table class="ref">
+          <tr><th>이론</th><th>핵심</th></tr>
+          <tr><td>저드(Judd)의 4원칙</td><td>질서의 원리 · 유사성(친근성)의 원리 · 동류(공통성)의 원리 · 명료성(비모호성)의 원리</td></tr>
+          <tr><td>먼셀의 조화론</td><td>동일 색상·명도·채도 단계에서 규칙적(등간격) 관계일 때 조화</td></tr>
+          <tr><td>오스트발트 조화론</td><td>동일 계열(백색량·흑색량·순색량 일정 관계)일 때 조화 — 등백계열·등흑계열·등순계열·등가색환</td></tr>
+          <tr><td>요하네스 이텐</td><td>색상환 각도 기준 2색(보색)·3색(triads)·4색·6색(hexads) 조화</td></tr>
+        </table>
+        <p class="note">저드 문제(④번)처럼 "조화론에 근거해 배색"이라는 조건이 있으면, 문서 서술에서 반드시 어느 원리를 적용했는지 명시해야 감점을 피할 수 있어요.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>주조·보조·강조색 면적비례 감각 <span class="tag">배색분포도</span></h3>
+      <p style="font-size:14px;color:#5a5248;margin-top:0;">디자인작업의 배색분포도(띠)는 통상 <b>주조색 60~70% · 보조색 20~30% · 강조색 5~10%</b> 범위로 짜는 게 안전해요. 문제 조건에 특정 비율이 명시되면 그것을 최우선으로 따르세요.</p>
+      <div class="ratio-bar">
+        <div style="flex:65;background:#8a5a3b;">주조 65%</div>
+        <div style="flex:25;background:#c9a06a;">보조 25%</div>
+        <div style="flex:10;background:#b0463e;">강조 10%</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 키워드 사전 ===================== -->
+  <section class="panel" id="panel-dict">
+    <h2 class="section-title"><span class="num">02</span> 시장환경·컬러트렌드·소비자 문구 뱅크</h2>
+    <p class="lead">서술이 막힐 때 바로 조합해서 쓸 수 있는 문구들이에요. 대상(제품/공간/브랜드)에 맞게 골라 붙이면 시간 절약됩니다.</p>
+
+    <div class="dict-filter" id="dictFilter"></div>
+    <table class="ref">
+      <tr><th>분류</th><th>문구</th></tr>
+      <tbody id="dictBody"></tbody>
+    </table>
+
+    <div class="card" style="margin-top:24px;">
+      <h3>KS 기본색이름 20색 체크리스트 <span class="tag">감점 방지</span></h3>
+      <p style="font-size:14px;color:#5a5248;margin-top:0;">빨강, 주황, 노랑, 연두, 초록, 청록, 파랑, 남색, 보라, 자주, 분홍, 갈색 + 무채색(하양, 회색, 검정) — 유채색은 <b>영어 병기</b>까지 항상 함께 적기 (예: 파랑, Blue, B).</p>
+      <table class="ref">
+        <tr><th>기본색이름</th><th>영어</th><th>약호</th></tr>
+        <tr><td>빨강</td><td>Red</td><td>R</td></tr>
+        <tr><td>주황</td><td>Orange</td><td>YR</td></tr>
+        <tr><td>노랑</td><td>Yellow</td><td>Y</td></tr>
+        <tr><td>연두</td><td>Yellow Green</td><td>GY</td></tr>
+        <tr><td>초록</td><td>Green</td><td>G</td></tr>
+        <tr><td>청록</td><td>Blue Green</td><td>BG</td></tr>
+        <tr><td>파랑</td><td>Blue</td><td>B</td></tr>
+        <tr><td>남색</td><td>Bluish Violet / Navy</td><td>PB</td></tr>
+        <tr><td>보라</td><td>Purple</td><td>P</td></tr>
+        <tr><td>자주</td><td>Reddish Purple / Magenta</td><td>RP</td></tr>
+        <tr><td>분홍</td><td>Pink</td><td>-</td></tr>
+        <tr><td>갈색</td><td>Brown</td><td>-</td></tr>
+        <tr><td>하양</td><td>White</td><td>N9.5</td></tr>
+        <tr><td>회색</td><td>Gray</td><td>N5</td></tr>
+        <tr><td>검정</td><td>Black</td><td>N1</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================== 서술연습 ===================== -->
+  <section class="panel" id="panel-practice">
+    <h2 class="section-title"><span class="num">03</span> 기출 35세트 모범답안</h2>
+    <p class="lead">세트를 고르면 시장환경·컬러트렌드·소비자·콘셉트키워드·주조/보조/강조색 배색의도가 모범답안 형태로 채워집니다. 빈칸이 아니라 <b>완성된 문장</b>을 눈으로 익히고, 자기 언어로 바꿔 다시 써보는 연습에 활용하세요.</p>
+
+    <div class="picker">
+      <span style="font-size:14px;font-weight:700;">세트 선택</span>
+      <select id="pSelect"></select>
+      <button class="ghost" id="pRandom">🎲 랜덤 뽑기</button>
+    </div>
+
+    <div id="pContainer"></div>
+  </section>
+
+  <!-- ===================== 포토샵 작업가이드 ===================== -->
+  <section class="panel" id="panel-workflow">
+    <h2 class="section-title"><span class="num">04</span> 포토샵 실전 워크플로우</h2>
+    <p class="lead">문서작업에서 정한 색을 디자인 도면에 그대로 옮기는 손 순서예요. 2시간 20분 안에서 시간을 아끼는 루틴 중심으로 정리했어요.</p>
+
+    <div class="card">
+      <h3>작업 순서 <span class="tag">권장 타임라인</span></h3>
+      <ol class="step-list">
+        <li><b>주제 분석 (10분)</b> — 시장환경·컬러트렌드·소비자·콘셉트 키워드를 먼저 손글씨/메모로 뽑기</li>
+        <li><b>문서작업 (40~50분)</b> — 한글 양식에 5개 항목 서술, 굴림체 12pt·줄간격 180%·왼쪽정렬 확인</li>
+        <li><b>색상 확정 (10분)</b> — 주조·보조·강조 3~4색을 CMYK 수치로 먼저 확정 (스와치 등록)</li>
+        <li><b>배색분포도 (15~20분)</b> — 지정 비율대로 색 띠 채우기, 눈금 밖으로 넘치지 않게</li>
+        <li><b>도면 채색 (30~40분)</b> — 레이어별로 면 나누되 <b>새 면을 만들거나 병합하지 않기</b>, 그러데이션 금지</li>
+        <li><b>저장·출력 (10분)</b> — JPEG, 200dpi, CMYK 모드·원본 이미지 크기 유지 확인 후 출력</li>
+      </ol>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>자주 하는 실수 <span class="tag">0점 사유</span></h3>
+        <table class="ref">
+          <tr><th>실수</th><th>결과</th></tr>
+          <tr><td>레이어 병합/분할로 면 구조 변경</td><td>0점 처리</td></tr>
+          <tr><td>그러데이션 도구로 자연스러운 톤 표현</td><td>0점 처리</td></tr>
+          <tr><td>이미지 해상도·색상모드(RGB로 저장)·캔버스 크기 변경</td><td>0점 처리</td></tr>
+          <tr><td>배색 띠 눈금 밖으로 색이 넘침</td><td>감점 (눈금은 안내선일 뿐 채색 영역 아님)</td></tr>
+          <tr><td>색이름 서술에서 KS 기본색이름 미사용</td><td>감점</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>단축키 & 도구 메모 <span class="tag">속도</span></h3>
+        <div class="axis-box">
+          <div class="k">색상 선택</div><div>스포이드(I) + 전경색 더블클릭 → CMYK 값 직접 입력이 가장 정확</div>
+          <div class="k">면 채우기</div><div>마술봉(W)으로 면 선택 → Alt+Delete(전경색 채우기), 안티앨리어스 체크 확인</div>
+          <div class="k">색상모드</div><div>Image > Mode > CMYK Color 항상 확인 (RGB로 작업 시작했다면 처음부터 전환)</div>
+          <div class="k">해상도 확인</div><div>Image > Image Size에서 200 pixels/inch, 문서 크기 변경 없이 확인만</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* ================= 데이터: 기출 35세트 색채계획 모범답안 ================= */
+const dataset = [
+{no:1, title:"고래생태문화마을 모노레일 차체·궤도", tags:["가족단위 관광","해양생태 존중"],
+ market:"지역 해양생태 관광지가 체험형 콘텐츠로 확장되며, 이동수단 자체가 관광 경험의 일부가 되는 추세가 뚜렷해지고 있다.",
+ trend:"에코 투어리즘 확산에 따라 자연 소재감을 살린 청록·블루 계열과 저채도 그린이 관광 인프라 디자인에서 강세를 보인다.",
+ consumer:"어린 자녀를 동반한 가족단위 관광객으로, 시각적 안정감과 함께 바다·고래를 연상시키는 친근한 색채를 선호한다.",
+ concept:["자연생태 존중","자유로운 유영","가족 친화"],
+ dominant:"청록(BG) 계열 — 바다와 하늘을 아우르는 넓은 면적의 주조색으로 안정감을 형성",
+ sub:"파랑(B)·초록(G) 계열 — 고래와 해조류를 연상시키며 주조색과 유사색상으로 자연스럽게 연결",
+ accent:"노랑(Y) 계열 — 관광객 동선 표시 및 시인성 확보용 강조색",
+ technique:"유사색상 배색(톤인톤)을 기본으로 하되 안내 요소에만 반대색상 강조를 배치해 가독성을 확보"},
+
+{no:2, title:"'Clean Day' 세제 브랜드 — 청소용·세탁용 용기", tags:["친환경","용도별 구분","심벌 동일배색"],
+ market:"친환경 세제 시장은 화학성분 무첨가를 내세운 브랜드가 늘며 성분 신뢰도가 구매 결정의 핵심 요인이 되고 있다.",
+ trend:"클린뷰티·클린리빙 트렌드에 따라 저채도 그린과 화이트 베이스의 미니멀한 배색이 세제·생활용품 패키지 전반에서 확산 중이다.",
+ consumer:"성분과 환경에 관심 많은 2030~40대 가정주부·1인가구로, 화학적 인상보다 자연 유래 이미지를 신뢰의 근거로 삼는다.",
+ concept:["청결함","자연유래","용도 구분"],
+ dominant:"하양(White)·연두(GY) 계열 — 청결함과 천연원료 이미지를 동시에 전달하는 공통 배경색",
+ sub:"청소용은 파랑(B), 세탁용은 초록(G) 계열로 구분 — 두 용도의 기능을 색상으로 명확히 나눔",
+ accent:"갈색(Brown) 계열 — 천연 원료(식물성) 라벨 포인트로 소량만 강조",
+ technique:"동일색상 배색(하양·연두 베이스 통일)에 용도별 유사색상 포인트를 더해 심벌은 동일 배색으로 통일감 유지"},
+
+{no:3, title:"말벗친구 로봇 '이루미(Irumi)'", tags:["고령친화","AI","친근·소박"],
+ market:"고령화 사회 진입으로 1인 노인가구 대상 돌봄로봇 시장이 빠르게 성장하고 있으며 정서적 교감 기능이 차별화 포인트가 된다.",
+ trend:"AI 기기 디자인에서 차갑지 않은 웜톤 파스텔과 우드톤이 결합된 '친근한 테크' 배색이 부상하고 있다.",
+ consumer:"혼자 사는 60대 이상 노인으로, 기술에 대한 거부감을 낮추고 심리적 편안함을 주는 색채를 선호한다.",
+ concept:["친근함","소박함","새로운 첨단감"],
+ dominant:"베이지·하양 혼합의 저채도 노랑(Y) 계열 — 따뜻하고 소박한 인상의 몸체 주조색",
+ sub:"연회색(Gray) 계열 — 첨단 기기임을 은은하게 드러내는 보조색",
+ accent:"주황(Orange) 계열 — 버튼·조명부에 생기와 친근감을 더하는 강조색",
+ technique:"톤인톤 배색으로 전체를 부드럽게 통일하고 인터랙션 부위에만 강조색을 세퍼레이션으로 분리해 배치"},
+
+{no:4, title:"스파 바디용품 S/C/B 3종 (저드 조화론)", tags:["저드 조화론","용도별 중점","자연 속 휴식"],
+ market:"휴양시설 어메니티 시장은 자연주의 스파 트렌드에 힘입어 브랜드 아이덴티티가 있는 자체 개발 라인으로 전환되고 있다.",
+ trend:"어스톤(earth tone)과 저채도 그린·베이지가 웰니스 제품 전반의 주류 컬러트렌드로 자리잡고 있다.",
+ consumer:"자연 속 힐링을 원해 방문하는 성인 고객으로, 인위적이지 않은 색채에서 신뢰와 편안함을 느낀다.",
+ concept:["자연 치유","휴식","저드 유사성의 원리"],
+ dominant:"초록(G) 계열 — 숲과 흙길을 연상시키는 전체 통일 주조색",
+ sub:"갈색(Brown) 계열 — 흙과 나무를 연상시키며 주조색과 저드의 유사성 원리로 연결되는 보조색",
+ accent:"S(샴푸)는 파랑(B)으로 청결함, C(컨디셔너)는 연두(GY)로 유연함, B(바디젤)는 청록(BG)으로 상쾌함을 표현",
+ technique:"저드의 유사성(친근성)의 원리에 근거해 전체는 톤온톤으로 통일하고 용도별 포인트만 세퍼레이션으로 구분"},
+
+{no:5, title:"알프스 등반 여행사 홍보 포스터", tags:["분리배색","모험","30~40대"],
+ market:"체험형 액티비티 여행 수요가 늘며 전문 산악 투어 상품의 브랜드 이미지 경쟁이 치열해지고 있다.",
+ trend:"아웃도어 산업 전반에서 채도 높은 블루·오렌지의 대비 배색이 다이내믹한 이미지로 각광받고 있다.",
+ consumer:"강인한 도전정신을 가진 30~40대 여행자로, 정적인 이미지보다 강렬한 대비와 속도감 있는 색채에 반응한다.",
+ concept:["강인한 모험정신","다이내믹","도전"],
+ dominant:"파랑(B) 계열 — 알프스의 하늘과 빙하를 상징하는 주조색",
+ sub:"회색(Gray) 계열 — 암벽과 설산의 질감을 표현하는 보조색",
+ accent:"주황(Orange) 계열 — 등반 장비·로고에 강렬한 포인트를 주는 강조색",
+ technique:"파랑과 주황의 반대색상 대비를 기본으로, 무채색 회색을 사이에 끼우는 세퍼레이션 배색으로 다이내믹함을 정돈되게 연출"},
+
+{no:6, title:"커피브랜드 'K-Coffee' 원두 패키지·컵", tags:["세련","심플","단일 원두"],
+ market:"스페셜티 커피 시장이 커지며 매달 단일 원두를 선보이는 구독형 브랜드가 세련된 이미지 경쟁을 벌이고 있다.",
+ trend:"미니멀 패키지 트렌드에 따라 저채도 브라운과 화이트의 절제된 배색이 프리미엄 원두 브랜드에서 두드러진다.",
+ consumer:"합리적 가격에 품질을 중시하는 2030~40대 커피 애호가로, 과도한 장식보다 담백한 고급스러움을 선호한다.",
+ concept:["세련됨","심플함","원두 본연의 풍미"],
+ dominant:"갈색(Brown) 계열 — 원두 본연의 색과 풍미를 상징하는 주조색",
+ sub:"하양(White) 계열 — 여백감을 살려 세련된 인상을 더하는 보조색",
+ accent:"검정(Black) 계열 — 로고·타이포에 집중감을 더하는 강조색",
+ technique:"톤온톤 배색으로 갈색 계열의 명도 차만 활용해 절제된 통일감을 만들고 검정으로 포인트를 명료하게 마무리"},
+
+{no:7, title:"워터파크 지하주차장 (라틴 카니발 감성)", tags:["반대색상","유사색조","가독성"],
+ market:"복합 테마파크의 부대시설까지 브랜드 경험으로 확장하는 추세로, 주차장도 디자인 요소로 활용되고 있다.",
+ trend:"라틴 카니발 문화의 영향으로 원색 대비가 강한 트로피컬 컬러가 리조트·워터파크 디자인에 반영되는 중이다.",
+ consumer:"휴양과 즐거움을 기대하는 가족·단체 관광객으로, 강렬하고 흥겨운 색채에서 축제 분위기를 기대한다.",
+ concept:["다이내믹","축제","가독성"],
+ dominant:"빨강(R) 계열 — 카니발의 열기를 표현하는 바닥면 주조색",
+ sub:"초록(G) 계열 — 벽면에 적용해 빨강과 반대색상 대비를 이루는 보조색",
+ accent:"노랑(Y) 계열 — 주차구역 번호·동선 표시용 고시인성 강조색",
+ technique:"바닥·벽면은 반대색상 배색, 각 구역 내에서는 유사색조로 통일해 화려하면서도 식별이 쉬운 구조를 만듦"},
+
+{no:8, title:"물총축제 W.W.G.F 거리 배너", tags:["시원함","흥겨움","전연령"],
+ market:"여름 시즌 도심 물놀이 축제가 늘며 짧은 기간 강한 인상을 남기는 배너 디자인 경쟁이 치열하다.",
+ trend:"여름 프로모션에서 형광에 가까운 고채도 블루·옐로우 조합이 시원함과 에너지를 동시에 표현하는 트렌드로 자리잡았다.",
+ consumer:"남녀노소 전연령층 참가자로, 더위를 씻어줄 청량감과 축제의 흥겨움을 동시에 기대한다.",
+ concept:["시원함","흥겨움","열정"],
+ dominant:"파랑(B) 계열 — 물과 시원함을 상징하는 주조색",
+ sub:"청록(BG) 계열 — 파랑과 유사색상으로 청량감을 확장하는 보조색",
+ accent:"노랑(Y) 계열 — 축제의 흥겨움과 열정을 표현하는 반대색상 강조색",
+ technique:"파랑·청록의 유사색상 배색 위에 노랑을 반대색상으로 소량 배치해 시원함과 흥겨움을 동시에 표현"},
+
+{no:9, title:"캐릭터 숍 파사드 (지하쇼핑몰)", tags:["키덜트","개성","주목성"],
+ market:"지하쇼핑몰 상권 경쟁이 심화되며 파사드 디자인이 집객의 핵심 요소로 떠오르고 있다.",
+ trend:"키덜트 문화 확산으로 비비드한 원색 조합이 캐릭터 리테일 공간의 대표 트렌드로 자리잡았다.",
+ consumer:"어린이와 키덜트 성인 모두를 아우르는 폭넓은 연령대로, 유쾌하고 눈에 띄는 색채에 즉각 반응한다.",
+ concept:["친근함","유쾌함","주목성"],
+ dominant:"노랑(Y) 계열 — 밝고 유쾌한 인상을 형성하는 파사드 주조색",
+ sub:"분홍(Pink) 계열 — 사랑스러운 캐릭터 이미지를 보강하는 보조색",
+ accent:"파랑(B) 계열 — 노랑의 반대색상으로 주목성을 극대화하는 강조색",
+ technique:"비콜로에 가까운 고채도 반대색상 대비로 인근 상권 대비 강한 주목성을 확보"},
+
+{no:10, title:"팝 아트(Pop Art) 화보집 앞표지·책등", tags:["시인성","주목성","시대성 반영"],
+ market:"디자인 사조를 다룬 아트북 시장은 콘텐츠 이해를 돕는 비주얼 아이덴티티 설계가 판매에 큰 영향을 미친다.",
+ trend:"팝아트 리바이벌에 따라 원색 대비와 망점(halftone) 감성의 배색이 출판 디자인에서도 재조명되고 있다.",
+ consumer:"미술·디자인에 관심 많은 2030~40대 독자로, 책장에서 한눈에 띄는 강렬한 색채를 구매 동기로 삼는다.",
+ concept:["팝아트 감성","시인성","주목성"],
+ dominant:"빨강(R) 계열 — 팝아트 특유의 강렬함을 표현하는 표지 주조색",
+ sub:"노랑(Y) 계열 — 빨강과 인접해 원색 대비를 강화하는 보조색",
+ accent:"파랑(B) 계열 — 책등에 배치해 서가에서의 시인성을 높이는 강조색",
+ technique:"반대색상에 가까운 트리콜로 배색으로 표지는 화려하게, 책등은 대비색 하나로 단순 명료하게 처리"},
+
+{no:11, title:"화장품 물류차량 '쥬니버 영(Junibeo-Young)'", tags:["세련미","젊음","색조화장품"],
+ market:"색조 화장품 시장에서 물류 차량까지 브랜드 접점으로 활용하는 옥외 마케팅이 늘고 있다.",
+ trend:"Z세대 겨냥 뷰티 브랜드에서 파스텔과 비비드를 함께 쓰는 투톤 배색이 트렌드로 부상 중이다.",
+ consumer:"피부 표현에 관심 많은 10대 후반~20대 초반 여성으로, 발랄하면서도 세련된 이미지에 끌린다.",
+ concept:["세련미(Junibeo)","젊음(Young)","즐거운 매력"],
+ dominant:"분홍(Pink) 계열 — 'Young'의 발랄함을 표현하는 주조색",
+ sub:"보라(Purple) 계열 — 'Junibeo'의 세련미를 담는 보조색",
+ accent:"하양(White) 계열 — 청결한 여백으로 색조 제품의 화사함을 부각하는 강조색",
+ technique:"분홍·보라의 유사색상 그라데이션 감성을 톤온톤으로 대체 표현하고 하양 여백으로 정리감을 더함"},
+
+{no:12, title:"폐교 개조 무인카페·캠핑장 (도시재생)", tags:["소멸위기 재생","향토민","젊은세대 유입"],
+ market:"학령인구 감소로 폐교가 늘며 지자체 주도 도시재생 사업이 지역 활성화 대안으로 주목받고 있다.",
+ trend:"로컬 리제너레이션 트렌드에서 자연 소재감의 그린·우드톤과 활기찬 포인트 컬러의 조합이 확산되고 있다.",
+ consumer:"귀촌 향토민과 관광객, 젊은 유입 인구가 혼재된 다세대 타깃으로, 향수와 신선함을 동시에 원한다.",
+ concept:["재생","활기","세대 융합"],
+ dominant:"초록(G) 계열 — 자연과 재생의 이미지를 담는 주조색",
+ sub:"갈색(Brown) 계열 — 폐교 건물의 정취를 살리는 보조색",
+ accent:"주황(Orange) 계열 — 활기와 관광객 유치를 위한 생동감 있는 강조색",
+ technique:"초록·갈색의 유사색상 톤인톤 배색 위에 주황을 반대색조로 배치해 침체된 인상을 활기차게 전환"},
+
+{no:13, title:"백화점 프리미엄 디저트 전문점 광고", tags:["상위매출 탈환","프리미엄","경영이념"],
+ market:"오프라인 백화점이 온라인 대비 매출 열세를 만회하기 위해 체험형 프리미엄 디저트 전문관을 강화하고 있다.",
+ trend:"럭셔리 디저트 시장에서 딥레드·골드 톤의 고급스러운 배색이 프리미엄 이미지의 표준으로 자리잡았다.",
+ consumer:"눈과 맛의 경험을 동시에 추구하는 중장년~젊은 고소득층으로, 고급스러움과 신뢰를 색채에서 먼저 판단한다.",
+ concept:["프리미엄","위기의식 극복","눈과 맛의 향연"],
+ dominant:"자주(Magenta/RP) 계열 — 고급스러운 디저트의 화려함을 담는 주조색",
+ sub:"갈색(Brown) 계열 — 초콜릿·전통 다과를 연상시키는 보조색",
+ accent:"금색에 가까운 노랑(Y) 계열 — 프리미엄 로고·포인트의 강조색",
+ technique:"톤온톤의 저채도 고급 배색을 기본으로, 금색 계열 강조색을 세퍼레이션으로 배치해 품격을 강화"},
+
+{no:14, title:"청소년 게임 순기능 팝업스토어", tags:["과몰입 예방","현실과 공상 대립","순기능 체험"],
+ market:"청소년 게임 과몰입 이슈가 사회적 화두가 되며 건전한 게임문화를 알리는 체험형 팝업이 늘고 있다.",
+ trend:"현실과 가상의 대비를 표현하는 뉴트럴 톤+네온 포인트 배색이 게임 관련 공간 디자인에서 인기다.",
+ consumer:"게임에 익숙한 청소년층으로, 딱딱한 계도성 메시지보다 게임 감성의 재미있는 색채에 반응한다.",
+ concept:["현실과 공상의 대비","즐거움","순기능"],
+ dominant:"회색(Gray) 계열 — 현실 공간을 상징하는 차분한 주조색",
+ sub:"보라(Purple) 계열 — 공상·가상세계를 상징하는 보조색",
+ accent:"연두(GY) 계열 — 네온 감성으로 게임의 즐거움을 표현하는 강조색",
+ technique:"회색과 보라의 반대색조 대비로 현실·가상의 경계를 표현하고, 형광톤 연두를 세퍼레이션 강조색으로 배치"},
+
+{no:15, title:"홈쇼핑 F/W 패션 무대디자인", tags:["클래식","우아함","전연령"],
+ market:"홈쇼핑 자체 패션 브랜드가 늘며 첫 방송 무대의 이미지가 브랜드 포지셔닝을 좌우한다.",
+ trend:"F/W 시즌 클래식 무드에서는 저채도 버건디·네이비의 절제된 배색이 우아함의 정석으로 꼽힌다.",
+ consumer:"연령 구분 없이 품질을 중시하는 소비자로, 화려함보다 기품 있는 절제미를 신뢰의 신호로 받아들인다.",
+ concept:["클래식","절제된 우아함","기품"],
+ dominant:"남색(Navy/PB) 계열 — 무대 전체의 품격을 잡는 주조색",
+ sub:"갈색(Brown) 계열 — 클래식한 소재감을 더하는 보조색",
+ accent:"하양(White) 계열 — 조명 아래 절제된 포인트를 주는 강조색",
+ technique:"톤인톤의 저채도 배색으로 전체를 통일하고 하양을 소량만 세퍼레이션으로 배치해 기품 있는 절제미를 완성"},
+
+{no:16, title:"오피스텔 밀집지역 커뮤니티 공간", tags:["1인가구","고립·우울 해소","반려묘"],
+ market:"1인 가구 증가에 따라 사회적 고립을 완화하는 주거 커뮤니티 공간에 대한 지자체·시행사의 관심이 커지고 있다.",
+ trend:"정신건강 케어 트렌드로 안정감을 주는 저채도 그린·베이지의 힐링 컬러가 주거 커뮤니티 공간에 확산 중이다.",
+ consumer:"협소한 공간에서 홀로 생활하는 2030대 청년층으로, 위안과 편안함을 주는 색채에서 정서적 안정을 얻는다.",
+ concept:["정서적 안정","휴식","반려동물 공존"],
+ dominant:"연두(GY) 계열 — 자연스러운 안정감을 주는 주조색",
+ sub:"베이지(갈색 저채도) 계열 — 아늑한 거주감을 더하는 보조색",
+ accent:"주황(Orange) 계열 — 취사·반려묘 공간에 온기를 더하는 강조색",
+ technique:"저채도 톤인톤 배색으로 심리적 안정감을 우선하고, 주황을 소량 세퍼레이션으로 배치해 생기를 보완"},
+
+{no:17, title:"남성 수제 테일러 숍 디스플레이", tags:["초고가","장인정신","프라이빗"],
+ market:"초개인화 소비 트렌드 속에서 초고가 맞춤 테일러링 시장이 소수 VIP 고객을 대상으로 확대되고 있다.",
+ trend:"프라이빗 럭셔리 공간에서는 딥브라운·블랙의 앤틱한 저채도 배색이 장인정신을 표현하는 정석으로 쓰인다.",
+ consumer:"사회적 명성과 인품을 갖춘 리더그룹으로, 화려함보다 묵직한 신뢰감을 주는 색채를 선호한다.",
+ concept:["장인정신","프라이빗함","클래식한 품격"],
+ dominant:"갈색(Brown) 계열 — 앤틱 가구와 어우러지는 진중한 주조색",
+ sub:"검정(Black) 계열 — 조명 아래 명암 대비로 고급스러움을 더하는 보조색",
+ accent:"금색에 가까운 노랑(Y) 계열 — 디테일 포인트의 강조색",
+ technique:"톤온톤의 저명도 배색으로 프라이빗한 무게감을 만들고 금색 포인트를 세퍼레이션으로 절제해 배치"},
+
+{no:18, title:"플라잉요가 아카데미 인테리어", tags:["힐링","전문성","20~30대 여성"],
+ market:"번화가 중심 피트니스 시장에서 차별화된 종목(플라잉요가)의 전문 아카데미가 늘고 있다.",
+ trend:"웰니스 산업에서 라벤더·민트 등 저채도 파스텔의 힐링 컬러가 요가·필라테스 공간의 대표 트렌드다.",
+ consumer:"건강하고 아름다운 몸매를 가꾸는 20~30대 여성으로, 전문성과 동시에 심리적 이완을 주는 색채를 원한다.",
+ concept:["힐링","전문성","차별화"],
+ dominant:"보라(Purple) 계열 — 이완과 신비로움을 동시에 주는 주조색",
+ sub:"청록(BG) 계열 — 안정감을 더하는 보조색",
+ accent:"하양(White) 계열 — 청결하고 전문적인 인상을 더하는 강조색",
+ technique:"보라·청록의 유사색상 톤인톤 배색으로 힐링감을 형성하고 하양으로 전문성을 정리"},
+
+{no:19, title:"유기농 식품 브랜드 'FINE' 드론배송", tags:["드론","신선함","심플"],
+ market:"유기농 식품 배송 시장에서 드론 등 신기술 도입이 브랜드 혁신성의 상징으로 활용되고 있다.",
+ trend:"클린 이팅 트렌드에서 화이트 베이스에 그린 포인트를 더한 심플한 배색이 유기농 브랜드의 표준이 되고 있다.",
+ consumer:"빠르고 간편한 배송을 선호하는 20~50대 폭넓은 소비자로, 신선함과 신뢰를 색채로 먼저 판단한다.",
+ concept:["신선함","심플함","혁신"],
+ dominant:"초록(G) 계열 — 유기농·신선함을 상징하는 주조색",
+ sub:"하양(White) 계열 — 드론의 심플한 이미지를 담는 보조색",
+ accent:"파랑(B) 계열 — 첨단 기술 이미지를 더하는 강조색",
+ technique:"초록·하양의 동일색상에 가까운 배색으로 신선함을 강조하고 파랑을 소량 세퍼레이션으로 배치해 혁신성을 표현"},
+
+{no:20, title:"아방가르드 패션쇼 무대·의상", tags:["반대색상","반대색조","전위적"],
+ market:"실험적 패션쇼는 대중성보다 화제성과 브랜드 예술성을 각인시키는 것이 목적이다.",
+ trend:"아방가르드 트렌드에서는 극단적 반대색상·반대색조 대비가 전위성을 표현하는 핵심 장치로 쓰인다.",
+ consumer:"패션 업계 관계자와 얼리어답터 소비자로, 파격적이고 예측 불가능한 색채 조합에서 예술적 가치를 느낀다.",
+ concept:["전위성","실험성","현대적 조화"],
+ dominant:"검정(Black) 계열 — 실험적 무드를 잡아주는 무대 주조색",
+ sub:"하양(White) 계열 — 검정과 극한 명도 대비를 이루는 보조색",
+ accent:"자주(Magenta/RP) 계열 — 의상 포인트로 반대색상·반대색조를 동시에 구현하는 강조색",
+ technique:"무채색 반대 대비 위에 고채도 자주를 반대색상·반대색조로 배치해 전위적이면서도 현대적인 균형을 만듦"},
+
+{no:21, title:"애슬레저 룩 S/S 신제품", tags:["운동복+일상복","역동성","여성 타깃"],
+ market:"애슬레저 시장은 팬데믹 이후 일상복 영역까지 확장되며 스포츠 브랜드 간 디자인 경쟁이 심화되고 있다.",
+ trend:"S/S 시즌 액티브웨어에서는 고채도 원색과 뉴트럴 톤을 섞는 배색이 트렌드로 자리잡았다.",
+ consumer:"운동복을 패셔너블한 일상복으로 즐기는 여성으로, 역동성과 스타일을 동시에 원한다.",
+ concept:["역동성","경계 허물기","스포티 캐주얼"],
+ dominant:"파랑(B) 계열 — 스포티함을 대표하는 주조색",
+ sub:"회색(Gray) 계열 — 일상복으로도 무난히 매치되는 보조색",
+ accent:"노랑(Y) 계열 — 활동성과 생기를 더하는 강조색",
+ technique:"파랑·회색의 톤온톤 배색으로 실용성을 확보하고 노랑을 반대색상 강조로 배치해 역동적인 포인트를 완성"},
+
+{no:22, title:"러닝화 — 전통과 혁신의 새로운 이미지", tags:["MZ세대","전통 재해석","혁신"],
+ market:"스포츠 브랜드의 러닝화 시장은 헤리티지를 현대적으로 재해석하는 헤리티지 리부트가 주요 전략이 되고 있다.",
+ trend:"레트로 스포츠 컬러(딥레드·크림)와 첨단 소재감의 실버·네온이 결합되는 배색이 MZ 러닝화의 트렌드다.",
+ consumer:"전통의 자부심과 혁신 수용을 동시에 지닌 MZ세대로, 헤리티지와 미래감이 공존하는 색채에 호응한다.",
+ concept:["전통의 재해석","혁신","MZ 감성"],
+ dominant:"빨강(R) 계열(딥레드) — 브랜드 헤리티지를 상징하는 주조색",
+ sub:"회색(Gray, 메탈릭 느낌) — 첨단 소재감을 담는 보조색",
+ accent:"연두(GY, 네온) 계열 — 혁신성과 젊음을 강조하는 강조색",
+ technique:"딥레드·그레이의 톤온톤 배색 위에 네온 연두를 세퍼레이션 강조로 배치해 전통과 혁신의 대비를 조화롭게 연결"},
+
+{no:23, title:"클래식 가방 브랜드 가을 신제품", tags:["우아함","고저스함","40~50대 여성"],
+ market:"클래식 럭셔리 가방 시장은 계절 한정판을 통해 브랜드 충성도를 강화하는 전략을 취하고 있다.",
+ trend:"가을 시즌에는 버건디·딥브라운의 고저스한 저채도 배색이 클래식 브랜드의 대표 트렌드로 자리잡았다.",
+ consumer:"우아하고 고급스러운 이미지를 지속적으로 소비해온 40~50대 여성으로, 변치 않는 클래식함에 신뢰를 느낀다.",
+ concept:["변치 않는 사랑","우아함","고저스함"],
+ dominant:"자주(RP, 버건디) 계열 — 고저스한 무게감을 담는 주조색",
+ sub:"갈색(Brown) 계열 — 클래식한 가죽 소재감을 표현하는 보조색",
+ accent:"금색에 가까운 노랑(Y) 계열 — 하드웨어 포인트의 강조색",
+ technique:"버건디·브라운의 톤인톤 배색으로 고급스러운 통일감을 만들고 금색 하드웨어를 세퍼레이션으로 절제해 배치"},
+
+{no:24, title:"'EURO LIFE' 제주 콜라보 팝업스토어", tags:["제주도의 자연","모던","합리적 소비"],
+ market:"라이프스타일 브랜드가 지역 콜라보 팝업을 통해 로컬 감성과 브랜드 정체성을 결합하는 전략이 확산되고 있다.",
+ trend:"제주 자연을 모티프로 한 청록·연두의 신선한 배색이 로컬 콜라보 상품의 트렌드 컬러로 떠오르고 있다.",
+ consumer:"합리적 소비를 추구하는 젊은 층으로, 지역성과 브랜드 모던함이 조화된 색채에 매력을 느낀다.",
+ concept:["제주의 자연","모던함","합리적 소비"],
+ dominant:"청록(BG) 계열 — 제주 바다를 상징하는 주조색",
+ sub:"연두(GY) 계열 — 제주 자연·오름을 상징하는 보조색",
+ accent:"하양(White) 계열 — 브랜드의 모던함을 정리하는 강조색",
+ technique:"청록·연두의 유사색상 톤인톤 배색으로 자연스러움을 표현하고 하양 여백으로 디스플레이의 조화성을 강화"},
+
+{no:25, title:"4D 시네마 홍보 실내 배너 (2개 설치)", tags:["반대색상","오감 자극","통일감"],
+ market:"복합 쇼핑몰의 몰링(malling) 문화 확산으로 체험형 상영관이 여가 콘텐츠의 핵심으로 부상하고 있다.",
+ trend:"체험형 엔터테인먼트 홍보물에서는 강한 반대색상 대비로 생동감을 극대화하는 배색이 트렌드다.",
+ consumer:"쇼핑과 여가를 함께 즐기는 몰링족으로, 자극적이고 생동감 있는 색채에서 체험에 대한 기대감을 얻는다.",
+ concept:["생동감","오감 자극","두 배너의 통일감"],
+ dominant:"파랑(B) 계열 — 배너①의 주조색으로 몰입감을 표현",
+ sub:"주황(Orange) 계열 — 배너②의 주조색으로 파랑과 반대색상을 이루는 보조색",
+ accent:"검정(Black) 계열 — 두 배너 모두에 공통 사용해 통일감을 부여하는 강조색",
+ technique:"두 배너 각각 반대색상 배색을 적용하되, 공통 강조색(검정)과 동일한 레이아웃 비율로 통일감을 확보"},
+
+{no:26, title:"'A-Mart' 신선식품 배송 광고", tags:["뉴트로","신선함","빠른 배송"],
+ market:"신선식품 새벽배송 시장이 성숙기에 접어들며 브랜드별 감성 차별화 경쟁이 치열해지고 있다.",
+ trend:"뉴트로(new-tro) 감성이 식품 광고 전반에 확산되며 채도 낮은 레트로 컬러와 모던 그린의 조합이 인기다.",
+ consumer:"건강한 식단에 관심 많은 소비자로, 신선함에 대한 신뢰와 정겨운 뉴트로 감성을 동시에 원한다.",
+ concept:["뉴트로 감성","신선함","신속·안전 배송"],
+ dominant:"초록(G) 계열 — 신선한 농산물을 상징하는 주조색",
+ sub:"저채도 주황(Orange, 레트로톤) 계열 — 뉴트로 감성을 더하는 보조색",
+ accent:"하양(White) 계열 — 청결하고 안전한 배송 이미지를 강조하는 강조색",
+ technique:"초록·레트로 오렌지의 톤인톤 배색으로 뉴트로 감성을 표현하고 하양으로 신뢰감을 정리"},
+
+{no:27, title:"에어프라이어 가전제품 (박람회 전시)", tags:["싱글라이프","선택형 색채","SNS 트렌드"],
+ market:"1인가구 증가로 소형 가전 시장이 확대되며 색상 선택형 커스터마이징이 구매 결정 요인으로 부상하고 있다.",
+ trend:"SNS 감성 사진에 어울리는 파스텔·머스타드 등 개성 있는 단색 가전 컬러가 트렌드를 이끌고 있다.",
+ consumer:"싱글라이프를 즐기는 20~30대로, 정보습득이 빠르고 인테리어 소품처럼 가전을 선택하는 경향이 강하다.",
+ concept:["개인화","트렌디함","인테리어 소품화"],
+ dominant:"머스타드 계열 노랑(Y) — SNS에서 화제가 되는 주조색 옵션",
+ sub:"연회색(Gray) 계열 — 미니멀한 주방과 어울리는 보조색 옵션",
+ accent:"하양(White) 계열 — 어떤 조합에도 무난한 강조색",
+ technique:"단품 자체는 동일색상 배색(단색)으로 완성하되, 라인업 전체는 톤온톤 스와치로 다양성을 표현"},
+
+{no:28, title:"고가 화장품 브랜드 메이크업 키트", tags:["미백 특허성분","고소득 전문직","화려·세련"],
+ market:"프리미엄 색조 화장품 시장에서 신규 특허성분을 앞세운 고가 라인이 경쟁적으로 출시되고 있다.",
+ trend:"럭셔리 뷰티 패키지에서는 딥퍼플·골드의 화려한 배색이 고가 라인의 상징색으로 자리잡았다.",
+ consumer:"20~30대 젊은 고소득 전문직으로, 가격에 걸맞은 화려하고 세련된 비주얼을 기대한다.",
+ concept:["화려함","세련됨","고가의 신뢰감"],
+ dominant:"보라(Purple) 계열 — 고급스러운 화려함을 담는 주조색",
+ sub:"검정(Black) 계열 — 세련된 무게감을 더하는 보조색",
+ accent:"금색에 가까운 노랑(Y) 계열 — 프리미엄 로고 포인트의 강조색",
+ technique:"보라·검정의 톤온톤 배색으로 고급스러움을 만들고 금색을 세퍼레이션 강조로 배치해 화려함을 절제 있게 표현"},
+
+{no:29, title:"4인 가족 캠핑 텐트·용품 세트", tags:["개성 vs 내추럴","세대 취향 융합","자연 조화"],
+ market:"가족 단위 캠핑 문화가 확산되며 세대별 다른 취향을 함께 만족시키는 제품 기획이 중요해지고 있다.",
+ trend:"캠핑용품 시장에서는 어스톤 베이스에 컬러 포인트를 더하는 배색이 세대공감형 트렌드로 인기다.",
+ consumer:"개성을 원하는 10대 자녀와 내추럴함을 선호하는 40대 부부로 구성된 4인 가족이 타깃이다.",
+ concept:["자연과의 조화","세대 취향 융합","편안함"],
+ dominant:"카키(초록 저채도) 계열 — 자연과 조화되는 주조색",
+ sub:"베이지(갈색 저채도) 계열 — 부모 세대가 선호하는 차분한 보조색",
+ accent:"주황(Orange) 계열 — 자녀 세대의 개성을 반영하는 강조색",
+ technique:"카키·베이지의 톤인톤 배색을 기본 텐트에 적용하고, 소품에는 주황 강조색을 세퍼레이션으로 배치해 취향을 절충"},
+
+{no:30, title:"신혼부부 봄 웨딩시즌 침실 디스플레이", tags:["플랜테리어","쾌적함","건강함"],
+ market:"홈퍼니싱 시장에서 식물 인테리어(플랜테리어)를 결합한 웨딩 시즌 디스플레이 마케팅이 확대되고 있다.",
+ trend:"봄 시즌 침실 스타일링에서는 그린과 화이트를 기본으로 한 상쾌하고 건강한 배색이 트렌드로 자리잡았다.",
+ consumer:"제품 콘셉트를 중요하게 여기는 신혼부부로, 감각적이면서도 건강한 라이프스타일을 연출하고 싶어한다.",
+ concept:["플랜테리어","쾌적함","봄의 생기"],
+ dominant:"연두(GY) 계열 — 식물과 봄의 생기를 담는 주조색",
+ sub:"하양(White) 계열 — 침구의 청결하고 쾌적한 인상을 더하는 보조색",
+ accent:"분홍(Pink) 계열 — 웨딩 시즌의 로맨틱함을 더하는 강조색",
+ technique:"연두·하양의 톤인톤 배색으로 쾌적함을 표현하고 분홍을 소량 세퍼레이션으로 배치해 웨딩 무드를 더함"},
+
+{no:31, title:"제주 배달앱·라이더 유니폼·전기 오토바이", tags:["친환경","제주 이미지","상쾌·세련"],
+ market:"지역 특화 배달 서비스가 늘며 브랜드 아이덴티티와 지역 이미지를 결합한 디자인이 경쟁력이 되고 있다.",
+ trend:"친환경 모빌리티 트렌드에서 청량한 블루·그린 계열이 전기차·전기 오토바이 디자인의 대표색으로 쓰인다.",
+ consumer:"제주를 오가는 폭넓은 연령대의 소비자로, 청정 이미지와 신뢰감 있는 서비스를 색채로 먼저 기대한다.",
+ concept:["친환경","청정 제주","상쾌·세련"],
+ dominant:"청록(BG) 계열 — 제주 바다의 청정 이미지를 담는 주조색",
+ sub:"연두(GY) 계열 — 친환경·전기 동력을 상징하는 보조색",
+ accent:"하양(White) 계열 — 세련되고 깔끔한 인상을 더하는 강조색",
+ technique:"청록·연두의 유사색상 톤인톤 배색으로 청정함을 표현하고 하양으로 전체를 정리해 세련미를 더함"},
+
+{no:32, title:"퓨처리즘 안마의자·보조테이블", tags:["건강 가전","모던","심플"],
+ market:"평균 수명 증가로 헬스케어 가전이 프리미엄 생활가전 시장의 핵심 카테고리로 성장하고 있다.",
+ trend:"퓨처리즘 디자인 트렌드에서는 무채색 베이스에 메탈릭 포인트를 더한 심플한 배색이 첨단 가전의 표준이 되고 있다.",
+ consumer:"몸과 정신의 건강을 중시하는 중장년~시니어층으로, 첨단감과 동시에 신뢰할 수 있는 절제된 색채를 선호한다.",
+ concept:["퓨처리즘","심플함","모던함"],
+ dominant:"검정(Black) 계열 — 첨단 기기의 무게감을 담는 주조색",
+ sub:"회색(Gray, 메탈릭) 계열 — 미래지향적 소재감을 더하는 보조색",
+ accent:"파랑(B) 계열 — 조명·디테일에 첨단감을 더하는 강조색",
+ technique:"검정·회색의 톤온톤 배색으로 심플한 무게감을 만들고 파랑을 소량 세퍼레이션으로 배치해 퓨처리즘을 강조"},
+
+{no:33, title:"홈 짐(Home Gym) 공간 (저드 조화이론 선택)", tags:["저드 조화론","스포티","미래 첨단"],
+ market:"홈트레이닝 문화 확산으로 개인 주거공간 내 홈짐 조성이 보편화되고 있다.",
+ trend:"스포츠·테크 융합 공간에서는 블랙&블루 조합의 미래지향적 배색이 홈짐 트렌드로 자리잡았다.",
+ consumer:"건강 관리에 관심 많은 소비자로, 전문 피트니스 클럽 못지않은 스포티하고 첨단적인 분위기를 원한다.",
+ concept:["스포티함","미래 첨단","저드 질서의 원리"],
+ dominant:"검정(Black) 계열 — 첨단감과 집중력을 주는 주조색",
+ sub:"파랑(B) 계열 — 스포티한 활력을 더하는 보조색",
+ accent:"연두(GY, 네온) 계열 — 운동 에너지를 표현하는 강조색",
+ technique:"저드의 질서의 원리(색상환 등간격 선택)에 근거해 검정·파랑·네온연두를 규칙적 간격으로 배치해 조화를 이룸"},
+
+{no:34, title:"패션 스타트업 전용 공유 오피스", tags:["개방감","창의성","합리적 소비"],
+ market:"공유 오피스 시장에서 업종 특화형(패션 스타트업 전용) 공간이 차별화 전략으로 떠오르고 있다.",
+ trend:"창의적 워크스페이스 트렌드에서 화이트 베이스에 비비드 포인트를 더한 개방적 배색이 인기다.",
+ consumer:"합리적 소비를 추구하는 젊은 창업자층으로, 개방감 있고 영감을 주는 색채의 공간을 선호한다.",
+ concept:["개방감","창의성","합리성"],
+ dominant:"하양(White) 계열 — 개방감을 극대화하는 주조색",
+ sub:"연회색(Gray) 계열 — 실용적이고 차분한 업무 분위기를 더하는 보조색",
+ accent:"노랑(Y) 계열 — 창의적 영감을 자극하는 강조색",
+ technique:"하양·회색의 톤인톤 배색으로 개방감을 확보하고 노랑을 포인트 존에 세퍼레이션으로 배치해 창의성을 자극"},
+
+{no:35, title:"성인용 소설 '인어공주' 책표지 (아르누보)", tags:["아르누보","몽환적","우울·상실감"],
+ market:"동화 원작을 성인 감성으로 재해석한 소설 시장이 확대되며 책표지의 예술적 완성도가 판매를 좌우한다.",
+ trend:"아르누보 리바이벌 트렌드에서 저채도 청록·보라의 몽환적 배색이 감성 소설 표지의 대표색으로 쓰인다.",
+ consumer:"로맨틱하면서도 슬픈 감성을 선호하는 성인 독자로, 신비롭고 몽환적인 색채에서 정서적 몰입을 기대한다.",
+ concept:["몽환적 신비로움","우울감·상실감","아르누보 양식"],
+ dominant:"청록(BG) 계열 — 바다와 인어공주의 신비로움을 담는 주조색",
+ sub:"보라(Purple) 계열 — 몽환적이고 슬픈 정서를 더하는 보조색",
+ accent:"은색에 가까운 회색(Gray) 계열 — 아르누보 장식선의 강조색",
+ technique:"청록·보라의 유사색상 톤인톤 배색으로 몽환적 통일감을 만들고 은회색 라인을 세퍼레이션으로 배치해 상실감의 여운을 표현"},
+];
+
+/* ================= 히어로 스와치 ================= */
+const heroPalette = ["#3b6b6a","#8a5a3b","#b0463e","#3b5a8a","#7ea3c9","#c9a06a","#5a4632","#3f7a4f","#7a4f8a","#d8b23b"];
+(function(){
+  const strip = document.getElementById('heroStrip');
+  heroPalette.forEach(c=>{
+    const div=document.createElement('div');
+    div.style.background=c;
+    strip.appendChild(div);
+  });
+})();
+
+/* ================= 탭 전환 ================= */
+document.querySelectorAll('nav.tabs button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('section.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.p).classList.add('active');
+  });
+});
+
+/* ================= 키워드 사전 데이터 ================= */
+const dictData = [
+  {cat:"market", text:"온라인/오프라인 소비 채널의 변화 속에서 (대상)이 차별화된 경험을 제공할 필요성이 커지고 있다."},
+  {cat:"market", text:"1인가구·고령화 등 인구구조 변화가 (대상) 시장의 새로운 수요를 만들어내고 있다."},
+  {cat:"market", text:"경쟁이 심화되는 (업종) 시장에서 브랜드 아이덴티티 강화가 생존 전략으로 떠오르고 있다."},
+  {cat:"market", text:"친환경·지속가능성에 대한 관심이 (업종) 전반의 제품·서비스 기획에 반영되고 있다."},
+  {cat:"trend", text:"저채도 뉴트럴 톤과 포인트 컬러를 조합하는 배색이 (업종) 디자인의 주류 트렌드로 자리잡고 있다."},
+  {cat:"trend", text:"레트로/뉴트로 감성의 컬러가 다시 주목받으며 (대상)에도 반영되는 추세다."},
+  {cat:"trend", text:"웰니스·힐링 트렌드에 따라 저채도 그린·베이지 계열이 폭넓게 활용되고 있다."},
+  {cat:"trend", text:"디지털/AI 관련 대상에는 무채색 베이스에 네온·메탈릭 포인트를 더하는 배색이 인기다."},
+  {cat:"consumer", text:"(연령대)를 주요 타깃으로, (라이프스타일 키워드)를 중시하는 소비자층이다."},
+  {cat:"consumer", text:"트렌드에 민감하고 SNS를 통한 정보습득 속도가 빠른 소비자로, 개성 있는 색채 선택에 적극적이다."},
+  {cat:"consumer", text:"품질과 신뢰를 우선하는 소비자로, 과도한 장식보다 절제된 고급스러움에 반응한다."},
+  {cat:"consumer", text:"정서적 안정과 편안함을 원하는 소비자로, 자극적인 색채보다 온화한 톤을 선호한다."},
+  {cat:"concept", text:"주제문의 형용사를 그대로 키워드로 추출하고, 그 반대 개념(대비축)도 함께 검토해 방향을 명확히 한다."},
+  {cat:"concept", text:"콘셉트 키워드는 2~4개로 압축하고, 각 키워드가 어떤 색상·톤과 연결되는지 바로 뒤에 서술한다."},
+];
+const catNames = {market:"시장환경", trend:"컬러트렌드", consumer:"소비자", concept:"콘셉트 키워드 팁"};
+function renderDict(filter){
+  const body = document.getElementById('dictBody');
+  body.innerHTML='';
+  dictData.forEach(d=>{
+    if(filter!=='all' && d.cat!==filter) return;
+    const tr=document.createElement('tr');
+    tr.innerHTML = `<td><b>${catNames[d.cat]}</b></td><td>${d.text}</td>`;
+    body.appendChild(tr);
+  });
+}
+(function(){
+  const filterBar = document.getElementById('dictFilter');
+  const cats = [["all","전체"],["market","시장환경"],["trend","컬러트렌드"],["consumer","소비자"],["concept","콘셉트 키워드 팁"]];
+  cats.forEach(([key,label],i)=>{
+    const btn=document.createElement('button');
+    btn.textContent=label;
+    if(i===0) btn.classList.add('active');
+    btn.addEventListener('click',()=>{
+      filterBar.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderDict(key);
+    });
+    filterBar.appendChild(btn);
+  });
+  renderDict('all');
+})();
+
+/* ================= 색이름 → 대략 RGB(스와치 표시용) ================= */
+const colorMap = {
+  "빨강":"#c94a3a","주황":"#d9822b","노랑":"#d8b23b","연두":"#9ab648","초록":"#3f7a4f",
+  "청록":"#3b8a82","파랑":"#3b6b9a","남색":"#3b4f8a","보라":"#7a4f8a","자주":"#9a3b6b",
+  "분홍":"#d99bb0","갈색":"#7a5236","하양":"#f2f0ea","회색":"#9a938a","검정":"#2b2620"
+};
+function pickSwatch(text){
+  for(const key in colorMap){
+    if(text.startsWith(key)) return colorMap[key];
+  }
+  return "#c9a06a";
+}
+
+/* ================= 서술연습 렌더 ================= */
+const pSelect = document.getElementById('pSelect');
+dataset.forEach((d,i)=>{
+  const opt = document.createElement('option');
+  opt.value = i;
+  opt.textContent = `${d.no}. ${d.title}`;
+  pSelect.appendChild(opt);
+});
+
+function renderPractice(idx){
+  const d = dataset[idx];
+  const container = document.getElementById('pContainer');
+  container.innerHTML = `
+    <div class="quiz-item">
+      <div class="prompt">${d.no}. ${d.title}</div>
+      <div class="cond-tags">${d.tags.map(t=>`<span>${t}</span>`).join('')}</div>
+
+      <div class="ans-box"><span class="lbl">① 시장환경</span>${d.market}</div>
+      <div class="ans-box"><span class="lbl">② 컬러트렌드</span>${d.trend}</div>
+      <div class="ans-box"><span class="lbl">③ 소비자</span>${d.consumer}</div>
+      <div class="ans-box"><span class="lbl">④ 콘셉트 키워드 & 방향설정</span>${d.concept.join(' · ')}</div>
+
+      <div class="ans-box">
+        <span class="lbl">⑤ 주조·보조·강조색 적용의도와 배색기법</span>
+        <div class="swatchrow">
+          <div class="sw"><span class="dot" style="background:${pickSwatch(d.dominant)}"></span>주조색 — ${d.dominant}</div>
+          <div class="sw"><span class="dot" style="background:${pickSwatch(d.sub)}"></span>보조색 — ${d.sub}</div>
+          <div class="sw"><span class="dot" style="background:${pickSwatch(d.accent)}"></span>강조색 — ${d.accent}</div>
+        </div>
+        <div class="ratio-bar" style="margin-top:12px;">
+          <div style="flex:65;background:${pickSwatch(d.dominant)};">65%</div>
+          <div style="flex:25;background:${pickSwatch(d.sub)};">25%</div>
+          <div style="flex:10;background:${pickSwatch(d.accent)};">10%</div>
+        </div>
+        <p style="margin:12px 0 0;font-size:14px;">${d.technique}</p>
+      </div>
+    </div>
+  `;
+}
+renderPractice(0);
+pSelect.addEventListener('change', e=>renderPractice(+e.target.value));
+document.getElementById('pRandom').addEventListener('click', ()=>{
+  const i = Math.floor(Math.random()*dataset.length);
+  pSelect.value = i;
+  renderPractice(i);
+});
+</script>
+</body>
+</html>
