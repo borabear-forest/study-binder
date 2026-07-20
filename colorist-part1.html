@@ -16,6 +16,7 @@
     --bad:#b0463e;
     --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
   }
+  html{overflow-x:hidden;}
   *{box-sizing:border-box;}
   body{
     margin:0;
@@ -111,6 +112,10 @@
   table.quad{width:100%;border-collapse:collapse;font-size:14px;margin-top:10px;}
   table.quad th,table.quad td{border:1px solid var(--line);padding:8px 10px;text-align:center;}
   table.quad th{background:var(--paper-2);}
+  #hue20Table{table-layout:fixed;}
+  #hue20Table td,#hue20Table th{text-align:left;word-break:keep-all;overflow-wrap:anywhere;white-space:normal;}
+  #hue20Table td:nth-child(1),#hue20Table td:nth-child(3){width:17%;text-align:left;}
+  @media(max-width:560px){#hue20Table{font-size:12px;}}
   .swatch-mini{
     display:inline-block;width:34px;height:18px;border-radius:4px;
     border:1px solid rgba(0,0,0,.12);vertical-align:middle;
@@ -168,6 +173,39 @@
   .legend{display:flex;gap:16px;font-size:12.5px;color:#7a705f;margin-top:10px;flex-wrap:wrap;}
   .legend span{display:inline-flex;align-items:center;gap:5px;}
   .legend .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+
+  .recipe-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:22px;max-width:100%;overflow:hidden;}
+  .recipe-card h3{margin:0 0 4px;font-size:17px;font-weight:800;display:flex;align-items:center;gap:10px;}
+  .recipe-card .swatch-dot{width:18px;height:18px;border-radius:50%;border:1px solid rgba(0,0,0,.15);display:inline-block;flex:none;}
+  .recipe-card .base{font-size:13.5px;color:#7a705f;margin:0 0 14px;}
+  table.recipe{width:100%;table-layout:fixed;border-collapse:collapse;font-size:13.5px;}
+  table.recipe th,table.recipe td{
+    border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top;
+    word-break:keep-all;overflow-wrap:anywhere;white-space:normal;
+  }
+  table.recipe th{background:var(--paper-2);font-weight:700;}
+  table.recipe th:first-child, table.recipe td.tone{width:88px;}
+  table.recipe td.tone{font-weight:700;color:var(--accent);white-space:normal;}
+  @media(max-width:560px){
+    table.recipe{font-size:12.5px;}
+    table.recipe th:first-child, table.recipe td.tone{width:64px;}
+    table.recipe th,table.recipe td{padding:6px 7px;}
+    .recipe-card{padding:18px 16px;}
+  }
+
+  .my-recipe{margin-top:16px;border-top:1px dashed var(--line);padding-top:14px;}
+  .my-recipe h4{margin:0 0 8px;font-size:13.5px;font-weight:800;color:var(--ink);}
+  .my-recipe textarea{
+    width:100%;min-height:70px;border:1px solid var(--line);border-radius:8px;
+    padding:10px 12px;font-size:13.5px;font-family:inherit;resize:vertical;background:var(--paper);
+  }
+  .my-recipe .save-row{display:flex;align-items:center;gap:10px;margin-top:8px;}
+  .my-recipe .save-btn{
+    border:none;background:var(--ink);color:#fff;padding:7px 16px;border-radius:8px;
+    font-size:13px;font-weight:700;cursor:pointer;
+  }
+  .my-recipe .saved-flag{font-size:12.5px;color:var(--good);opacity:0;transition:.2s;}
+  .my-recipe .saved-flag.show{opacity:1;}
 </style>
 </head>
 <body>
@@ -186,6 +224,8 @@
   <button data-p="quad">사분면 판단</button>
   <button data-p="compare">기준·샘플 비교</button>
   <button data-p="correction">보정계획 서술</button>
+  <button data-p="recipe">조색 레시피</button>
+  <button data-p="hue20">20색상 기준표</button>
 </nav>
 
 <main>
@@ -266,6 +306,25 @@
     <h2 class="section-title"><span class="num">04</span> 보정계획 문장 완성</h2>
     <p class="lead">빈칸에 <code>Black, White, Blue, Yellow, Green, Red</code> 중 알맞은 색을 넣어보세요. 기출 30문항의 기준색 전체를 사용하고, 샘플색은 연습용으로 매번 임의 생성돼요. 정답은 하나가 아닐 수 있지만, 방향이 맞는지 확인해줄게요.</p>
     <div id="corrQuiz"></div>
+  </section>
+
+  <!-- ===================== 조색 레시피 ===================== -->
+  <section class="panel" id="panel-recipe">
+    <h2 class="section-title"><span class="num">05</span> 색상별 톤 조색 레시피</h2>
+    <p class="lead">먼셀 10색상 기준 톤별 포스터컬러 배합 참고표예요. 톤이 밝아질수록 White↑, 탁·검어질수록 Black↑ 하는 패턴이 색상마다 공통이에요. 표 아래 칸에는 직접 조색해본 비율이나 메모를 남겨서 나만의 레시피로 업데이트해보세요 (이 브라우저에 자동 저장돼요).</p>
+    <div id="recipeCards"></div>
+  </section>
+
+  <!-- ===================== 20색상 기준표 ===================== -->
+  <section class="panel" id="panel-hue20">
+    <h2 class="section-title"><span class="num">06</span> 먼셀 20색상 · 선명한(순색) 조색 기준표</h2>
+    <p class="lead">먼셀 기본 10색상(굵게 표시)과 그 사이 중간색상까지 20단계로 나눈, "선명한" 단계의 포스터컬러 배합비예요. 05번 탭의 톤별 레시피가 8개 대표색 위주였다면, 이 표는 <b>10R·10YR·10Y·10GY·10G·10BG·10B·10PB·10P·10RP</b> 같은 사이 색상까지 채워줘요. 여기서 White를 살짝 추가하면 색상을 파악하기 쉬워지는 색(주로 어두운 톤)도 있어요.</p>
+    <div class="card">
+      <table class="quad" id="hue20Table" style="font-size:13.5px;">
+        <tr><th>색상</th><th>배합</th><th>색상</th><th>배합</th></tr>
+      </table>
+      <div class="note">파랑(5B) 계열 조색시 Cerulean Blue에 Viridian을 소량 섞어도 무방하며, 명도가 어두워 색상 파악이 어려울 땐 White를 아주 약간 넣으면 판단이 쉬워져요.</div>
+    </div>
   </section>
 
 </main>
@@ -552,10 +611,218 @@ function resetQuiz(which){
   if(which==='cmp') buildCompare();
 }
 
+/* ---------------- 조색 레시피 데이터 ---------------- */
+const recipeData = [
+  {
+    color:"빨강", dot:"#c0392b", base:"기본 조색: Carmine · Vermilion · Magenta",
+    tones:[
+      {name:"선명한 빨강", recipe:"Carmine 90%, Magenta 10%"},
+      {name:"밝은 빨강", recipe:"Vermilion 60%, MiddleYellow 5%, White 30%, Black 5%"},
+      {name:"진한 빨강", recipe:"Vermilion·Carmine 조합, White 5%, Black 25% (10R 3/8 조색시 참고)"},
+      {name:"연한 빨강", recipe:"Vermilion 30%, MiddleYellow 5%, White 60%, Black 5%"},
+      {name:"흐린 빨강", recipe:"Vermilion·MiddleYellow 조합, White 40~50%, Black 10~20%"},
+      {name:"탁한 빨강", recipe:"Vermilion 35%, MiddleYellow 5%, White 35%, Black 25%"},
+      {name:"흰 빨강", recipe:"Vermilion 10%, MiddleYellow 5%, White 83%, Black 2%"},
+      {name:"밝은회 빨강", recipe:"Vermilion 8%, MiddleYellow 2%, White 70%, Black 20%"},
+      {name:"회 빨강", recipe:"Vermilion 8%, MiddleYellow 2%, White 50%, Black 40%"},
+      {name:"검은 빨강", recipe:"Vermilion·Carmine+Magenta 소량, Black 70~80% (5R 2/6 조색시 참고)"},
+    ]
+  },
+  {
+    color:"주황", dot:"#d9782d", base:"기본 조색: Vermilion · MiddleYellow",
+    tones:[
+      {name:"선명한 주황", recipe:"Vermilion 35%, MiddleYellow 60%, LemonYellow 5%"},
+      {name:"밝은 주황", recipe:"Vermilion·MiddleYellow 조합, White 30~40%, Black 5% (5YR 8/8 조색시 참고)"},
+      {name:"진한 주황", recipe:"Vermilion 20%, MiddleYellow 40%, White 5%, Black 20%, Mauve 15%"},
+      {name:"연한 주황", recipe:"Vermilion 10%, MiddleYellow 25%, White 60%, Black 5%"},
+      {name:"흐린 주황", recipe:"Vermilion·MiddleYellow 조합, White 40~50%, Black 10~20%"},
+      {name:"탁한 주황", recipe:"Vermilion 15%, MiddleYellow 25%, White 35%, Black 25%"},
+      {name:"흰 주황", recipe:"Vermilion 5%, MiddleYellow 10%, White 83%, Black 2%"},
+      {name:"밝은회 주황", recipe:"Vermilion 6%, MiddleYellow 4%, White 70%, Black 20%"},
+      {name:"회 주황", recipe:"Vermilion·MiddleYellow 조합, White 48~50%, Black 38~40%"},
+      {name:"검은 주황", recipe:"MiddleYellow·Vermilion 소량, White 4~5%, Black 78~80%"},
+    ]
+  },
+  {
+    color:"연두", dot:"#9acd32", base:"기본 조색: MiddleYellow · LightGreen (+Vermilion 자주기 지울 때)",
+    tones:[
+      {name:"선명한 연두", recipe:"MiddleYellow 45%, LightGreen 35%, LemonYellow 20%"},
+      {name:"밝은 연두", recipe:"MiddleYellow 35%, LightGreen 30%, White 30%, Black 5%"},
+      {name:"진한 연두", recipe:"MiddleYellow 15%, LightGreen 35%, Black 30%"},
+      {name:"연한 연두", recipe:"MiddleYellow·LightGreen 조합, White 60%, Black 5% (10GY 8/4 조색시 참고)"},
+      {name:"흐린 연두", recipe:"MiddleYellow·LightGreen 조합, White 40~50%, Black 10~20%"},
+      {name:"탁한 연두", recipe:"MiddleYellow·LightGreen+Vermilion 소량, White 35%, Black 25%"},
+      {name:"흰 연두", recipe:"MiddleYellow 9%, LightGreen 6%, White 83%, Black 2%"},
+      {name:"밝은회 연두", recipe:"MiddleYellow 7%, Vermilion 3%, White 70%, Black 20%"},
+      {name:"회 연두", recipe:"MiddleYellow 7%, Vermilion 3%, White 50%, Black 40%"},
+      {name:"검은 연두", recipe:"LightGreen·Vermilion 소량, White 5%, Black 82% (5GY 3/4 조색시 참고)"},
+    ]
+  },
+  {
+    color:"초록", dot:"#2e8b57", base:"기본 조색: Viridian · LightGreen · LemonYellow",
+    tones:[
+      {name:"선명한 초록", recipe:"Viridian 40%, LemonYellow 60%"},
+      {name:"밝은 초록", recipe:"Viridian 25%, LightGreen 40%, White 30%, Black 5%"},
+      {name:"진한 초록", recipe:"Viridian 20%, LightGreen 50%, White 5%, Black 25%"},
+      {name:"연한 초록", recipe:"Viridian·LightGreen 조합, White 60%, Black 5% (10G 8/4 조색시 참고)"},
+      {name:"흐린 초록", recipe:"Viridian·LightGreen·MiddleYellow 조합, White 40~50%, Black 10~20%"},
+      {name:"탁한 초록", recipe:"Viridian 15%, LightGreen 20%, MiddleYellow 5%, White 35%, Black 25%"},
+      {name:"흰 초록", recipe:"Viridian 5%, LightGreen 10%, White 83%, Black 2%"},
+      {name:"밝은회 초록", recipe:"LightGreen 6%, MiddleYellow 4%, White 70%, Black 20%"},
+      {name:"회 초록", recipe:"LightGreen 6%, MiddleYellow 4%, White 50%, Black 40%"},
+      {name:"검은 초록", recipe:"LightGreen 10%, MiddleYellow 5%, White 5%, Black 80%"},
+    ]
+  },
+  {
+    color:"파랑", dot:"#2874a6", base:"기본 조색: CeruleanBlue · LemonYellow (+Viridian 남색기 지울 때)",
+    tones:[
+      {name:"선명한 파랑", recipe:"CeruleanBlue 95%, LemonYellow 5%"},
+      {name:"밝은 파랑", recipe:"CeruleanBlue 50%, LemonYellow 5%, White 30%, Black 5%"},
+      {name:"진한 파랑", recipe:"CeruleanBlue 60%, Viridian 10%, White 5%, Black 25%"},
+      {name:"연한 파랑", recipe:"CeruleanBlue 30%, LemonYellow 5%, White 60%, Black 5% (5B 7/6 조색시 참고)"},
+      {name:"흐린 파랑", recipe:"CeruleanBlue·LemonYellow 조합, White 40~50%, Black 10~20%"},
+      {name:"탁한 파랑", recipe:"CeruleanBlue 35%, LemonYellow 5%, White 35%, Black 25%"},
+      {name:"흰 파랑", recipe:"CeruleanBlue 10%, LemonYellow 5%, White 83%, Black 2%"},
+      {name:"밝은회 파랑", recipe:"LemonYellow·Vermilion·CeruleanBlue 소량, White 70%, Black 20% (5B 7/2 조색시 참고)"},
+      {name:"회 파랑", recipe:"LemonYellow 9%, Vermilion 1%, White 50%, Black 40%"},
+      {name:"검은 파랑", recipe:"Viridian·CeruleanBlue·LemonYellow 소량, White 5~8%, Black 78~90% (5B 2/6 조색시 참고)"},
+    ]
+  },
+  {
+    color:"보라", dot:"#7d3c98", base:"기본 조색: Mauve(CobaltViolet) · Magenta",
+    tones:[
+      {name:"선명한 보라", recipe:"Mauve 75%, Magenta 12%, Vermilion 3%, White/Black 소량 (5P 3/10 조색시 참고)"},
+      {name:"밝은 보라", recipe:"Mauve 40%, Magenta 25%, White 35%"},
+      {name:"진한 보라", recipe:"Mauve 55%, Magenta 10%, Vermilion 5%, White 10%, Black 20%"},
+      {name:"연한 보라", recipe:"Magenta 35%, White 60%, Black 5%"},
+      {name:"흐린 보라", recipe:"Magenta·Vermilion 조합, White 40~50%, Black 10~20% (5P 7/6, 10P 7/6 조색시 참고)"},
+      {name:"탁한 보라", recipe:"Magenta 35%, Vermilion 5%, White 35%, Black 25%"},
+      {name:"흰 보라", recipe:"Magenta 9%, Mauve 6%, White 83%, Black 2%"},
+      {name:"밝은회 보라", recipe:"Magenta·MiddleYellow 조합, White 70%, Black 20% (5P 7/2 조색시 참고)"},
+      {name:"회 보라", recipe:"Magenta 6%, MiddleYellow 4%, White 50%, Black 40%"},
+      {name:"검은 보라", recipe:"Magenta 12%, Mauve 3%, White/Black — Black 압도적"},
+    ]
+  },
+  {
+    color:"자주", dot:"#a33a63", base:"기본 조색: Magenta · Carmine",
+    tones:[
+      {name:"선명한 자주", recipe:"Magenta 60%, Carmine 5%, MiddleYellow 10%, White 10%, Black 15%"},
+      {name:"밝은 자주", recipe:"Magenta 40%, Vermilion 25%, White 35%"},
+      {name:"진한 자주", recipe:"Magenta·Carmine·MiddleYellow 조합, White 10%, Black 20% (10RP 3/8 조색시 참고)"},
+      {name:"연한 자주", recipe:"Carmine 30%, Vermilion 5%, White 60%, Black 5%"},
+      {name:"흐린 자주", recipe:"Carmine 25%, MiddleYellow 15%, White 40%, Black 20%"},
+      {name:"탁한 자주", recipe:"Carmine 25%, MiddleYellow 15%, White 35%, Black 25%"},
+      {name:"흰 자주", recipe:"Carmine 12%, MiddleYellow 3%, White 80%, Black 5%"},
+      {name:"밝은회 자주", recipe:"Carmine 6%, MiddleYellow 4%, White 70%, Black 20%"},
+      {name:"회 자주", recipe:"Carmine·MiddleYellow 조합, White 48~50%, Black 38~40% (5RP 5/2 조색시 참고)"},
+      {name:"검은 자주", recipe:"Carmine 9~12%, Magenta 6~8%, White 15~18%, Black 68~80% (5RP 2/4 조색시 참고)"},
+    ]
+  },
+  {
+    color:"청록", dot:"#1f7a6c", base:"기본 조색: Viridian · LightGreen(저채도) · CeruleanBlue",
+    tones:[
+      {name:"선명한 청록", recipe:"Viridian 90%, CeruleanBlue 5%, White 5%"},
+      {name:"밝은 청록", recipe:"Viridian 55%, LemonYellow 10%, White 35%"},
+      {name:"진한 청록", recipe:"Viridian 52%, MiddleYellow 8%, White 10%, Black 30%"},
+      {name:"연한 청록", recipe:"Viridian 25%, LightGreen 10%, White 60%, Black 5%"},
+      {name:"흐린 청록", recipe:"Viridian·LemonYellow 조합, White 40~50%, Black 10~20% (5BG 6/4, 7/6 조색시 참고)"},
+      {name:"탁한 청록", recipe:"Viridian 30%, LemonYellow 10%, White 35%, Black 25%"},
+      {name:"흰 청록", recipe:"Viridian 10%, LemonYellow 5%, White 83%, Black 2%"},
+      {name:"밝은회 청록", recipe:"LightGreen·Viridian 소량, White 70%, Black 18~20% (5BG 7/1, 7/2 조색시 참고)"},
+      {name:"회 청록", recipe:"LightGreen 9%, Vermilion 1%, White 50%, Black 40%"},
+      {name:"검은 청록", recipe:"Viridian 10%, LightGreen 5%, White 5%, Black 80%"},
+    ]
+  },
+];
+
+/* ---------------- 조색 레시피 렌더링 + 내 기록 저장 ---------------- */
+function buildRecipe(){
+  const container = document.getElementById('recipeCards');
+  container.innerHTML='';
+  recipeData.forEach((c, ci)=>{
+    const card = document.createElement('div');
+    card.className='recipe-card';
+    const rows = c.tones.map(t=>`
+      <tr><td class="tone">${t.name}</td><td>${t.recipe}</td></tr>
+    `).join('');
+    const storageKey = 'recipeNote_'+c.color;
+    const saved = localStorage.getItem(storageKey) || '';
+    card.innerHTML = `
+      <h3><span class="swatch-dot" style="background:${c.dot}"></span>${c.color} 계열</h3>
+      <p class="base">${c.base}</p>
+      <table class="recipe">
+        <tr><th style="width:130px;">톤</th><th>배합 레시피</th></tr>
+        ${rows}
+      </table>
+      <div class="my-recipe">
+        <h4>✏️ 내가 직접 조색해본 기록</h4>
+        <textarea placeholder="예: 진한 ${c.color} — 실제로는 Black을 조금 더 넣으니 색이 맞았음 / 오늘 시험지 5번 문제 조색 메모 등">${saved}</textarea>
+        <div class="save-row">
+          <button class="save-btn" data-key="${storageKey}">저장</button>
+          <span class="saved-flag" id="flag-${ci}">저장됨</span>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+  container.querySelectorAll('.save-btn').forEach((btn, i)=>{
+    btn.addEventListener('click', ()=>{
+      const key = btn.dataset.key;
+      const ta = btn.closest('.my-recipe').querySelector('textarea');
+      localStorage.setItem(key, ta.value);
+      const flag = document.getElementById('flag-'+i);
+      flag.classList.add('show');
+      setTimeout(()=>flag.classList.remove('show'), 1500);
+    });
+  });
+}
+
+/* ---------------- 20색상 선명한(순색) 기준표 ---------------- */
+const hue20Data = [
+  {hue:"5R (빨강)", bold:true, recipe:"Carmine 95%, Magenta 5%"},
+  {hue:"10R", bold:false, recipe:"Vermilion 80%, MiddleYellow 20%"},
+  {hue:"5YR (주황)", bold:true, recipe:"MiddleYellow 60%, Vermilion 40%"},
+  {hue:"10YR", bold:false, recipe:"MiddleYellow 90%, Vermilion 10%"},
+  {hue:"5Y (노랑)", bold:true, recipe:"MiddleYellow 90%, LemonYellow 10%"},
+  {hue:"10Y", bold:false, recipe:"MiddleYellow 90%, LightGreen 10%"},
+  {hue:"5GY (연두)", bold:true, recipe:"LightGreen 60%, MiddleYellow 40%"},
+  {hue:"10GY", bold:false, recipe:"LightGreen 100%"},
+  {hue:"5G (초록)", bold:true, recipe:"LemonYellow 45%, Viridian 55%"},
+  {hue:"10G", bold:false, recipe:"LightGreen 70%, Viridian 25%, White 5%"},
+  {hue:"5BG (청록)", bold:true, recipe:"Viridian 90%, CeruleanBlue 5%, White 5%"},
+  {hue:"10BG", bold:false, recipe:"Viridian 80%, CeruleanBlue 15%, White 5%"},
+  {hue:"5B (파랑)", bold:true, recipe:"CeruleanBlue 95%, LemonYellow 5%"},
+  {hue:"10B", bold:false, recipe:"CeruleanBlue 100%"},
+  {hue:"5PB (남색)", bold:true, recipe:"CobaltBlue 85%, CeruleanBlue 10%, White 5%"},
+  {hue:"10PB", bold:false, recipe:"CobaltBlue 50%, Mauve(CobaltViolet) 45%, White 5%"},
+  {hue:"5P (보라)", bold:true, recipe:"Mauve(CobaltViolet) 85%, Magenta 10%, White 5%"},
+  {hue:"10P", bold:false, recipe:"Mauve(CobaltViolet) 50%, Magenta 45%, White 5%"},
+  {hue:"5RP (자주)", bold:true, recipe:"Magenta 90%, Mauve(CobaltViolet) 10%"},
+  {hue:"10RP", bold:false, recipe:"Magenta 55%, Carmine 45%"},
+];
+function buildHue20(){
+  const table = document.getElementById('hue20Table');
+  // 헤더 다음부터 초기화
+  table.querySelectorAll('tr:not(:first-child)').forEach(r=>r.remove());
+  for(let i=0;i<hue20Data.length;i+=2){
+    const left = hue20Data[i], right = hue20Data[i+1];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="${left.bold?'font-weight:800;':''}">${left.hue}</td>
+      <td>${left.recipe}</td>
+      <td style="${right.bold?'font-weight:800;':''}">${right.hue}</td>
+      <td>${right.recipe}</td>
+    `;
+    table.appendChild(tr);
+  }
+}
+
 /* 초기 빌드 */
 buildQuad();
 buildCompare();
 buildCorrection();
+buildRecipe();
+buildHue20();
 </script>
 </body>
 </html>
