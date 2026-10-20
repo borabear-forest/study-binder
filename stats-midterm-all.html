@@ -40,7 +40,6 @@ b{font-weight:700}
 .fb{border:1px solid var(--line);background:var(--card);color:var(--sub);border-radius:999px;padding:4px 12px;font-size:14px;white-space:nowrap;cursor:pointer}
 .fb.on{background:var(--accent-soft);border-color:var(--accent-line);color:var(--accent);font-weight:600}
 .stat{font-size:13px;color:var(--sub);text-align:right;line-height:1.35;font-variant-numeric:tabular-nums}
-.stat b{color:var(--ink);font-weight:600}
 .stat .w{color:var(--bad)}
 
 main{max-width:780px;margin:0 auto;padding:10px 16px 90px}
@@ -979,9 +978,9 @@ td:first-child{font-weight:600;min-width:6em}
       var el=document.querySelector('[data-count="'+t+'"]'); if(el) el.textContent=done+' / '+list.length;
     });
     var cur=qs.filter(function(q){return q.dataset.tab===ui.tab});
-    var d=0,ok=0,w=0;
-    cur.forEach(function(q){var s=st[q.dataset.id]||{}; if(s.pick){d++; if(s.pick===+q.dataset.ans) ok++;} if(s.flag) w++;});
-    document.getElementById('stat').innerHTML='푼 문제 <b>'+d+'</b>/'+cur.length+' · 정답 <b>'+ok+'</b><br><span class="w">오답 체크 '+w+'</span>';
+    var w=0;
+    cur.forEach(function(q){var s=st[q.dataset.id]||{}; if(s.flag) w++;});
+    document.getElementById('stat').innerHTML='<span class="w">오답 체크 '+w+'</span>';
   }
 
   function apply(scroll){
