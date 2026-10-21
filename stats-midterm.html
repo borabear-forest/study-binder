@@ -99,7 +99,9 @@ main{max-width:780px;margin:0 auto;padding:10px 16px 90px}
 .n-tip{background:var(--tip-soft)}.n-tip .nl{color:var(--tip)}
 .n-trap{background:var(--trap-soft)}.n-trap .nl{color:var(--trap)}
 .n-star{background:var(--star-soft)}.n-star .nl{color:var(--star)}
-.retry{margin-top:8px;border:0;background:none;color:var(--accent);font-size:13px;cursor:pointer;padding:2px 0;text-decoration:underline;text-underline-offset:3px}
+.retry{display:inline-block;margin-top:10px;border:1px solid var(--line);background:var(--card);color:var(--accent);font-size:14px;font-weight:600;cursor:pointer;padding:6px 16px;border-radius:999px;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.retry:active{background:var(--accent-soft)}
+[hidden]{display:none!important}
 
 /* 표 */
 .tw{overflow-x:auto;margin:6px 0 8px}
@@ -965,9 +967,12 @@ td:first-child{font-weight:600;min-width:6em}
     q.querySelector('.flag').addEventListener('click',function(){
       var id=q.dataset.id, s=st[id]||{}; s.flag=!s.flag; st[id]=s; save(KEY,st); paint(q); stats();
     });
-    q.querySelector('.retry').addEventListener('click',function(){
+    q.querySelector('.retry').addEventListener('click',function(e){
+      e.preventDefault(); e.stopPropagation();
       var id=q.dataset.id, s=st[id]||{}; delete s.pick; st[id]=s; save(KEY,st);
       q.querySelector('details.ans').open=false; paint(q); stats();
+      var top=q.getBoundingClientRect().top+window.pageYOffset-160;
+      try{window.scrollTo({top:Math.max(top,0),behavior:'smooth'})}catch(err){window.scrollTo(0,Math.max(top,0))}
     });
   });
 
@@ -1005,13 +1010,19 @@ td:first-child{font-weight:600;min-width:6em}
   document.querySelectorAll('.fb').forEach(function(b){b.addEventListener('click',function(){ui.f=b.dataset.f;apply(true)})});
 
   document.getElementById('topBtn').addEventListener('click',function(){window.scrollTo({top:0})});
+  function twoTap(btn,label){
+    if(btn.dataset.armed){return true}
+    btn.dataset.armed='1'; var orig=btn.textContent; btn.textContent=label;
+    setTimeout(function(){delete btn.dataset.armed; btn.textContent=orig},3000);
+    return false;
+  }
   document.getElementById('resetTab').addEventListener('click',function(){
-    if(!confirm('이 탭의 풀이·오답 기록을 지울까?'))return;
+    if(!twoTap(this,'한 번 더 누르면 지워져'))return;
     qs.forEach(function(q){if(q.dataset.tab===ui.tab){delete st[q.dataset.id]; q.querySelector('details.ans').open=false; paint(q);}});
     save(KEY,st); apply(true);
   });
   document.getElementById('resetAll').addEventListener('click',function(){
-    if(!confirm('모든 탭의 풀이·오답 기록을 지울까?'))return;
+    if(!twoTap(this,'한 번 더 누르면 전부 지워져'))return;
     st={}; save(KEY,st); qs.forEach(function(q){q.querySelector('details.ans').open=false; paint(q)}); apply(true);
   });
 
