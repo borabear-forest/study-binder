@@ -191,10 +191,10 @@ td:first-child{font-weight:600;min-width:6em}
   <a class="back" href="index.html">‹ 목록으로</a>
   <div class="r1"><div class="ttl">상담통계분석</div></div>
   <nav class="tabs">
-    <a class="tb" href="#tab-concept" data-tab="concept"><span class="tn">개념</span><span class="tc">1~11주</span></a>
-    <a class="tb" href="#tab-quiz" data-tab="quiz"><span class="tn">기출</span><span class="tc" data-count="quiz">58</span></a>
+    <a class="tb" href="#tab-concept" data-tab="concept"><span class="tn">개념</span><span class="tc">1~12주</span></a>
+    <a class="tb" href="#tab-quiz" data-tab="quiz"><span class="tn">기출</span><span class="tc" data-count="quiz">66</span></a>
     <a class="tb" href="#tab-pred" data-tab="pred"><span class="tn">예상</span><span class="tc" data-count="pred">44</span></a>
-    <a class="tb" href="#tab-app" data-tab="app"><span class="tn">응용</span><span class="tc" data-count="app">99</span></a>
+    <a class="tb" href="#tab-app" data-tab="app"><span class="tn">응용</span><span class="tc" data-count="app">141</span></a>
   </nav>
   <div class="r4">
     <div class="seg"><button type="button" class="fb on" data-f="all">전체</button><button type="button" class="fb" data-f="wrong">오답</button><button type="button" class="fb" data-f="todo">안 푼 문제</button></div>
@@ -1665,6 +1665,390 @@ td:first-child{font-weight:600;min-width:6em}
 
 </div></details></section>
 
+<section id="k12"><details>
+<summary><span class="cwk cp">12주차</span><h2>경로분석 · 매개효과<span class="en">(path analysis · mediation)</span></h2><span class="chev">▶</span></summary>
+<div class="body">
+
+<div class="tw"><table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>수업을 들은 부분 (녹음 반영)</td><td>경로분석 개념, 매개효과, Baron &amp; Kenny, 부트스트래핑, 결과표 읽기, 위계적 회귀 보강, 조절효과 입문, SPSS 실습(Model 4)</td></tr>
+<tr><td>슬라이드만 있는 부분 (12-13주차 파일, 13주 수업 후 보강)</td><td>조절효과 상세·단순기울기, 순차·다중매개, 조절된 매개, 구조방정식 모형(SEM), 조절효과 실습(Model 1)</td></tr>
+</table></div>
+
+<div class="part">경로분석 개념</div>
+
+<h3><span class="s">★</span>경로분석이란</h3>
+<ul>
+  <li><b>관측변수</b>들 사이에 <b>인과적 방향</b>을 가정하고, 여러 <b>직접·간접효과를 동시에</b> 추정하는 모형</li>
+  <li><b>변수 간 상관(공분산)</b>에 기초해 인과관계를 분석 (통계적으로는 지금까지 배운 것과 크게 다르지 않음)</li>
+  <li><b>다중회귀의 확장판</b>: 여러 회귀모형을 동시에 검정. 각 화살표가 사실상 <b>별도의 회귀분석</b></li>
+  <li>변수 간 방향성(→)을 명시: X→M→Y 같은 화살표로 표현</li>
+</ul>
+<div class="tw"><table>
+<tr><th>분석</th><th>하는 일</th></tr>
+<tr><td>상관분석</td><td>두 변수 사이에 <b>관계가 있다</b></td></tr>
+<tr><td>회귀분석</td><td>독립변수(들)로 종속변수를 <b>예측</b> (X→Y <b>직접효과</b>만 봄)</td></tr>
+<tr><td>경로분석</td><td>변수 간 <b>원인과 결과(인과)</b>를 주장, <b>직접효과와 간접효과</b>를 함께 추정</td></tr>
+</table></div>
+<ul>
+  <li>인과를 주장하지만 통계적 기초는 상관이므로, <b>이론적 배경(선행연구)</b>이 회귀분석보다 훨씬 중요</li>
+</ul>
+
+<h3><span class="s">★</span>효과의 종류</h3>
+<div class="tw"><table>
+<tr><th>효과</th><th>의미</th><th>그림</th></tr>
+<tr><td>직접효과</td><td>예측변수가 결과변수에 직접 영향 (X→Y)</td><td>X → Y</td></tr>
+<tr><td>간접효과</td><td>하나 이상의 매개변수(중간 변수)를 거쳐 영향 (X→M→Y)</td><td>X → M → Y</td></tr>
+<tr><td>제3변수 효과</td><td>두 변수가 제3의 변수에 의해 동시에 영향을 받음</td><td>Z → X, Z → Y</td></tr>
+<tr><td>총효과</td><td>직접효과 + 간접효과</td><td></td></tr>
+</table></div>
+
+<h3><span class="s">★</span>경로분석으로 다루는 연구문제 (슬라이드 사례)</h3>
+<div class="tw"><table>
+<tr><th>연구문제</th><th>유형</th></tr>
+<tr><td>긍정적 신체상이 낙관성에 미치는 영향에서 자기효능감이 매개 역할을 하는가</td><td><b>매개효과</b> (긍정적 신체상 → 자기효능감 증가 → 낙관성 증가)</td></tr>
+<tr><td>외상경험이 우울에 미치는 영향에서 플래시백과 사회적 철수가 연쇄적으로 매개하는가</td><td><b>순차 매개효과</b> (외상경험 → 플래시백 → 사회적 철수 → 우울)</td></tr>
+<tr><td>인지적 유연성이 실패경험과 수치심 간의 관계를 조절하는가</td><td><b>조절효과</b> (인지적 유연성이 높으면 실패경험이 수치심으로 이어지지 않는지)</td></tr>
+<tr><td>성별에 따라 청소년의 신체적 성숙도가 또래의 관심을 통해 자아존중감에 미치는 매개효과가 달라지는가</td><td><b>조절된 매개효과</b> (또래의 관심 → 자아존중감 간접경로를 성별이 조절)</td></tr>
+<tr><td>"스트레스 → 우울 → 자살사고" 모형이 "스트레스 → 자살사고 → 우울" 모형보다 타당한가</td><td><b>경로 비교</b> (인과 방향성 비교)</td></tr>
+</table></div>
+<ul>
+  <li>모형을 쪼개는 순서: <b>Y(결과변수)를 먼저</b> 찾고 → X → 나머지(매개·조절). 위 성별 사례는 Y = 자아존중감, X = 신체적 성숙도, M = 또래의 관심, 조절 = 성별</li>
+  <li>광운대 상담복지정책대학원 졸업논문(2022~2026, RISS, 64건): <b>순차 매개 35건, 조절된 매개 23건, 이중 매개 5건</b>, 그 외 1건(토픽 모델링)</li>
+</ul>
+
+<h3><span class="s">★</span>기본 가정</h3>
+<ol>
+  <li><b>선형성</b>: 독립변수와 종속변수의 관계는 선형적이고 합산적</li>
+  <li><b>독립성</b>: 관측치와 잔차는 서로 독립, 잔차들 간 상관 없음</li>
+  <li><b>등분산성</b>: 예측값의 범위에서 오차분산이 일정</li>
+  <li><b>측정의 오차 없음</b>: 척도가 변인을 완벽하게 측정한다고 가정 (구조방정식은 측정오차를 고려). PROCESS 5.0부터는 신뢰도 추정치로 고려 가능하나 많이 쓰지는 않음</li>
+  <li><b>측정수준</b>: 변수들은 최소한 <b>등간척도 이상</b></li>
+</ol>
+
+<h3><span class="s">★</span>매개모형 vs 조절모형</h3>
+<div class="tw"><table>
+<tr><th></th><th>매개모형 (Mediator, M)</th><th>조절모형 (Moderator, W)</th></tr>
+<tr><td>핵심 질문</td><td><b>HOW / WHY</b>: 어떻게, 왜 X가 Y에 영향을 주는가 (메커니즘)</td><td><b>WHEN / WHO</b>: 언제, 누구에게, 어떤 조건에서 효과가 달라지는가</td></tr>
+<tr><td>그림</td><td>X와 Y 사이에 M이 끼어드는 <b>삼각형</b></td><td>X→Y <b>화살표 위로</b> W가 화살표를 쏨</td></tr>
+<tr><td>검증</td><td>간접효과 ab (부트스트랩)</td><td>상호작용항 X×W (위계적 회귀)</td></tr>
+<tr><td>예</td><td>외상경험 → 플래시백·사회적 철수 → 우울</td><td>실패경험 → 수치심 (인지적 유연성이 약화)</td></tr>
+</table></div>
+<ul>
+  <li><b>둘 다 X→Y 관계가 기본으로 깔려 있음</b>. 매개는 그 사이의 경로를, 조절은 그 관계에 붙는 조건을 설명</li>
+  <li>효과가 <b>+인지 −인지는 매개와 조절을 구분하는 기준이 아님</b>: 매개에서도, 조절에서도 +/−가 모두 가능</li>
+</ul>
+
+<div class="part">매개효과</div>
+
+<h3><span class="s">★</span>매개모형 구조와 효과 분해</h3>
+<div class="tw"><table>
+<tr><th>기호</th><th>경로</th><th>의미</th></tr>
+<tr><td>a</td><td>X → M</td><td>예측변수가 매개변수를 예측</td></tr>
+<tr><td>b</td><td>M → Y</td><td>X를 통제한 채 매개변수가 결과변수를 예측</td></tr>
+<tr><td>c</td><td>X → Y (M 없이)</td><td><b>총효과</b></td></tr>
+<tr><td>c′</td><td>X → Y (M 통제 후)</td><td><b>직접효과</b></td></tr>
+<tr><td>ab</td><td>X → M → Y</td><td><b>간접효과 = 매개효과</b> (같은 말의 다른 이름)</td></tr>
+</table></div>
+<div class="star"><b>총효과 c = 직접효과 c′ + 간접효과 ab</b> (간접효과 ab = a × b)</div>
+<ul>
+  <li>예시: 방귀를 뀜(X) → 수치심 등(M) → 성을 냄(Y) / 직무 스트레스(X) → 직무 만족도 하락(M) → 이직 의도 증가(Y)</li>
+  <li>매개모형에서 가장 중요한 주인공은 <b>매개변수</b>: X가 Y를 설명하는 이유를 가장 잘 설명하는 중간 변인을 찾는 것이 핵심</li>
+</ul>
+
+<h3><span class="s">★</span>Baron &amp; Kenny (1986) 고전적 4단계</h3>
+<div class="tw"><table>
+<tr><th>단계</th><th>확인할 것</th><th>분석</th><th>슬라이드 예 (우울 → 짐이 된 느낌 → 자살사고)</th></tr>
+<tr><td>1</td><td>X가 Y를 예측 (<b>c = 총효과</b>)</td><td rowspan="2">단순회귀</td><td>c = 0.47***</td></tr>
+<tr><td>2</td><td>X가 M을 예측 (<b>a</b>)</td><td>a = 0.58***</td></tr>
+<tr><td>3</td><td>X를 통제했을 때 M이 Y를 예측 (<b>b</b>)</td><td rowspan="2">중다회귀 (X와 M 동시 투입)</td><td>b = 0.34***</td></tr>
+<tr><td>4</td><td>M을 통제했을 때 직접효과가 <b>감소</b> (c′ &lt; c)</td><td>c′ = 0.21**</td></tr>
+</table></div>
+<ul>
+  <li>3·4단계는 한 번에 보므로 <b>실제 회귀분석은 3번</b></li>
+  <li><b>부분매개</b>: c′ ≠ 0(유의) / <b>완전매개</b>: c′ = 0(비유의). 완전매개일 때는 매개변수가 X→Y 설명을 다 가져간 것</li>
+</ul>
+<h4>회귀식 3개</h4>
+<div class="tw"><table>
+<tr><th>식</th><th>의미</th></tr>
+<tr><td>y = d₁ + cX + e₁</td><td>총효과 (c)</td></tr>
+<tr><td>Me = d₂ + aX + e₂</td><td>예측변인 → 매개변인 (a)</td></tr>
+<tr><td>y = d₃ + b·Me + c′X + e₃</td><td>매개변인의 효과(b)와 직접효과(c′)</td></tr>
+</table></div>
+<ul>
+  <li>d는 <b>절편</b>(중요하지 않음), e는 <b>오차</b>(고려하지 않음), d₁·d₂·d₃의 숫자는 구분용 첨자일 뿐 제곱이 아님</li>
+  <li>식의 계수 위치를 그림의 경로 위에 그대로 옮겨 적을 수 있어야 함 (논문에서 모형을 PPT로 직접 그림)</li>
+</ul>
+
+<h3><span class="s">★</span>Baron &amp; Kenny의 한계 → Sobel → Hayes</h3>
+<div class="tw"><table>
+<tr><th>방법</th><th>내용</th></tr>
+<tr><td>Baron &amp; Kenny의 한계</td><td>① <b>간접효과 ab 자체를 직접 검증하지 않음</b> (a, b가 각각 유의해도 ab의 유의성은 보장되지 않음)<br>② a, b가 각각 <b>유의하지 않아도</b> ab가 유의할 수 있음 (시뮬레이션 연구)<br>③ <b>총효과 c가 유의하지 않아도</b> ab는 유의할 수 있음 → 1단계가 필수는 아님</td></tr>
+<tr><td>Sobel 검정</td><td>Z = ab ÷ √(b²·SE<sub>a</sub>² + a²·SE<sub>b</sub>²). ab의 분포가 비정규일 때 <b>지나치게 보수적, 낮은 검정력</b></td></tr>
+<tr><td>Hayes의 확인적 모형 (2009)</td><td>현재 표준. <b>총효과는 중요하지 않고 간접효과만 유의하면 됨</b>. <b>부트스트래핑</b>으로 ab 검증 (정규성 가정 불필요). PROCESS 매크로로 분석</td></tr>
+</table></div>
+<ul>
+  <li>그래도 논문의 <b>결과표는 여전히 Baron &amp; Kenny 방식</b>(세 회귀)으로 제시하고, 간접효과 부트스트랩 표를 따로 붙임</li>
+</ul>
+
+<h3><span class="s">★</span>부트스트래핑 (bootstrapping)</h3>
+<div class="tw"><table>
+<tr><th></th><th>표집분포 (복습, 2~3주차)</th><th>부트스트랩</th></tr>
+<tr><td>방식</td><td>모집단에서 크기 n인 <b>가능한 모든 표본</b>의 통계량 분포 (<b>가상</b>)</td><td><b>내 표본에서 복원추출</b>을 반복해 통계량의 <b>경험적 분포</b>를 직접 만듦</td></tr>
+<tr><td>횟수</td><td>무한</td><td>1,000~10,000회 (통상 5,000회). 매번 통계량 계산 → SE, 신뢰구간</td></tr>
+<tr><td>가정</td><td></td><td>정규분포 가정 불필요 (<b>비모수</b>). 단, 내 표본이 모집단을 <b>잘 대표</b>한다고 가정</td></tr>
+</table></div>
+<ul>
+  <li><b>복원추출</b>: 뽑은 것을 다시 넣고 또 뽑음. 크기 N인 표본에서 N개를 뽑으므로 같은 값이 여러 번 뽑힐 수 있음</li>
+  <li>간접효과의 표본분포는 <b>정규분포가 아님</b> (a와 b의 곱이므로) → 그래서 부트스트랩 사용</li>
+  <li><b>간접효과 ab만</b> 부트스트랩으로 검증. 나머지(a, b, c, c′)는 일반 회귀로 검증. 매개효과가 들어가면 반드시 부트스트랩</li>
+  <li>표본 추출이 왜곡되었다면 결과도 왜곡 → 표집을 잘하는 것이 중요</li>
+  <li>결과는 <b>분석할 때마다 값이 조금씩 달라짐</b> (실습에서 소수점 아래 차이). 시드 고정 가능</li>
+</ul>
+<h4>신뢰구간으로 해석 (p값을 따로 주지 않음)</h4>
+<div class="tw"><table>
+<tr><th>95% CI</th><th>해석</th></tr>
+<tr><td>[0.2 ~ 1.3]</td><td>0 미포함 → <b>유의</b> (양의 간접효과)</td></tr>
+<tr><td>[−2.3 ~ −0.7]</td><td>0 미포함 → <b>유의</b> (음의 간접효과)</td></tr>
+<tr><td>[−0.4 ~ 0.9]</td><td><b>0 포함</b> → 유의하지 않음 (간접효과가 0일 수 있음)</td></tr>
+</table></div>
+<ul>
+  <li>95%가 일반적. 더 엄격하게 하려면 99% 신뢰수준</li>
+</ul>
+
+<div class="part">결과표 읽기</div>
+
+<h3><span class="s">★</span>단순매개 결과표 (슬라이드: 우울 → 짐이 된 느낌 → 자살사고)</h3>
+<p>논문 표의 줄 순서: <b>① 독립 → 매개 (a)</b> → <b>② 독립 → 종속 (총효과 c)</b> → <b>③ 독립·매개 → 종속 (c′와 b)</b>. 이 순서는 Baron &amp; Kenny 1·2단계와 바뀌어 있음.</p>
+<div class="tw"><table>
+<tr><th>유형</th><th>독립변인</th><th>종속변인</th><th>B</th><th>SE</th><th>β</th><th>t</th><th>R²</th></tr>
+<tr><td rowspan="4"><b>부분매개</b></td><td>우울</td><td>짐이 된 느낌</td><td>0.46</td><td>0.09</td><td>0.45</td><td>5.11***</td><td>0.28</td></tr>
+<tr><td>우울</td><td>자살사고</td><td>0.57</td><td>0.08</td><td>0.44</td><td>6.75***</td><td>0.31</td></tr>
+<tr><td>우울 (직접효과 c′)</td><td rowspan="2">자살사고</td><td>0.29</td><td>0.07</td><td>0.28</td><td>3.63**</td><td rowspan="2">0.42</td></tr>
+<tr><td>짐이 된 느낌 (b)</td><td>0.37</td><td>0.09</td><td>0.38</td><td>4.11***</td></tr>
+<tr><td rowspan="4"><b>완전매개</b></td><td>우울</td><td>짐이 된 느낌</td><td>0.50</td><td>0.08</td><td>0.52</td><td>6.25***</td><td>0.30</td></tr>
+<tr><td>우울</td><td>자살사고</td><td>0.40</td><td>0.08</td><td>0.41</td><td>5.02***</td><td>0.25</td></tr>
+<tr><td>우울 (직접효과 c′)</td><td rowspan="2">자살사고</td><td>0.10</td><td>0.08</td><td>0.07</td><td>1.25</td><td rowspan="2">0.41</td></tr>
+<tr><td>짐이 된 느낌 (b)</td><td>0.60</td><td>0.12</td><td>0.55</td><td>5.21***</td></tr>
+</table></div>
+<ul>
+  <li><b>B</b>: 비표준화 회귀계수 / <b>β</b>: 표준화 회귀계수 (크기 비교 가능). 표에는 B, SE, β, t, R²를 함께 제시</li>
+  <li>부분매개: 직접효과 c′가 <b>유의</b>하게 남아 있음 → 우울이 짐이 된 느낌을 거쳐서도, 직접적으로도 자살사고를 설명</li>
+  <li>완전매개: c′가 <b>비유의</b> → 우울은 짐이 된 느낌을 통해서<b>만</b> 자살사고를 설명. 그림에서는 c′에 별표가 없음</li>
+  <li>세 번째 줄의 R²는 독립변인과 매개변인이 <b>함께</b> 종속변인을 설명하는 변량</li>
+</ul>
+<div class="tw"><table>
+<tr><th>간접효과 경로</th><th>부트스트랩 B</th><th>SE</th><th>95% LLCI</th><th>95% ULCI</th></tr>
+<tr><td>우울 → 짐이 된 느낌 → 자살사고</td><td>0.17</td><td>0.05</td><td>0.09</td><td>0.29</td></tr>
+</table></div>
+<ul>
+  <li>LLCI는 <b>Lower Level CI(하한)</b>, ULCI는 <b>Upper Level CI(상한)</b>. 0이 포함되지 않으므로 유의. 0.17 = a × b = 0.46 × 0.37</li>
+</ul>
+<div class="trap"><b>슬라이드 메모</b> 부분매개 표의 B는 c = c′ + ab가 정확히 맞지 않음 (0.29 + 0.17 = 0.46 ≠ 0.57). 완전매개 표의 B는 맞음 (0.10 + 0.50 × 0.60 = 0.40). 완전매개 β의 c′는 표에 0.07, 그림에 0.08로 서로 다름. 가상 수치이므로 <b>읽는 방법</b>만 가져갈 것.</div>
+
+<h3><span class="s">★</span>간접효과의 부호</h3>
+<ul>
+  <li>간접효과 = <b>a 경로 × b 경로</b>의 부호. 둘의 부호가 같으면 (+), 다르면 (−)</li>
+  <li>(+): X가 M을 거쳐 Y에 정적 영향 / (−): 부적 영향</li>
+</ul>
+<div class="tw"><table>
+<tr><th>경로 (슬라이드·수업 사례)</th><th>a</th><th>b</th><th>간접효과</th></tr>
+<tr><td>우울 → 짐이 된 느낌 → 자살사고</td><td>+</td><td>+</td><td><b>+</b></td></tr>
+<tr><td>우울 → 소속감 → 자살사고</td><td>− (우울할수록 소속감↓)</td><td>− (소속감이 낮을수록 자살사고↑)</td><td><b>+</b></td></tr>
+<tr><td>우울 → 짐이 된 느낌 → 사회적 상호작용</td><td>+</td><td>− (짐이 된 느낌이 클수록 만나고 싶지 않음)</td><td><b>−</b></td></tr>
+<tr><td>우울 → 소속감 → 사회적 상호작용</td><td>−</td><td>+ (소속감이 높을수록 동창회에 가고 싶음)</td><td><b>−</b></td></tr>
+</table></div>
+<ul>
+  <li>부호를 외우기보다 <b>최종 간접효과의 부호가 어떤 의미인지</b> 해석하는 것이 중요</li>
+</ul>
+
+<h3>논문 읽기 · 이미희(2025), 부모의 부부갈등 → 정서적 부모화 → 이성관계 만족도</h3>
+<div class="tw"><table>
+<tr><th>경로</th><th>β</th><th>t</th><th>설명</th></tr>
+<tr><td>부부갈등 → 정서적 부모화 (a)</td><td>.62</td><td>16.90***</td><td>정서적 부모화를 약 39% 설명</td></tr>
+<tr><td>부부갈등 → 이성관계 만족도 (총효과 c)</td><td>−.64</td><td>−17.65***</td><td>이성관계 만족도를 약 41% 설명</td></tr>
+<tr><td>부부갈등 → 이성관계 만족도 (직접효과 c′)</td><td>−.51</td><td>−11.36***</td><td>정서적 부모화 투입 후 유의</td></tr>
+<tr><td>정서적 부모화 → 이성관계 만족도 (b)</td><td>−.20</td><td>−4.41***</td><td></td></tr>
+</table></div>
+<ul>
+  <li>총효과 −.64 → 직접효과 −.51로 <b>감소</b>, c′ 유의 → <b>부분매개</b>. 간접효과는 부호가 (−): 부부갈등이 높을수록 정서적 부모화를 통해 이성관계 만족도가 낮아짐</li>
+  <li>a(+) × b(−) → 간접효과(−). β로 계산하면 .62 × (−.20) ≈ −.12이고, c′ + ab ≈ −.63으로 총효과 −.64와 거의 일치</li>
+</ul>
+
+<div class="part">위계적 회귀 보강 · 조절효과 입문</div>
+
+<h3><span class="s">★</span>증분결정계수 (ΔR²) 정정</h3>
+<div class="tw"><table>
+<tr><th>11주 슬라이드 표현</th><th>12주 교수님 정정</th></tr>
+<tr><td>ΔR² = 부분결정계수 (partial)</td><td>ΔR²는 <b>준부분(semi-partial) 결정계수</b>, 곧 <b>증분결정계수</b>(R²에서 추가된 만큼)</td></tr>
+</table></div>
+<ul>
+  <li>사례 (11주와 같은 수치): 교우관계만 R² = .51 → 성취경험을 추가하면 .86 → 성취경험의 ΔR² = .86 − .51 = <b>.35</b>. "교우관계의 효과를 제외하고 성취경험이 <b>단독으로 추가 설명</b>하는 부분"</li>
+  <li>두 변인의 R²를 그냥 더하면 1을 넘을 수 있는 이유: <b>공동으로 설명하는 부분</b>이 겹치기 때문</li>
+  <li>partial과 semi-partial은 <b>분모가 다름</b> (녹취가 불명확해 세부는 확인 필요). 시험용 결론은 "ΔR²는 준부분(증분) 결정계수"</li>
+</ul>
+
+<h3><span class="s">★</span>조절효과 = 상호작용효과 (위계적 회귀로 검증)</h3>
+<div class="tw"><table>
+<tr><th>단계</th><th>투입</th><th>모형</th></tr>
+<tr><td>Block 1</td><td>X, 조절변인 W</td><td>Y = b₀ + b₁X + b₂W + ε</td></tr>
+<tr><td>Block 2</td><td>+ 상호작용항 X × W</td><td>Y = b₀ + b₁X + b₂W + <b>b₃(X × W)</b> + ε</td></tr>
+</table></div>
+<ul>
+  <li>핵심은 2단계: <b>b₃ ≠ 0</b>(상호작용항 계수 유의), <b>ΔR²가 유의</b>하게 증가 → 조절효과 존재 (예: 직무 스트레스 × 사회적 지지, R² .31 → .36, ΔR² .05)</li>
+  <li><b>평균중심화</b>(각 변인 − 평균)한 값을 곱해 상호작용항을 만듦. 곱항이 원래 변인과 매우 비슷해 생기는 <b>다중공선성(VIF)을 완화</b>. 조절효과를 볼 때는 반드시 실시</li>
+  <li>평균중심화를 해도 <b>상호작용 효과의 유의성은 변하지 않음</b>. 주효과 해석이 쉬워짐 (W가 평균일 때 X의 효과)</li>
+  <li>이원분산분석의 <b>상호작용 효과와 같은 개념</b>. 다만 분산분석은 "있다/없다"만 알 수 있고, 회귀에서는 <b>부호</b>까지 알 수 있어 더 잘 해석할 수 있음</li>
+  <li>사례 해석: 상호작용 계수가 (−)이면 사회적 지지가 높을수록 직무 스트레스가 정서적 소진에 미치는 효과가 <b>약해짐</b> (보호요인)</li>
+  <li>매개는 개념 → 통계 순으로, 조절은 <b>통계 → 개념</b> 순으로 배우는 중. 조절의 개념과 해석은 다음 시간(13주)에 이어짐</li>
+</ul>
+
+<div class="part">슬라이드만 받은 부분 (13주 수업 후 보강)</div>
+
+<h3>조절효과 상세 (슬라이드)</h3>
+<ul>
+  <li>정의: X→Y 효과(=기울기)가 제3의 변수 W의 값에 따라 달라지는 <b>조건부 효과</b>. 목적은 "효과가 있는가"를 넘어 <b>언제, 어떤 사람에게</b> 더 또는 덜 작동하는가 (보호요인, 위험요인)</li>
+  <li>조절변수 유형: 비연속(성별, 지역, 상담 단계) → 집단별 X 효과 비교 / 연속(우울, 작업동맹) → 평균, +1SD, −1SD에서 X 효과 비교</li>
+  <li>범주형 조절: Y = b₀ + b₁X + b₂G + b₃(X×G), G = 0일 때와 G = 1, 2일 때 X 효과를 비교</li>
+  <li><b>단순기울기 분석</b>: 조절효과가 유의할 때 W의 특정 값에서 X→Y가 어떻게 달라지는지 확인. 그래프에서 <b>선이 평행하지 않으면</b> 조절효과가 유의</li>
+  <li>상호작용항 부호 (X→Y가 +인 경우): β₃ &gt; 0 → W가 클수록 X 효과 <b>강화</b> / β₃ &lt; 0 → W가 클수록 <b>약화·억제</b> / 비유의 → 조절효과 없음 (기울기 일정)</li>
+  <li>PROCESS 옵션: Mean center → only continuous variables, Probe interactions → always, Conditioning values → −1SD, Mean, +1SD (Johnson-Neyman으로 유의한 구간도 확인 가능)</li>
+</ul>
+<div class="tw"><table>
+<tr><th>사례 (슬라이드)</th><th>조절변인 수준</th><th>B</th><th>SE</th><th>95% CI</th><th>해석</th></tr>
+<tr><td rowspan="3">직무 스트레스 → 정서적 소진 (사회적 지지)</td><td>−1SD (낮음)</td><td>0.46</td><td>0.11</td><td>0.24 ~ 0.68</td><td>유의</td></tr>
+<tr><td>평균</td><td>0.28</td><td>0.07</td><td>0.14 ~ 0.41</td><td>유의</td></tr>
+<tr><td>+1SD (높음)</td><td>0.10</td><td>0.09</td><td>−0.09 ~ 0.29</td><td><b>비유의</b> → 완충(보호) 효과</td></tr>
+<tr><td rowspan="2">관계 갈등 → 파국적 사고 (애착유형, 범주형)</td><td>불안정 애착 (G=0)</td><td>0.46</td><td>0.11</td><td>0.24 ~ 0.68</td><td>유의</td></tr>
+<tr><td>안정 애착 (G=1)</td><td>0.10</td><td>0.09</td><td>−0.09 ~ 0.29</td><td>비유의</td></tr>
+</table></div>
+<ul>
+  <li>논문 사례 (이미희, 2025): 설명력 47% → 상호작용항 추가 후 51%로 유의하게 증가, 상호작용항 β = .23 (정적 조절). 조건부 효과는 적응적 인지적 정서조절이 −1SD일 때 −.55, 평균 −.27, +1SD .01 → 정서조절이 높을수록 정서적 부모화가 이성관계 만족도에 미치는 <b>부적 효과가 줄어듦</b></li>
+</ul>
+
+<h3>순차·다중매개 (슬라이드)</h3>
+<div class="tw"><table>
+<tr><th></th><th>순차 매개 (Model 6)</th><th>다중 매개 (Model 4)</th></tr>
+<tr><td>구조</td><td>X → M₁ → M₂ → Y (<b>연쇄</b>, 순서가 있음)</td><td>X → M₁ → Y, X → M₂ → Y (<b>병렬</b>, 서로 독립)</td></tr>
+<tr><td>간접효과</td><td><b>3개</b>: X→M₁→Y, X→M₂→Y, X→M₁→M₂→Y</td><td><b>2개</b>: X→M₁→Y, X→M₂→Y</td></tr>
+<tr><td>총효과</td><td>직접 + (1) + (2) + (3)</td><td>직접 + (1) + (2)</td></tr>
+<tr><td>포인트</td><td>M₁ → M₂ 순서는 시간적 순서·<b>이론적 근거</b>로 정함 (상관계수로 판별하지 않음). 각 경로 유의성은 부트스트랩 CI</td><td>목적은 <b>매개경로 효과 크기 비교</b>. 부호가 반대면 <b>상쇄매개</b></td></tr>
+</table></div>
+<div class="tw"><table>
+<tr><th>순차매개 간접효과 (대인관계 갈등 → 내적 성찰 → 정신화 역량 → 심리적 성장)</th><th>B</th><th>SE</th><th>95% CI</th></tr>
+<tr><td>갈등 → 내적 성찰 → 성장</td><td>0.06</td><td>0.03</td><td>0.01 ~ 0.13 (유의)</td></tr>
+<tr><td>갈등 → 정신화 → 성장</td><td>0.04</td><td>0.04</td><td>−0.01 ~ 0.08 (<b>비유의</b>)</td></tr>
+<tr><td>갈등 → 내적 성찰 → 정신화 → 성장</td><td>0.11</td><td>0.03</td><td>0.04 ~ 0.21 (유의)</td></tr>
+</table></div>
+
+<h3>조절된 매개 vs 매개된 조절 (슬라이드)</h3>
+<div class="tw"><table>
+<tr><th>구분</th><th>내용</th><th>Model</th></tr>
+<tr><td><b>조절된 매개</b> (조건부 간접효과)</td><td>X→M→Y 간접효과의 크기·방향이 제4의 변수 W 수준에 따라 달라짐. W 수준별 간접효과를 비교하고, <b>조절된 매개 지수(index of moderated mediation)</b>를 부트스트랩으로 추정</td><td><b>7</b>: a 경로(X→M) 조절 / <b>14</b>: b 경로(M→Y) 조절 / 58 등</td></tr>
+<tr><td><b>매개된 조절</b></td><td>조절효과가 먼저 존재하고, <b>왜 조절이 일어나는지</b> 매개변수가 설명</td><td>5, 8, 15 등</td></tr>
+</table></div>
+<ul>
+  <li>Model 7: M = a₀ + a₁X + a₂W + a₃XW, Y = b₀ + c′X + b₁M. a₃가 유의하면 X→M 경로가 W에 따라 달라짐</li>
+  <li>Model 14: M = a₀ + a₁X, Y = b₀ + c′X + b₁M + b₂W + b₃MW. b₃가 유의하면 M→Y 경로가 W에 따라 달라짐</li>
+  <li>사례 (AI 신뢰도가 조절): AI 상담 이용 → 친근감(심리적 근접성) → 스트레스 완화. 조건부 간접효과의 CI가 −1SD에서는 0을 포함(−0.02 ~ 0.22)하고 평균·+1SD에서는 포함하지 않음 → 신뢰도가 높은 집단에서만 간접효과 유의. 조절된 매개 지수 CI(−0.28 ~ −0.03)가 0을 포함하지 않으면 조절된 매개 유의</li>
+</ul>
+<div class="trap"><b>슬라이드 메모</b> 조절된 매개 결과표에는 t = 1.45에 별표가 붙어 있고, b가 (−)인데 조건부 간접효과는 (+)로 제시되어 부호가 맞지 않음. 같은 장의 두 번째 정의 문구("매개효과가 동일하게 존재하는가")도 앞 정의와 달라 헷갈림. 13주 수업에서 확인. 또 조절효과 결과 슬라이드 제목의 "(Mediation Effect)"는 Moderation의 오타.</div>
+
+<h3>구조방정식 모형 (SEM, 슬라이드)</h3>
+<ul>
+  <li>연속변수로 이뤄진 <b>잠재변수</b> 간 복잡한 관계를 구조화. 잠재변인 = <b>측정오류를 수정한 변수</b>. 모형 간 <b>적합도</b> 비교 가능</li>
+  <li><b>관측변수</b>(사각형, 설문 문항·검사 점수) / <b>잠재변수</b>(원, 자아존중감·정서조절능력 같은 구인)</li>
+  <li><b>외생변수</b>(ξ): 화살표를 주기만 하는 변수 / <b>내생변수</b>(η): 화살표를 받는 변수, <b>설명오차</b>(외생변수가 설명하지 못한 부분)를 가짐 (≠ 측정오차)</li>
+  <li><b>측정모델</b>: 관측변수로 잠재변수를 어떻게 추정하는지 (확인적 요인분석) / <b>구조모델</b>: 잠재변수 간 인과관계 (잠재경로분석)</li>
+</ul>
+<div class="tw"><table>
+<tr><th>구분</th><th>적합도 지수</th><th>기준값</th><th>표본크기</th><th>간명도</th></tr>
+<tr><td rowspan="3">상대 적합도 (독립모형과 비교)</td><td>NFI</td><td>&gt; .90</td><td>민감</td><td>비고려</td></tr>
+<tr><td>NNFI = TLI</td><td>&gt; .90</td><td>덜 민감</td><td>고려</td></tr>
+<tr><td>CFI</td><td>&gt; .90</td><td>덜 민감</td><td>비고려</td></tr>
+<tr><td rowspan="3">절대 적합도 (자료와의 합치)</td><td>GFI</td><td>&gt; .90</td><td>민감</td><td>비고려</td></tr>
+<tr><td>AGFI</td><td>없음</td><td>민감</td><td>고려</td></tr>
+<tr><td>RMSEA</td><td>&lt; .05</td><td>덜 민감</td><td>고려</td></tr>
+</table></div>
+<ul>
+  <li>표본 크기에 영향 받지 않는(덜 민감한) 지수: <b>RMSEA, TLI, CFI</b></li>
+</ul>
+
+<div class="part">SPSS 실습 · PROCESS 매크로</div>
+
+<h3><span class="s">★</span>준비</h3>
+<ul>
+  <li>SPSS Ver.19 이상 필요. <b>SPSS 27 이하 → PROCESS 4.3</b>. 설치 확인: 분석 → 회귀분석 → PROCESS (v4.2 또는 5.0 by Andrew F. Hayes)</li>
+  <li>설치: 압축 풀기 → process.spd 실행 → 설치 (또는 확장 → 유틸리티 → 사용자 정의 대화상자 설치(호환모드)로 process.spd 불러오기)</li>
+  <li>변수명을 <b>영문 8자 이내</b>로 바꾸고 <b>레이블</b>에 원래 이름 입력 (한국어 불가, 8자를 넘으면 에러). 실습 파일은 "9주차 실습 rename"</li>
+</ul>
+<div class="tw"><table>
+<tr><th>변수</th><th>사회불안</th><th>심리적 경직성</th><th>완벽주의</th><th>충동성</th><th>미루기</th><th>과거 성취경험</th><th>평가민감성</th><th>자기효능감</th><th>성취도</th></tr>
+<tr><td>변수명</td><td>sanx</td><td>inflx</td><td>perf</td><td>impul</td><td>procr</td><td>pachv</td><td>sens</td><td>eff</td><td>achv</td></tr>
+</table></div>
+<div class="tw"><table>
+<tr><th>분석</th><th>Model 번호</th></tr>
+<tr><td>단순 매개효과 / 다중 매개효과</td><td><b>4</b></td></tr>
+<tr><td>순차 매개효과</td><td><b>6</b></td></tr>
+<tr><td>단순 조절효과</td><td><b>1</b></td></tr>
+<tr><td>조절된 매개효과</td><td>7, 14, 58 등</td></tr>
+<tr><td>매개된 조절효과</td><td>5, 8, 15 등</td></tr>
+</table></div>
+<ul>
+  <li>1번(단순 조절)과 4번(단순 매개)이 가장 기초적인 "벽돌". 이것을 붙여 여러 번 조절·매개하는 복잡한 모형이 됨. 처음 세운 모형이 안 나오면 변인 관계를 바꿔 <b>대안 모형</b>을 시도하는 것이 일반적</li>
+</ul>
+
+<h3><span class="s">★</span>매개효과 분석 (Model 4) 설정</h3>
+<ul>
+  <li>Y variable = 결과변인, X variable = 예측변인, Mediators = 매개변인 (여러 개 넣으면 다중 매개모형). 부트스트랩 샘플은 5,000회(1만 회로 변경 가능), 신뢰구간 95%(99%도 가능)</li>
+  <li>옵션: <b>Show total effect model</b>(총효과 출력, Model 4·6 등에서 활성화) / <b>Standardized effects</b>(표준화 계수 β) / Pairwise contrasts of indirect effects(간접효과가 여러 개일 때 차이 비교) / Decimal places 2</li>
+</ul>
+
+<h3><span class="s">★</span>실습 사례: 사회불안 → 완벽주의 → 미루기</h3>
+<div class="tw"><table>
+<tr><th>PROCESS 출력 순서</th><th>내용</th><th>논문 결과표의 줄</th></tr>
+<tr><td>1번째 회귀 (Y = 완벽주의, X = 사회불안)</td><td>a 경로, R²</td><td><b>첫 번째 줄</b></td></tr>
+<tr><td>2번째 회귀 (Y = 미루기, X와 M 투입)</td><td>직접효과 c′, b 경로, R²</td><td><b>세 번째 줄</b></td></tr>
+<tr><td>Total effect model</td><td>총효과 c, R²</td><td><b>두 번째 줄</b></td></tr>
+<tr><td>Indirect effect (부트스트랩)</td><td>Effect, BootSE, BootLLCI, BootULCI</td><td>간접효과 표</td></tr>
+</table></div>
+<div class="tw"><table>
+<tr><th>독립변인</th><th>종속변인</th><th>B</th><th>SE</th><th>β</th><th>t</th><th>R²</th></tr>
+<tr><td>사회불안 (a)</td><td>완벽주의</td><td>0.4489</td><td>0.0589</td><td>0.4764</td><td>7.6236***</td><td>0.2269</td></tr>
+<tr><td>사회불안 (총효과 c)</td><td>미루기</td><td>0.2013</td><td>0.0673</td><td>0.2079</td><td>2.9911**</td><td>0.0432</td></tr>
+<tr><td>사회불안 (직접효과 c′)</td><td rowspan="2">미루기</td><td>−0.0611</td><td>0.066</td><td>−0.0631</td><td>−0.9262</td><td rowspan="2">0.2934</td></tr>
+<tr><td>완벽주의 (b)</td><td>0.5846</td><td>0.070</td><td>0.5689</td><td>8.3526***</td></tr>
+</table></div>
+<div class="tw"><table>
+<tr><th>간접효과 경로</th><th>부트스트랩 (슬라이드, 표준화)</th><th>SE</th><th>95% LLCI</th><th>95% ULCI</th></tr>
+<tr><td>사회불안 → 완벽주의 → 미루기</td><td>0.2710</td><td>0.0461</td><td>0.1809</td><td>0.3641</td></tr>
+</table></div>
+<ul>
+  <li>총효과 .2079(p &lt; .01) → 완벽주의 투입 후 직접효과 −.0631(<b>비유의</b>)로 사라짐 → <b>완전매개</b>. 간접효과 CI에 0이 없으므로 유의 → <b>사회불안은 완벽주의를 통해서만 미루기에 영향</b></li>
+  <li>비표준화 간접효과는 a × b = 0.4489 × 0.5846 = <b>0.2624</b>, 표준화는 0.4764 × 0.5689 = 0.2710 (슬라이드 값). c = c′ + ab도 맞음 (−0.0611 + 0.2624 = 0.2013)</li>
+  <li>간접효과를 B로 제시할지 β로 제시할지는 정해진 규칙이 없음 → <b>어느 쪽인지 표에 명확히 표시</b>. β를 제시할 때는 표의 열 이름을 B 대신 β로 바꿈</li>
+  <li>회귀계수 상수(Constant)는 해석하지 않음. 공차·VIF 같은 다중공선성 지표도 함께 출력됨</li>
+  <li>통계 분석은 몇 초면 끝나고, <b>결과표를 해석해 알맞은 칸에 옮기는 것</b>이 핵심</li>
+</ul>
+
+<div class="part">교수님 수업 설명</div>
+<div class="tw"><table>
+<tr><th>주제</th><th>교수님 설명</th></tr>
+<tr><td>이번 학기의 메인</td><td>경로분석이 가장 중요. 졸업논문 대부분이 매개·조절 모형(순차 매개, 조절된 매개, 이중 매개 중 하나)을 사용하므로 논문을 쓰게 되면 매개분석은 반드시 들어감</td></tr>
+<tr><td>이론적 배경</td><td>경로분석은 상관에 기초하지만 인과를 주장하므로 <b>선행연구 근거</b>가 필수. 프로포즈 준비 때 지도교수님이 X→M, M→Y 각 관계를 뒷받침하는 선행연구를 여러 편(예: 10개) 찾아 정리하게 함</td></tr>
+<tr><td>회귀와의 관계</td><td>각 화살표가 별도의 회귀분석. "y 앞의 계수가 기울기"처럼 회귀식을 그림의 경로에 대응시킬 수 있어야 함</td></tr>
+<tr><td>매개 vs 조절</td><td>매개는 "x가 y로 가는 <b>경로의 메커니즘</b>", 조절은 "x가 y로 가는 데 붙는 <b>조건</b>". +/−는 구분 기준이 아님. 조절은 "기존 관계에 새롭게 영향을 미친다"가 포인트</td></tr>
+<tr><td>조절 사례</td><td>신체적 성숙도가 빠를 때 자아존중감은 남아에게 높아지지만 여아에게는 낮아질 수 있음 → 성별에 따라 효과의 <b>방향</b>까지 달라짐. 조절효과를 찾아내는 것이 심리학에서 매우 중요</td></tr>
+<tr><td>완전매개</td><td>부분매개가 훨씬 흔함. 완전매개가 나오면 "망했다"가 아니라 X→Y를 완벽히 설명하는 변인을 찾은 것. 매개변인은 여러 개(M₁, M₂, M₃)일 수 있어 이중매개 등으로 확장</td></tr>
+<tr><td>Baron &amp; Kenny</td><td>지금은 쓰지 않지만 원리를 이해하는 데 도움이 되고 <b>결과표 제시 방식</b>으로는 여전히 사용. 1·2단계 순서가 논문 표에서는 바뀌어 있음. Hayes 방식은 총효과(1단계)를 거치지 않아도 되지만 관례적으로 세 단계를 모두 확인</td></tr>
+<tr><td>부트스트랩 해석</td><td>한 번이라도 0이 나오면 간접효과가 없을 수도 있으므로 "탈락". 신뢰구간에 0을 포함하지 않는 것이 유의성 검증의 핵심</td></tr>
+<tr><td>결과표 해석</td><td>B와 β의 차이(표준화 계수)를 연습. 이런 표 해석은 연구자에게도 시험에도 중요하다고 강조함 (녹취에 문장이 끊겨 있음)</td></tr>
+<tr><td>위계적 회귀와 조절</td><td>지난 학기에는 넘어가기도 했지만 조절효과를 이해하려면 필요해 이번에 다룸. 증분결정계수는 partial이 아니라 semi-partial이라고 정정. 평균중심화는 조절효과를 볼 때 반드시 실시</td></tr>
+<tr><td>실습</td><td>사회불안 → 완벽주의 → 미루기. 결과표 칸 채우기 연습, 해답지 제공. 부트스트랩 결과는 매번 조금 다를 수 있음. 반드시 직접 해볼 것</td></tr>
+</table></div>
+
+</div></details></section>
+
 <div class="part">과제 · 계산 · 체크리스트</div>
 <section id="hw"><details>
 <summary><span class="cwk">과제</span><h2>중간과제 안내</h2><span class="chev">▶</span></summary>
@@ -1763,6 +2147,19 @@ td:first-child{font-weight:600;min-width:6em}
 <tr><td>단순회귀</td><td>회귀 1 / 잔차 n − 2 / 합계 n − 1</td></tr>
 <tr><td>중다회귀</td><td>회귀 k / 잔차 n − k − 1 / 합계 n − 1</td></tr>
 </table></div>
+
+<h3><span class="s">★</span>경로분석 · 매개 · 조절 공식</h3>
+<div class="tw"><table>
+<tr><th>주제</th><th>공식 / 읽는 법</th></tr>
+<tr><td>총효과</td><td>c = c′ + ab (직접효과 + 간접효과)</td></tr>
+<tr><td>간접효과</td><td>ab = a × b (a: X→M, b: M→Y). 비표준화는 B끼리, 표준화는 β끼리 곱함 (예: 0.4489 × 0.5846 = 0.2624 / 0.4764 × 0.5689 = 0.2710)</td></tr>
+<tr><td>그림 문제</td><td>간접효과 = 경로계수의 곱, 총효과 = 직접효과 + 간접효과들의 합 (2022 1급 52: .40 + .60 × .30 = .58)</td></tr>
+<tr><td>Sobel Z</td><td>ab ÷ √(b²·SE<sub>a</sub>² + a²·SE<sub>b</sub>²)</td></tr>
+<tr><td>간접효과 유의성</td><td>부트스트랩 95% CI에 0이 포함되지 않으면 유의 (p값 없음)</td></tr>
+<tr><td>순차매개</td><td>간접경로 3개 (X→M₁→Y, X→M₂→Y, X→M₁→M₂→Y), 총효과 = 직접 + 세 경로의 합</td></tr>
+<tr><td>조절 (위계적 회귀)</td><td>Y = b₀ + b₁X + b₂W + b₃(X×W). b₃ ≠ 0 또는 ΔR² 유의 → 조절효과. 조건부 효과 = b₁ + b₃W (평균중심화하면 W = 0이 평균)</td></tr>
+<tr><td>ΔR² 거꾸로 구하기</td><td>상호작용항 투입 전 R² = 전체 R² − ΔR² (예: .4185 − .1279 = .2906)</td></tr>
+</table></div>
 </div></details></section>
 <section id="check"><details>
 <summary><span class="cwk">최종</span><h2>시험 직전 체크리스트</h2><span class="chev">▶</span></summary>
@@ -1818,10 +2215,30 @@ td:first-child{font-weight:600;min-width:6em}
 <tr><td>조절효과의 상호작용 계수 부호</td><td>양수 강화 / 음수 상충(약화), 평균중심화로 공선성 방지</td></tr>
 <tr><td>평균으로의 회귀</td><td>극단 점수가 평균 쪽으로 이동. 내적타당도 위협</td></tr>
 </table></div>
+<div class="tw"><table>
+<tr><th>경로분석 · 매개 · 조절 포인트</th><th>정답</th></tr>
+<tr><td>상관 / 회귀 / 경로분석</td><td>관계가 있다 / 예측 / 인과 방향 주장 (통계는 상관 기반, 이론적 근거 필수)</td></tr>
+<tr><td>매개 vs 조절</td><td>HOW 메커니즘(삼각형) / WHEN 조건(경로 위의 화살표). +/− 부호는 구분 기준이 아님</td></tr>
+<tr><td>Baron &amp; Kenny 4단계</td><td>c(총) → a → b → c′ &lt; c. 1·2단계 단순회귀, 3·4단계 중다회귀 (회귀 3번)</td></tr>
+<tr><td>부분매개 / 완전매개</td><td>c′ 유의 / c′ 비유의</td></tr>
+<tr><td>Baron &amp; Kenny의 한계</td><td>ab를 직접 검증하지 않음. a, b가 비유의여도 ab 유의 가능, c가 비유의여도 ab 유의 가능</td></tr>
+<tr><td>Sobel 검정의 한계</td><td>ab가 비정규 → 지나치게 보수적, 낮은 검정력</td></tr>
+<tr><td>부트스트랩</td><td>표본에서 복원추출 반복(5,000회), 비모수, 간접효과 ab만 검증. 95% CI에 0 미포함 → 유의, 결과는 실행마다 조금씩 다름</td></tr>
+<tr><td>간접효과의 부호</td><td>a의 부호 × b의 부호</td></tr>
+<tr><td>매개 결과표 줄 순서</td><td>a → 총효과 c → c′와 b. (PROCESS 출력은 a → c′·b → Total effect 순이라 바꿔서 옮김)</td></tr>
+<tr><td>경로분석 가정</td><td>선형성, 독립성, 등분산성, 측정오차 없음, 등간척도 이상</td></tr>
+<tr><td>조절효과 검증</td><td>위계적 회귀 2단계에 X×W 추가, ΔR² 또는 상호작용항 유의. 평균중심화(공선성 완화, 유의성은 불변). 분산분석과 달리 부호도 해석</td></tr>
+<tr><td>ΔR²의 이름</td><td>준부분(semi-partial) 결정계수 = 증분결정계수 (부분결정계수가 아님)</td></tr>
+<tr><td>단순기울기</td><td>W의 평균, ±1SD에서 X의 효과. 그래프에서 선이 평행하지 않으면 조절</td></tr>
+<tr><td>PROCESS Model 번호</td><td>1 단순 조절 / 4 단순·다중 매개 / 6 순차 매개 / 7·14 조절된 매개 (7: a 경로, 14: b 경로)</td></tr>
+<tr><td>PROCESS 준비</td><td>변수명 영문 8자 이내 + 레이블에 원래 이름. 옵션: Show total effect model, Standardized effects</td></tr>
+<tr><td>SEM 적합도</td><td>상대 NFI·TLI·CFI / 절대 GFI·AGFI·RMSEA / 표본 크기 영향 적음 RMSEA·TLI·CFI</td></tr>
+<tr><td>설명오차 vs 측정오차</td><td>설명오차는 내생변수가 설명되지 않은 부분. SEM이 통제하는 것은 측정오차</td></tr>
+</table></div>
 <div class="tip"><b>우선순위</b> 표 해석(회귀계수 표, 상관표, 교차표) → 개념 (B와 β, R², 다중공선성, 입력/단계선택/위계적) → 분석 방법 고르기 → 중간고사 범위 복습 (ANOVA 표, p값과 오류)</div>
 </div></details></section>
 </section>
-<section class="tab" id="tab-quiz" data-tab="quiz"><h2 class="th">기출 <small>강의록 청소년상담사 기출 · 58문항</small></h2><details class="wk"><summary class="wh"><span class="car"></span><span class="wn">1주</span><span class="wt">측정 수준과 기술통계</span><span class="wc">8문항</span></summary><div class="wbody"><article class="q" id="quiz-1-01" data-id="quiz-1-01" data-tab="quiz" data-ans="1">
+<section class="tab" id="tab-quiz" data-tab="quiz"><h2 class="th">기출 <small>강의록 청소년상담사 기출 · 66문항</small></h2><details class="wk"><summary class="wh"><span class="car"></span><span class="wn">1주</span><span class="wt">측정 수준과 기술통계</span><span class="wc">8문항</span></summary><div class="wbody"><article class="q" id="quiz-1-01" data-id="quiz-1-01" data-tab="quiz" data-ans="1">
 <div class="meta"><span class="num">1</span><span class="kind k-quiz">기출</span><span class="src">2023 3급 55번</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">척도에 관한 설명으로 옳은 것은?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">명명척도는 대상을 공통속성에 근거하여 둘 이상의 범주로 유목화하는 것이다.</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">비율척도는 절대영점이 존재하지 않는다.</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">서열척도는 대상을 절대 영점을 가진 동일-단위의 척도로 평정하는 것이다.</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">성별은 서열척도이다.</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">운동선수의 등번호는 비율척도이다.</span></button></li></ol>
@@ -2233,6 +2650,65 @@ td:first-child{font-weight:600;min-width:6em}
 <div class="res" hidden></div>
 <details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">(가) 자존감 B = 1.402 (+) → 자존감이 높을수록 성취도↑ (선이 오른쪽 위로) / (나) 사교육비 B = 1.664 (+) → 사교육비 상 집단이 항상 위 / (다) <b>상호작용 계수 −.262 (유의, 음수)</b> → 한 변인이 커질수록 다른 변인의 효과가 <b>약해짐</b> → 사교육비가 높은 집단의 자존감 기울기가 <b>더 완만</b>하고 두 선이 오른쪽으로 갈수록 가까워짐. 이 모두를 만족하는 것은 그림 ②. ①은 교차(기울기 부호가 반대), ③은 사교육비 상의 기울기가 더 가팔라 상호작용이 +인 그림, ④는 평행(상호작용 없음), ⑤는 두 선이 모두 내려가 주효과 부호가 반대.</div><div class="nb n-key"><b class="nl">핵심 정리</b><table><tr><th>상호작용 계수</th><th>그래프</th></tr><tr><td>0 (비유의)</td><td>평행선</td></tr><tr><td>양수 (강화)</td><td>선이 한쪽으로 갈수록 벌어짐</td></tr><tr><td>음수 (상충)</td><td>선이 한쪽으로 갈수록 좁혀짐</td></tr></table></div><div class="nb n-con"><b class="nl">개념 정리</b>이원분산분석의 상호작용 그래프(선이 평행하지 않음)와 같은 개념. 회귀에서는 두 변인의 곱항(평균중심화)의 계수가 상호작용을 나타냄.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
+</article></div></details><details class="wk"><summary class="wh"><span class="car"></span><span class="wn">12주</span><span class="wt">경로분석 · 매개 · 조절 · 구조방정식</span><span class="wc">8문항</span></summary><div class="wbody"><article class="q" id="quiz-12-01" data-id="quiz-12-01" data-tab="quiz" data-ans="3">
+<div class="meta"><span class="num">59</span><span class="kind k-quiz">기출</span><span class="src">2024 2급 26번</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">다음 사례에서 연구가설이 표현하고 있는 효과는?<br>많은 선행연구에서 부모와의 안정애착(A)이 자녀의 학교생활적응(B)에 영향을 미치는 것으로 나타났다. 최근 한 연구자는 애착이론과 선행연구를 근거로, 두 변인(A, B)과 자기효능감(M) 간 관계를 나타내는 연구가설을 다음과 같이 설정했다. “A는 M을 통해 B에 정적인 영향을 미칠 것이다.”</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">B의 직접효과</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">B의 매개효과</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">A의 간접효과</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">M의 조절효과</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">B의 이월효과</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">가설은 A → M → B. 독립변수 A가 매개변수 M을 거쳐 B에 미치는 영향이므로 <b>A의 간접효과(매개효과)</b>. ①은 M을 거치지 않는 A→B, ②는 B가 종속변수라 주체가 맞지 않음, ④ 조절은 M이 A→B 관계의 강도·방향을 바꾸는 것, ⑤ 이월효과는 반복 처치 설계의 용어.</div><div class="nb n-key"><b class="nl">핵심 정리</b><b>간접효과 = 매개효과</b> (같은 말의 다른 이름). 총효과 = 직접효과 + 간접효과</div><div class="nb n-prof"><b class="nl">교수님</b>"간접효과가 어쩌고 나온다, 그것은 매개효과의 또 다른 이름이다."</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="quiz-12-02" data-id="quiz-12-02" data-tab="quiz" data-ans="4">
+<div class="meta"><span class="num">60</span><span class="kind k-quiz">기출</span><span class="src">2021 1급 70번</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">조절효과를 확인하기 위한 연구문제로 적절한 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">상담수퍼바이저가 갖춰야 할 직무역량은 무엇인가?</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">수퍼비전은 초보상담사의 상담효능감에 영향을 미치는가?</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">인지적 기법과 행동적 기법은 청소년 내담자의 우울 감소에 차별적인 영향을 미치는가?</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">성찰적 수퍼비전이 상담사의 수퍼비전 만족도에 미치는 영향은 상담사의 상담경력에 따라 다른가?</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">부모의 역기능적 양육태도는 아동의 사회적 관계욕구 충족에 영향을 미치고, 아동의 사회적 관계욕구 충족은 아동의 자해행동에 영향을 미치는가?</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">조절은 X→Y의 영향이 제3의 변수(상담경력)에 <b>따라 다른가</b>를 묻는 것 → ④. ①은 단순 기술, ②는 단순 영향(회귀), ③은 집단 간 차이(t검정·분산분석), ⑤는 X→M→Y의 연쇄(순차) 매개.</div><div class="nb n-key"><b class="nl">핵심 정리</b>조절 = "~에 따라 달라지는가?" (언제, 누구에게) / 매개 = "어떻게, 왜?"</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="quiz-12-03" data-id="quiz-12-03" data-tab="quiz" data-ans="5">
+<div class="meta"><span class="num">61</span><span class="kind k-quiz">기출</span><span class="src">2023 1급 65번</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">&lt;그림 1&gt;과 &lt;그림 2&gt;는 세 변인 (a, b, c) 사이의 관계를 보여주고 있다. 이에 관한 설명으로 옳은 것은?</div>
+<div class="box"><svg viewBox="0 0 440 130" width="440" height="130" role="img" xmlns="http://www.w3.org/2000/svg" style="display:block;max-width:100%;color:inherit"><defs><marker id="ahf23" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><text x="20" y="48" font-size="13" text-anchor="middle" fill="currentColor" font-family="Pretendard,sans-serif">a</text><text x="90" y="48" font-size="13" text-anchor="middle" fill="currentColor" font-family="Pretendard,sans-serif">b</text><text x="160" y="48" font-size="13" text-anchor="middle" fill="currentColor" font-family="Pretendard,sans-serif">c</text><line x1="30" y1="44" x2="80" y2="44" stroke="currentColor" stroke-width="1.2" marker-end="url(#ahf23)"/><text x="0" y="0" font-size="10" fill="currentColor" font-family="Pretendard,sans-serif"></text><line x1="100" y1="44" x2="150" y2="44" stroke="currentColor" stroke-width="1.2" marker-end="url(#ahf23)"/><text x="0" y="0" font-size="10" fill="currentColor" font-family="Pretendard,sans-serif"></text><path d="M20 60 V86 H160 V62" fill="none" stroke="currentColor" stroke-width="1.2" marker-end="url(#ahf23)"/><text x="90" y="114" font-size="13" text-anchor="middle" fill="currentColor" font-family="Pretendard,sans-serif">&lt;그림 1&gt;</text><text x="290" y="48" font-size="13" text-anchor="middle" fill="currentColor" font-family="Pretendard,sans-serif">a</text><text x="400" y="48" font-size="13" text-anchor="middle" fill="currentColor" font-family="Pretendard,sans-serif">c</text><line x1="300" y1="44" x2="390" y2="44" stroke="currentColor" stroke-width="1.2" marker-end="url(#ahf23)"/><text x="0" y="0" font-size="10" fill="currentColor" font-family="Pretendard,sans-serif"></text><text x="345" y="14" font-size="13" text-anchor="middle" fill="currentColor" font-family="Pretendard,sans-serif">b</text><line x1="345" y1="20" x2="345" y2="42" stroke="currentColor" stroke-width="1.2" marker-end="url(#ahf23)"/><text x="0" y="0" font-size="10" fill="currentColor" font-family="Pretendard,sans-serif"></text><text x="345" y="114" font-size="13" text-anchor="middle" fill="currentColor" font-family="Pretendard,sans-serif">&lt;그림 2&gt;</text></svg></div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">&lt;그림 1&gt;에서는 a와 b 사이의 관계 크기나 방향이 c에 의해 달라지는지를 확인한다.</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">&lt;그림 2&gt;에서는 b가 a와 c 사이의 관계가 존재하는 이유를 설명할 수 있는 기제인지를 확인한다.</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">&lt;그림 2&gt;에서 b는 연속변인(continuous variable)이어야 한다.</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">&lt;그림 1&gt;에서 c에 대한 a의 총효과는 c에 대한 a의 직접효과에서 간접효과를 뺀 값이다.</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">&lt;그림 2&gt;에서는 a와 b의 상호작용 효과를 검증하는 통계기법을 사용해서 가설을 검증한다.</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">그림 1은 a → b → c (매개), 그림 2는 b가 a → c 화살표에 영향을 주는 조절 모형. 그림 2는 <b>상호작용항(a×b)</b>으로 검증하므로 ⑤. ①은 조절의 설명이라 그림 2에 해당, ②는 매개(기제)의 설명이라 그림 1에 해당, ④ 총효과는 직접효과 <b>+</b> 간접효과.</div><div class="nb n-key"><b class="nl">핵심 정리</b>매개 = 삼각형(경로 위에 변수가 끼어듦) / 조절 = 화살표 위로 화살표. 조절은 상호작용항, 매개는 간접효과(부트스트랩)로 검증</div><div class="nb n-trap"><b class="nl">함정</b>조절변수가 연속변인이어야 한다는 제한은 없음 (성별 같은 범주형도 가능, 집단별 효과 비교).</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="quiz-12-04" data-id="quiz-12-04" data-tab="quiz" data-ans="4">
+<div class="meta"><span class="num">62</span><span class="kind k-quiz">기출</span><span class="src">2022 1급 52번</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">다음 그림은 학군(school district)과 부모소득이 학업의지에 미치는 영향을 예측하는 경로분석 결과이다. 학업의지에 대한 학군의 총효과(ㄱ)와 부모소득이 학업효능감을 거쳐 학업의지에 미치는 간접효과(ㄴ)는? (단, 경로계수는 모두 표준화 회귀계수이며, 유의수준은 α = .05임)</div>
+<div class="box"><svg viewBox="0 0 390 156" width="390" height="156" role="img" xmlns="http://www.w3.org/2000/svg" style="display:block;max-width:100%;color:inherit"><defs><marker id="ahf22" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><rect x="8" y="14" width="66" height="26" fill="none" stroke="currentColor" stroke-width="1.2"/><text x="41" y="31" font-size="11" text-anchor="middle" fill="currentColor" font-family="Pretendard,sans-serif">학군</text><rect x="8" y="116" width="66" height="26" fill="none" stroke="currentColor" stroke-width="1.2"/><text x="41" y="133" font-size="11" text-anchor="middle" fill="currentColor" font-family="Pretendard,sans-serif">부모소득</text><rect x="150" y="65" width="92" height="26" fill="none" stroke="currentColor" stroke-width="1.2"/><text x="196" y="82" font-size="11" text-anchor="middle" fill="currentColor" font-family="Pretendard,sans-serif">학업효능감</text><rect x="306" y="65" width="72" height="26" fill="none" stroke="currentColor" stroke-width="1.2"/><text x="342" y="82" font-size="11" text-anchor="middle" fill="currentColor" font-family="Pretendard,sans-serif">학업의지</text><line x1="74" y1="24" x2="306" y2="68" stroke="currentColor" stroke-width="1.2" marker-end="url(#ahf22)"/><text x="176" y="34" font-size="10" fill="currentColor" font-family="Pretendard,sans-serif">.40</text><line x1="74" y1="32" x2="150" y2="70" stroke="currentColor" stroke-width="1.2" marker-end="url(#ahf22)"/><text x="92" y="62" font-size="10" fill="currentColor" font-family="Pretendard,sans-serif">.60</text><line x1="74" y1="126" x2="150" y2="86" stroke="currentColor" stroke-width="1.2" marker-end="url(#ahf22)"/><text x="92" y="112" font-size="10" fill="currentColor" font-family="Pretendard,sans-serif">.30</text><line x1="242" y1="78" x2="306" y2="78" stroke="currentColor" stroke-width="1.2" marker-end="url(#ahf22)"/><text x="266" y="72" font-size="10" fill="currentColor" font-family="Pretendard,sans-serif">.30</text><line x1="74" y1="134" x2="306" y2="88" stroke="currentColor" stroke-width="1.2" marker-end="url(#ahf22)"/><text x="176" y="128" font-size="10" fill="currentColor" font-family="Pretendard,sans-serif">.40</text></svg></div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">ㄱ: 0.09, ㄴ: 0.58</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">ㄱ: 0.18, ㄴ: 0.09</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">ㄱ: 0.49, ㄴ: 0.06</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">ㄱ: 0.58, ㄴ: 0.09</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">ㄱ: 0.58, ㄴ: 0.49</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">ㄱ 학군의 총효과 = 직접효과 .40 + 간접효과 (.60 × .30 = .18) = <b>.58</b>. ㄴ 부모소득 → 학업효능감 → 학업의지 = .30 × .30 = <b>.09</b>.</div><div class="nb n-key"><b class="nl">핵심 정리</b>간접효과 = 경로계수의 곱 / 총효과 = 직접효과 + 간접효과 (c = c′ + ab)</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="quiz-12-05" data-id="quiz-12-05" data-tab="quiz" data-ans="4">
+<div class="meta"><span class="num">63</span><span class="kind k-quiz">기출</span><span class="src">2017 1급 67번</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">다음 그림은 가상의 데이터를 사용하여 SES(socio-economic status)와 부모의 기대가 교육포부를 예측하는 연구모형을 검증하기 위하여 경로분석을 실시한 결과이다. 결과의 해석이 옳지 않은 것은? (단, 경로계수들은 모두 표준화 회귀계수이며, α = .05에서 통계적으로 유의하다.)</div>
+<div class="box"><svg viewBox="0 0 390 156" width="390" height="156" role="img" xmlns="http://www.w3.org/2000/svg" style="display:block;max-width:100%;color:inherit"><defs><marker id="ahf17" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><rect x="8" y="14" width="66" height="26" fill="none" stroke="currentColor" stroke-width="1.2"/><text x="41" y="31" font-size="11" text-anchor="middle" fill="currentColor" font-family="Pretendard,sans-serif">SES</text><rect x="8" y="116" width="66" height="26" fill="none" stroke="currentColor" stroke-width="1.2"/><text x="41" y="133" font-size="11" text-anchor="middle" fill="currentColor" font-family="Pretendard,sans-serif">부모기대</text><rect x="150" y="65" width="92" height="26" fill="none" stroke="currentColor" stroke-width="1.2"/><text x="196" y="82" font-size="11" text-anchor="middle" fill="currentColor" font-family="Pretendard,sans-serif">학교성적</text><rect x="306" y="65" width="72" height="26" fill="none" stroke="currentColor" stroke-width="1.2"/><text x="342" y="82" font-size="11" text-anchor="middle" fill="currentColor" font-family="Pretendard,sans-serif">교육포부</text><line x1="74" y1="24" x2="306" y2="68" stroke="currentColor" stroke-width="1.2" marker-end="url(#ahf17)"/><text x="176" y="34" font-size="10" fill="currentColor" font-family="Pretendard,sans-serif">.20</text><line x1="74" y1="32" x2="150" y2="70" stroke="currentColor" stroke-width="1.2" marker-end="url(#ahf17)"/><text x="92" y="62" font-size="10" fill="currentColor" font-family="Pretendard,sans-serif">.50</text><line x1="74" y1="126" x2="150" y2="86" stroke="currentColor" stroke-width="1.2" marker-end="url(#ahf17)"/><text x="92" y="112" font-size="10" fill="currentColor" font-family="Pretendard,sans-serif">.20</text><line x1="242" y1="78" x2="306" y2="78" stroke="currentColor" stroke-width="1.2" marker-end="url(#ahf17)"/><text x="266" y="72" font-size="10" fill="currentColor" font-family="Pretendard,sans-serif">.30</text><line x1="74" y1="134" x2="306" y2="88" stroke="currentColor" stroke-width="1.2" marker-end="url(#ahf17)"/><text x="176" y="128" font-size="10" fill="currentColor" font-family="Pretendard,sans-serif">.40</text></svg></div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">교육포부에 대한 SES의 총효과는 0.35이다.</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">학교성적이 높을수록 교육포부의 수준이 높아진다.</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">SES가 교육포부에 미치는 총효과는 부모기대가 교육포부에 미치는 총효과보다 작다.</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">부모기대가 학교성적을 거쳐 교육포부에 미치는 간접효과는 0.50이다.</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">교육포부를 직접적으로 예측하는 변인 중 부모기대의 효과가 가장 크다.</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">④ 부모기대 → 학교성적 → 교육포부 = .20 × .30 = <b>.06</b> (0.50이 아님). ① SES 총효과 = .20 + .50 × .30 = .35 (옳음). ③ 부모기대 총효과 = .40 + .20 × .30 = .46 &gt; .35 (옳음). ⑤ 직접경로 .40(부모기대) &gt; .30(학교성적) &gt; .20(SES) (옳음).</div><div class="nb n-key"><b class="nl">핵심 정리</b>"옳지 않은 것" 문제는 선지마다 경로를 곱하고 더해 확인. .50은 SES → 학교성적 경로의 계수라 헷갈리게 만든 선지.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="quiz-12-06" data-id="quiz-12-06" data-tab="quiz" data-ans="2">
+<div class="meta"><span class="num">64</span><span class="kind k-quiz">기출</span><span class="src">2016 1급 65번</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">다음 가설을 검증할 때, 기대되는 결과로 옳은 것은?<br>가설: 부모의 심리적 안녕감(X)은 자녀의 사회적 지지 지각(Z)에 긍정적인 영향을 주어서 높은 수준의 정서적 안녕감(Y)에 이르게 한다.</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">Y를 준거변인으로 하고 X를 예언변인으로 한 회귀분석 결과, X의 회귀계수는 0일 것이다.</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">X와 Z를 예언변인으로 한 회귀분석 결과, Z의 회귀계수는 유의한 양(+)의 값을 가질 것이다.</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">X와 Z를 예언변인으로 한 회귀분석 결과, X의 회귀계수는 유의한 음(−)의 값을 가질 것이다.</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">X를 예언변인으로 하고 Z를 준거변인으로 한 회귀분석 결과, X의 회귀계수는 0일 것이다.</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">X와 Z를 예언변인으로 한 회귀분석 결과, Z의 회귀계수는 0일 것이다.</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">가설은 X → Z → Y (매개). 기대 결과: a(X→Z) 유의(+), <b>b(Z→Y) 유의(+)</b>. ② X와 Z를 함께 투입했을 때 Z의 계수가 유의한 양수 = b 경로. ①은 총효과 c가 0이 아니어야 하고, ④ a ≠ 0, ⑤ b ≠ 0, ③ X의 효과는 (+).</div><div class="nb n-key"><b class="nl">핵심 정리</b>매개 가설의 기대 결과: a ≠ 0, b ≠ 0 (X 통제), c′ &lt; c (완전매개면 c′ = 0)</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="quiz-12-07" data-id="quiz-12-07" data-tab="quiz" data-ans="3">
+<div class="meta"><span class="num">65</span><span class="kind k-quiz">기출</span><span class="src">2021 2급 30번</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">구조방정식 모형의 상대적합도 지수(relative fit index)만으로 묶인 것은?<br>ㄱ. CFI(comparative fit index) ㄴ. GFI(goodness of fit index) ㄷ. NFI(normed fit index) ㄹ. RMSEA(root mean square error of approximation) ㅁ. TLI(Tucker-Lewis index)</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">ㄱ, ㄴ, ㄹ</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">ㄱ, ㄴ, ㅁ</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">ㄱ, ㄷ, ㅁ</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">ㄴ, ㄷ, ㄹ</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">ㄷ, ㄹ, ㅁ</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">상대 적합도(독립모형과 비교) = <b>NFI, TLI, CFI</b> → ㄱ, ㄷ, ㅁ. 절대 적합도 = GFI, AGFI, RMSEA (ㄴ, ㄹ).</div><div class="nb n-key"><b class="nl">핵심 정리</b>상대: NFI · TLI(NNFI) · CFI / 절대: GFI · AGFI · RMSEA / 표본 크기에 영향 덜 받음: RMSEA · TLI · CFI</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="quiz-12-08" data-id="quiz-12-08" data-tab="quiz" data-ans="5">
+<div class="meta"><span class="num">66</span><span class="kind k-quiz">기출</span><span class="src">2017 2급 36번</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">구조방정식모형의 장점이 아닌 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">측정의 오차를 통제할 수 있다.</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">적합도 지수들을 사용하여 이론적 모형에 대한 통계적 평가가 가능하다.</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">여러 개의 독립변수, 매개변수, 종속변수 간의 관계를 동시에 분석할 수 있다.</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">잠재변수를 사용하므로 측정변수로만 산출된 값에 비해 비교적 정확한 추정치를 얻을 수 있다.</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">외생잠재변수와 내생잠재변수 간의 관계를 분석하므로 측정에서 발생하는 설명오차를 통제할 수 있다.</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">⑤ <b>설명오차는 측정오차가 아님</b>. 설명오차는 내생변수가 외생변수로 설명되지 않은 부분이고, SEM이 통제하는 것은 <b>측정오차</b>. 경로분석은 측정오차가 없다고 가정하지만 SEM은 잠재변수로 측정오차를 고려.</div><div class="nb n-con"><b class="nl">개념 정리</b>슬라이드: 내생변수는 "설명오차를 가짐 (≠ 측정오차)". 잠재변인 = 측정오류를 수정한 변수.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
 </article></div></details><p class="empty" hidden>조건에 맞는 문제가 없어.</p></section>
 <section class="tab" id="tab-pred" data-tab="pred"><h2 class="th">예상문제 <small>중간고사 대비 예상 (1~7주) · 44문항</small></h2><details class="wk"><summary class="wh"><span class="car"></span><span class="wn">1주</span><span class="wt">측정 수준과 기술통계</span><span class="wc">5문항</span></summary><div class="wbody"><article class="q" id="pred-1-01" data-id="pred-1-01" data-tab="pred" data-ans="4">
 <div class="meta"><span class="num">1</span><span class="kind k-pred">예상</span><span class="src">예상 · 척도 수준</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
@@ -2543,7 +3019,7 @@ td:first-child{font-weight:600;min-width:6em}
 <details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">독립 3집단 이상(일원 ANOVA)의 대안은 <b>Kruskal-Wallis</b>. Friedman은 반복측정 3시점 이상.</div><div class="nb n-key"><b class="nl">핵심 정리</b><div class="tw"><table><tr><th>상황 (모수 검정)</th><th>비모수 대안</th></tr><tr><td>독립 2집단 (독립표본 t)</td><td>Mann-Whitney U</td></tr><tr><td>대응 2시점 (대응표본 t)</td><td>Wilcoxon 부호순위</td></tr><tr><td>독립 3집단 이상 (일원 ANOVA)</td><td>Kruskal-Wallis</td></tr><tr><td>반복 3시점 이상 (반복측정 ANOVA)</td><td>Friedman</td></tr></table></div></div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
 </article></div></details><p class="empty" hidden>조건에 맞는 문제가 없어.</p></section>
-<section class="tab" id="tab-app" data-tab="app"><h2 class="th">응용 <small>교수님 수업 사례 기반 응용 · 99문항</small></h2><details class="wk"><summary class="wh"><span class="car"></span><span class="wn">1주</span><span class="wt">측정 수준과 기술통계</span><span class="wc">5문항</span></summary><div class="wbody"><div class="lead" data-group="a1"><div class="lt">구민정 외(2023) · 인구사회학적 특성</div><p class="note">비자살적 자해와 자살생각 여부에 따른 차이 (N = 593)</p><div class="tw wide"><table><tr><th>특성</th><th></th><th>NSH (361)</th><th>NSSI (22)</th><th>SI (157)</th><th>NSSI+SI (53)</th><th>χ²</th><th>p</th></tr><tr><td>성별</td><td>남성</td><td>218(60.4)</td><td>17(77.3)</td><td>64(40.8)</td><td>25(47.2)</td><td>22.75**</td><td>&lt;.001</td></tr><tr><td></td><td>여성</td><td>143(39.6)</td><td>5(22.7)</td><td>93(59.2)</td><td>28(52.8)</td><td></td><td></td></tr><tr><td>연령</td><td>20~50대</td><td>각 연령대 빈도(%)</td><td></td><td></td><td></td><td>11.99</td><td>.214</td></tr><tr><td>SES</td><td>하~상층</td><td>중하층 최다</td><td></td><td></td><td></td><td>15.66</td><td>.074</td></tr><tr><td>성소수자</td><td>이성애자 등</td><td>이성애자 83.3%</td><td></td><td></td><td></td><td>10.01</td><td>.093</td></tr></table></div></div><article class="q" id="app-1-01" data-id="app-1-01" data-tab="app" data-ans="2" data-group="a1">
+<section class="tab" id="tab-app" data-tab="app"><h2 class="th">응용 <small>교수님 수업 사례 기반 응용 · 141문항</small></h2><details class="wk"><summary class="wh"><span class="car"></span><span class="wn">1주</span><span class="wt">측정 수준과 기술통계</span><span class="wc">5문항</span></summary><div class="wbody"><div class="lead" data-group="a1"><div class="lt">구민정 외(2023) · 인구사회학적 특성</div><p class="note">비자살적 자해와 자살생각 여부에 따른 차이 (N = 593)</p><div class="tw wide"><table><tr><th>특성</th><th></th><th>NSH (361)</th><th>NSSI (22)</th><th>SI (157)</th><th>NSSI+SI (53)</th><th>χ²</th><th>p</th></tr><tr><td>성별</td><td>남성</td><td>218(60.4)</td><td>17(77.3)</td><td>64(40.8)</td><td>25(47.2)</td><td>22.75**</td><td>&lt;.001</td></tr><tr><td></td><td>여성</td><td>143(39.6)</td><td>5(22.7)</td><td>93(59.2)</td><td>28(52.8)</td><td></td><td></td></tr><tr><td>연령</td><td>20~50대</td><td>각 연령대 빈도(%)</td><td></td><td></td><td></td><td>11.99</td><td>.214</td></tr><tr><td>SES</td><td>하~상층</td><td>중하층 최다</td><td></td><td></td><td></td><td>15.66</td><td>.074</td></tr><tr><td>성소수자</td><td>이성애자 등</td><td>이성애자 83.3%</td><td></td><td></td><td></td><td>10.01</td><td>.093</td></tr></table></div></div><article class="q" id="app-1-01" data-id="app-1-01" data-tab="app" data-ans="2" data-group="a1">
 <div class="meta"><span class="num">1</span><span class="kind k-app">표 읽기</span><span class="src">구민정 표 · 1</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">표 안의 숫자가 평균·표준편차가 아니라 빈도(%)로 제시된 이유는?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">표본이 작아서</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">성별·연령대·SES·성소수자 여부가 모두 범주(명명·서열)로 측정되어서</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">정규분포를 따르지 않아서</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">χ²를 계산하기 위해 평균이 필요 없어서</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">집단이 4개라서</span></button></li></ol>
@@ -2746,19 +3222,19 @@ td:first-child{font-weight:600;min-width:6em}
 <div class="res" hidden></div>
 <details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ①</div><div class="exp">공분산은 <b>측정 단위의 영향</b>을 받아 100배가 되지만, r은 공분산을 표준편차로 나눠 단위를 제거했기 때문에 <b>불변</b>.</div><div class="nb n-prof"><b class="nl">교수님</b>교수님: 공분산은 cm와 m로 측정했을 때 크기가 달라지는 문제가 있어서 표준편차로 나눈 r을 만든 것.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><div class="lead" data-group="p9b"><div class="lt">상관분석 결과 기술 예시 · 아동기 정서적 외상과 관계중독 (광운대 석사논문, 2025)</div><p class="note">모든 상관계수가 p < .01에서 유의한 정적 상관 (논문 본문 기술을 표로 정리)</p><div class="tw"><table><tr><th></th><th>① 정서적 외상</th><th>② 정서조절곤란</th><th>③ 관계적 공격성</th><th>④ 관계중독</th></tr><tr><td>① 정서적 외상</td><td>1</td><td></td><td></td><td></td></tr><tr><td>② 정서조절곤란</td><td>.58</td><td>1</td><td></td><td></td></tr><tr><td>③ 관계적 공격성</td><td>.30</td><td>.33</td><td>1</td><td></td></tr><tr><td>④ 관계중독</td><td>.66</td><td>.69</td><td>.45</td><td>1</td></tr></table></div></div><article class="q" id="app-9-05" data-id="app-9-05" data-tab="app" data-ans="5" data-group="p9b">
+</article><div class="lead" data-group="p9b"><div class="lt">상관분석 결과 기술 예시 · 아동기 정서적 외상과 관계중독 (광운대 석사논문, 2025)</div><p class="note">모든 상관계수가 p < .01에서 유의한 정적 상관 (논문 본문 기술을 표로 정리)</p><div class="tw"><table><tr><th></th><th>① 정서적 외상</th><th>② 정서조절곤란</th><th>③ 관계적 공격성</th><th>④ 관계중독</th></tr><tr><td>① 정서적 외상</td><td>1</td><td></td><td></td><td></td></tr><tr><td>② 정서조절곤란</td><td>.58</td><td>1</td><td></td><td></td></tr><tr><td>③ 관계적 공격성</td><td>.30</td><td>.33</td><td>1</td><td></td></tr><tr><td>④ 관계중독</td><td>.66</td><td>.69</td><td>.45</td><td>1</td></tr></table></div></div><article class="q" id="app-9-05" data-id="app-9-05" data-tab="app" data-ans="1" data-group="p9b">
 <div class="meta"><span class="num">30</span><span class="kind k-app">표 읽기</span><span class="src">9주 · 상관표</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">표에서 가장 강한 상관을 보이는 변인 쌍은?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">② 정서조절곤란 – ④ 관계중독</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">① 정서적 외상 – ④ 관계중독</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">③ 관계적 공격성 – ④ 관계중독</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">② 정서조절곤란 – ③ 관계적 공격성</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">① 정서적 외상 – ③ 관계적 공격성</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">절댓값이 가장 큰 쌍은 ②–④의 <b>.69</b> (그다음 ①–④ .66).</div><div class="nb n-tip"><b class="nl">팁</b>상관표 읽기: 절댓값(강도) → 부호(방향) → 별(유의도) 순서.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ①</div><div class="exp">절댓값이 가장 큰 쌍은 ②–④의 <b>.69</b> (그다음 ①–④ .66).</div><div class="nb n-tip"><b class="nl">팁</b>상관표 읽기: 절댓값(강도) → 부호(방향) → 별(유의도) 순서.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-9-06" data-id="app-9-06" data-tab="app" data-ans="5" data-group="p9b">
+</article><article class="q" id="app-9-06" data-id="app-9-06" data-tab="app" data-ans="1" data-group="p9b">
 <div class="meta"><span class="num">31</span><span class="kind k-app">표 읽기</span><span class="src">9주 · 해석 기준</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">외상 – 관계적 공격성 r = .30은 해석 기준상 어디에 해당하는가?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">상관이 낮음</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">상관이 매우 높음</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">상관이 있음</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">상관이 높음</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">상관이 매우 낮음</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">|r| .20 ~ .40 → <b>상관이 낮음</b>. (p < .01로 통계적으로는 유의하지만 크기는 낮은 수준.)</div><div class="nb n-trap"><b class="nl">함정</b>유의하다고 해서 상관이 큰 것은 아님. 유의도는 표본 크기의 영향을 받고, 크기는 r의 절댓값으로 판단.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ①</div><div class="exp">|r| .20 ~ .40 → <b>상관이 낮음</b>. (p < .01로 통계적으로는 유의하지만 크기는 낮은 수준.)</div><div class="nb n-trap"><b class="nl">함정</b>유의하다고 해서 상관이 큰 것은 아님. 유의도는 표본 크기의 영향을 받고, 크기는 r의 절댓값으로 판단.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
 </article><article class="q" id="app-9-07" data-id="app-9-07" data-tab="app" data-ans="2" data-group="p9b">
 <div class="meta"><span class="num">32</span><span class="kind k-app">계산</span><span class="src">9주 · 결정계수</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
@@ -2767,19 +3243,19 @@ td:first-child{font-weight:600;min-width:6em}
 <div class="res" hidden></div>
 <details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">r² = .66² = .4356 → 약 <b>44%</b>. r을 그대로 %로 읽으면 틀림.</div><div class="nb n-key"><b class="nl">핵심 정리</b>결정계수 r² = 두 변인이 공유하는 분산(공통분산)의 비율.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-9-08" data-id="app-9-08" data-tab="app" data-ans="3" data-group="p9b">
+</article><article class="q" id="app-9-08" data-id="app-9-08" data-tab="app" data-ans="4" data-group="p9b">
 <div class="meta"><span class="num">33</span><span class="kind k-app">개념 응용</span><span class="src">9주 · VIF 확인</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">이 논문이 상관분석 뒤에 분산팽창지수(VIF)와 허용도를 확인한 이유로 가장 적절한 것은?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">상관이 모두 부적이어서</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">카이제곱을 하기 위해</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">표본 수가 부족해서</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">변인들 사이의 상관이 다소 높아(.69, .66 등) 이후 회귀분석에서 다중공선성이 우려되어서</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">정규분포를 확인하려고</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">독립변인 간 상관이 높으면 회귀계수가 불안정해지고 유의성·부호가 왜곡될 수 있어 <b>다중공선성</b>을 점검.</div><div class="nb n-prof"><b class="nl">교수님</b>교수님: 상관 .7 이상이면 심사위원들이 "너무 비슷한 변수를 골랐다"고 보는 경향. 광운대에서는 상관표를 매우 중요하게 봄.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">독립변인 간 상관이 높으면 회귀계수가 불안정해지고 유의성·부호가 왜곡될 수 있어 <b>다중공선성</b>을 점검.</div><div class="nb n-prof"><b class="nl">교수님</b>교수님: 상관 .7 이상이면 심사위원들이 "너무 비슷한 변수를 골랐다"고 보는 경향. 광운대에서는 상관표를 매우 중요하게 봄.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-9-09" data-id="app-9-09" data-tab="app" data-ans="2" data-group="p9b">
+</article><article class="q" id="app-9-09" data-id="app-9-09" data-tab="app" data-ans="1" data-group="p9b">
 <div class="meta"><span class="num">34</span><span class="kind k-app">해석</span><span class="src">9주 · 인과 표현</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">이 표를 근거로 한 결론 중 가장 적절한 것은?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">아동기 정서적 외상이 높을수록 관계중독도 높은 경향이 있으나 상관만으로는 인과를 말할 수 없다.</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">아동기 정서적 외상이 관계중독의 원인이다.</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">관계적 공격성은 다른 변수와 관련이 없다.</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">정서조절곤란을 줄이면 관계중독이 반드시 줄어든다.</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">모든 변인이 같은 변인이다.</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">상관분석은 방향·강도만 보여줄 뿐 <b>인과를 말할 수 없음</b> (X → Y, Y → X, 제3 요인 모두 가능).</div><div class="nb n-prof"><b class="nl">교수님</b>교수님: 교사의 열정과 학업성취도 방향이 반대일 수도, 부모 같은 제3의 원인일 수도 있음.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ①</div><div class="exp">상관분석은 방향·강도만 보여줄 뿐 <b>인과를 말할 수 없음</b> (X → Y, Y → X, 제3 요인 모두 가능).</div><div class="nb n-prof"><b class="nl">교수님</b>교수님: 교사의 열정과 학업성취도 방향이 반대일 수도, 부모 같은 제3의 원인일 수도 있음.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
 </article><div class="lead" data-group="p9c"><div class="lt">상관분석 실습 결과 (사회불안·성취도 자료)</div><p class="note">교수님 연습 문제 1번 결과 해석 문장</p><div class="tw"><table><tr><th>변인 쌍</th><th>결과</th></tr><tr><td>성취도 – 자기효능감</td><td>정적 상관, 유의</td></tr><tr><td>성취도 – 평가민감성</td><td>부적 상관, 유의</td></tr><tr><td>자기효능감 – 평가민감성</td><td>부적 상관, 유의</td></tr><tr><td>과거 성취경험 – 다른 변인</td><td>유의한 상관 없음</td></tr></table></div></div><article class="q" id="app-9-10" data-id="app-9-10" data-tab="app" data-ans="5" data-group="p9c">
 <div class="meta"><span class="num">35</span><span class="kind k-app">해석</span><span class="src">9주 · 실습 결과</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
@@ -2788,12 +3264,12 @@ td:first-child{font-weight:600;min-width:6em}
 <div class="res" hidden></div>
 <details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">부적 상관 = 한 변수가 높을수록 다른 변수는 낮은 경향. <b>방향과 강도는 별개</b>이므로 부적이라고 약한 것은 아니며, 원인을 말하는 것도 아님.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-9-11" data-id="app-9-11" data-tab="app" data-ans="2" data-group="p9c">
+</article><article class="q" id="app-9-11" data-id="app-9-11" data-tab="app" data-ans="3" data-group="p9c">
 <div class="meta"><span class="num">36</span><span class="kind k-app">해석</span><span class="src">9주 · 비유의 해석</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">과거 성취경험이 다른 변인들과 유의한 상관이 없었다는 결과에 대한 가장 적절한 해석은?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">곡선 관계가 확실히 있다.</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">과거 성취경험은 다른 변인과 전혀 관련이 없다고 확정할 수 있다.</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">선형적 관련성이 통계적으로 유의하지 않았다 (관련성이 전혀 없다는 뜻은 아님).</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">표본이 반드시 작았다.</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">r이 항상 1이다.</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">유의하지 않다는 것은 <b>선형</b> 상관이 0과 구분되지 않는다는 뜻. 선형 관련성 없음 ≠ 관련성 없음 (곡선 관계 가능성).</div><div class="nb n-con"><b class="nl">개념 정리</b>r은 선형 관계만 반영. 불안과 시험 성적처럼 높았다 낮아지는 관계도 r은 낮게 나옴.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">유의하지 않다는 것은 <b>선형</b> 상관이 0과 구분되지 않는다는 뜻. 선형 관련성 없음 ≠ 관련성 없음 (곡선 관계 가능성).</div><div class="nb n-con"><b class="nl">개념 정리</b>r은 선형 관계만 반영. 불안과 시험 성적처럼 높았다 낮아지는 관계도 r은 낮게 나옴.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
 </article><div class="lead" data-group="p9d"><div class="lt">카이제곱 · 상담자 경력 × 선호 이론 (n = 200)</div><p class="note">교수님 슬라이드 예시</p><div class="tw"><table><tr><th></th><th>인지행동</th><th>인간중심</th><th>정신역동</th><th>게슈탈트</th><th>행 합</th></tr><tr><td>숙련</td><td>10</td><td>30</td><td>42</td><td>24</td><td>106</td></tr><tr><td>초심</td><td>30</td><td>32</td><td>14</td><td>18</td><td>94</td></tr><tr><td>열 합</td><td>40</td><td>62</td><td>56</td><td>42</td><td>200</td></tr></table></div></div><article class="q" id="app-9-12" data-id="app-9-12" data-tab="app" data-ans="3" data-group="p9d">
 <div class="meta"><span class="num">37</span><span class="kind k-app">계산</span><span class="src">9주 · 기대빈도</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
@@ -2809,12 +3285,12 @@ td:first-child{font-weight:600;min-width:6em}
 <div class="res" hidden></div>
 <details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">.28 × 94 = <b>26.32</b>. (관찰 14는 기대보다 훨씬 적음)</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-9-14" data-id="app-9-14" data-tab="app" data-ans="3" data-group="p9d">
+</article><article class="q" id="app-9-14" data-id="app-9-14" data-tab="app" data-ans="2" data-group="p9d">
 <div class="meta"><span class="num">39</span><span class="kind k-app">표 읽기</span><span class="src">9주 · 관찰 vs 기대</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">숙련 상담자에서 관찰빈도가 기대빈도보다 가장 많이 큰 칸은? (기대: 21.20 / 32.86 / 29.68 / 22.26)</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">인간중심</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">정신역동</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">인지행동</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">게슈탈트</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">관찰 − 기대: 인지행동 −11.2, 인간중심 −2.86, <b>정신역동 +12.32</b>, 게슈탈트 +1.74 → 숙련 상담자는 정신역동을 기대보다 많이 선호, 초심은 인지행동을 더 많이 선호하는 패턴.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">관찰 − 기대: 인지행동 −11.2, 인간중심 −2.86, <b>정신역동 +12.32</b>, 게슈탈트 +1.74 → 숙련 상담자는 정신역동을 기대보다 많이 선호, 초심은 인지행동을 더 많이 선호하는 패턴.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
 </article><article class="q" id="app-9-15" data-id="app-9-15" data-tab="app" data-ans="2" data-group="p9d">
 <div class="meta"><span class="num">40</span><span class="kind k-app">계산</span><span class="src">9주 · 가정 점검</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
@@ -2823,26 +3299,26 @@ td:first-child{font-weight:600;min-width:6em}
 <div class="res" hidden></div>
 <details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">기대빈도는 18.80 ~ 32.86이므로 5 미만 칸이 0개 → 충족. 이 가정이 위배되면 카이제곱 분포에서 이탈해 결과를 믿기 어려움.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><div class="lead" data-group="p9e"><div class="lt">카이제곱 실습 결과 (종속변수: 상담경험 여부)</div><p class="note">교수님 실습 해석 + 연습 문제 2번 문장</p><div class="tw"><table><tr><th>독립변인</th><th>결과</th></tr><tr><td>지지적 관계 여부</td><td>p > .05, 비유의</td></tr><tr><td>성별</td><td>p < .05, 유의</td></tr><tr><td>자살사고 수준</td><td>p < .05, 유의</td></tr><tr><td>외상경험 여부</td><td>p > .05, 비유의</td></tr><tr><td>또래관계 만족도 → 외상경험 여부</td><td>χ² = 33.32, p < .001, 외상경험 집단에서 만족도 ‘하’ 비율이 더 높음</td></tr></table></div></div><article class="q" id="app-9-16" data-id="app-9-16" data-tab="app" data-ans="2" data-group="p9e">
+</article><div class="lead" data-group="p9e"><div class="lt">카이제곱 실습 결과 (종속변수: 상담경험 여부)</div><p class="note">교수님 실습 해석 + 연습 문제 2번 문장</p><div class="tw"><table><tr><th>독립변인</th><th>결과</th></tr><tr><td>지지적 관계 여부</td><td>p > .05, 비유의</td></tr><tr><td>성별</td><td>p < .05, 유의</td></tr><tr><td>자살사고 수준</td><td>p < .05, 유의</td></tr><tr><td>외상경험 여부</td><td>p > .05, 비유의</td></tr><tr><td>또래관계 만족도 → 외상경험 여부</td><td>χ² = 33.32, p < .001, 외상경험 집단에서 만족도 ‘하’ 비율이 더 높음</td></tr></table></div></div><article class="q" id="app-9-16" data-id="app-9-16" data-tab="app" data-ans="4" data-group="p9e">
 <div class="meta"><span class="num">41</span><span class="kind k-app">표 읽기</span><span class="src">9주 · 실습 결과</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">상담경험 여부의 비율이 집단에 따라 다르게 나타난 변인은?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">성별, 외상경험 여부</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">지지적 관계 여부, 외상경험 여부</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">지지적 관계 여부, 자살사고 수준</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">성별, 자살사고 수준</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">모두 다르다</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">p < .05인 <b>성별, 자살사고 수준</b>. 지지적 관계·외상경험은 p > .05로 비율이 다르지 않음.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">p < .05인 <b>성별, 자살사고 수준</b>. 지지적 관계·외상경험은 p > .05로 비율이 다르지 않음.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-9-17" data-id="app-9-17" data-tab="app" data-ans="4" data-group="p9e">
+</article><article class="q" id="app-9-17" data-id="app-9-17" data-tab="app" data-ans="2" data-group="p9e">
 <div class="meta"><span class="num">42</span><span class="kind k-app">해석</span><span class="src">9주 · 비유의 해석</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">외상경험 여부에 따른 상담경험 여부의 카이제곱이 p > .05일 때 올바른 해석은?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">자료가 정규분포를 따른다.</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">외상경험 여부에 따라 상담경험 여부의 비율이 서로 다르지 않다.</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">두 변수는 서로 인과관계가 있다.</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">외상경험이 있는 사람이 상담을 더 많이 받는다.</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">카이제곱을 쓸 수 없다.</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">카이제곱의 영가설은 "두 변인은 관계가 없다". p > .05이면 기각하지 못하므로 <b>비율이 다르다고 할 수 없음</b>.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">카이제곱의 영가설은 "두 변인은 관계가 없다". p > .05이면 기각하지 못하므로 <b>비율이 다르다고 할 수 없음</b>.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-9-18" data-id="app-9-18" data-tab="app" data-ans="2" data-group="p9e">
+</article><article class="q" id="app-9-18" data-id="app-9-18" data-tab="app" data-ans="5" data-group="p9e">
 <div class="meta"><span class="num">43</span><span class="kind k-app">개념 응용</span><span class="src">9주 · 유의한 후 확인</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">성별에 따라 상담경험 비율이 유의하게 다를 때 "어떻게 다른가"는 무엇을 보고 판단하는가?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">Durbin-Watson</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">근사 유의확률</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">χ² 값 자체</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">VIF</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">교차분석표(열 퍼센트)</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">카이제곱은 <b>다르다/다르지 않다</b>만 알려주고, 방향은 <b>교차분석표의 퍼센트</b>를 보고 설명.</div><div class="nb n-tip"><b class="nl">팁</b>SPSS: 셀 옵션에서 퍼센트 "열" 체크 (관심 변인 기준).</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">카이제곱은 <b>다르다/다르지 않다</b>만 알려주고, 방향은 <b>교차분석표의 퍼센트</b>를 보고 설명.</div><div class="nb n-tip"><b class="nl">팁</b>SPSS: 셀 옵션에서 퍼센트 "열" 체크 (관심 변인 기준).</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
 </article><article class="q" id="app-9-19" data-id="app-9-19" data-tab="app" data-ans="4" data-group="p9e">
 <div class="meta"><span class="num">44</span><span class="kind k-app">해석</span><span class="src">9주 · 연습 문장</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
@@ -2865,19 +3341,19 @@ td:first-child{font-weight:600;min-width:6em}
 <div class="res" hidden></div>
 <details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">유의한 χ² = 비율이 다름. 방향은 교차표로 확인 → 논문 기술과 동일.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article></div></details><details class="wk"><summary class="wh"><span class="car"></span><span class="wn">10주</span><span class="wt">단순회귀 · 중다회귀</span><span class="wc">31문항</span></summary><div class="wbody"><div class="lead" data-group="p10a"><div class="lt">단순회귀 · 수능점수 → 학점</div><p class="note">Ŷ = 1.5 + 0.006X (교수님 슬라이드, 가상 자료)</p><div class="tw"><table><tr><th>학생</th><th>수능</th><th>예측</th><th>실제</th></tr><tr><td>학생 1</td><td>440</td><td>3.5</td><td>3.2</td></tr><tr><td>학생 2</td><td>280</td><td>2.5</td><td>3.3</td></tr></table></div></div><article class="q" id="app-10-01" data-id="app-10-01" data-tab="app" data-ans="2" data-group="p10a">
+</article></div></details><details class="wk"><summary class="wh"><span class="car"></span><span class="wn">10주</span><span class="wt">단순회귀 · 중다회귀</span><span class="wc">31문항</span></summary><div class="wbody"><div class="lead" data-group="p10a"><div class="lt">단순회귀 · 수능점수 → 학점</div><p class="note">Ŷ = 1.5 + 0.006X (교수님 슬라이드, 가상 자료)</p><div class="tw"><table><tr><th>학생</th><th>수능</th><th>예측</th><th>실제</th></tr><tr><td>학생 1</td><td>440</td><td>3.5</td><td>3.2</td></tr><tr><td>학생 2</td><td>280</td><td>2.5</td><td>3.3</td></tr></table></div></div><article class="q" id="app-10-01" data-id="app-10-01" data-tab="app" data-ans="5" data-group="p10a">
 <div class="meta"><span class="num">47</span><span class="kind k-app">해석</span><span class="src">10주 · 절편</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">Ŷ = 1.5 + 0.006X에서 절편 1.5의 의미로 옳은 것은?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">학점의 평균이 1.5이다.</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">수능이 1점 오를 때 학점이 1.5점 오른다.</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">수능과 학점의 상관계수이다.</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">오차의 평균이다.</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">수능점수가 0점일 때의 평균 학점 예측값이다.</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">절편 = X가 0일 때 Y의 기대값. 독립변인이 관여하지 않을 때 종속변인의 평균 점수 (상대적으로 덜 중요).</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">절편 = X가 0일 때 Y의 기대값. 독립변인이 관여하지 않을 때 종속변인의 평균 점수 (상대적으로 덜 중요).</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-10-02" data-id="app-10-02" data-tab="app" data-ans="3" data-group="p10a">
+</article><article class="q" id="app-10-02" data-id="app-10-02" data-tab="app" data-ans="4" data-group="p10a">
 <div class="meta"><span class="num">48</span><span class="kind k-app">해석</span><span class="src">10주 · 기울기</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">기울기 0.006에 대한 옳은 해석은?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">학점의 표준편차이다.</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">수능이 0.006배 증가한다.</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">학점이 1점 오르면 수능이 0.006점 오른다.</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">수능이 1점 오를 때마다 학점이 0.006점 증가한다.</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">수능이 0.006점 오르면 학점이 1점 오른다.</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">기울기 = X가 <b>1단위</b> 증가할 때 Y의 변화량. 단위를 뒤집은 선택지가 함정.</div><div class="nb n-prof"><b class="nl">교수님</b>교수님: 일부러 헷갈리게 "수능이 0.13점 증가할 때 학점이 1점 증가"처럼 바꿔서 낼 수 있다고 직접 경고.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">기울기 = X가 <b>1단위</b> 증가할 때 Y의 변화량. 단위를 뒤집은 선택지가 함정.</div><div class="nb n-prof"><b class="nl">교수님</b>교수님: 일부러 헷갈리게 "수능이 0.13점 증가할 때 학점이 1점 증가"처럼 바꿔서 낼 수 있다고 직접 경고.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
 </article><article class="q" id="app-10-03" data-id="app-10-03" data-tab="app" data-ans="4" data-group="p10a">
 <div class="meta"><span class="num">49</span><span class="kind k-app">계산</span><span class="src">10주 · 예측값</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
@@ -2886,33 +3362,33 @@ td:first-child{font-weight:600;min-width:6em}
 <div class="res" hidden></div>
 <details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">1.5 + 0.006 × 500 = 1.5 + 3.0 = <b>4.5</b>.</div><div class="nb n-prof"><b class="nl">교수님</b>교수님: X에 값을 넣고 기울기를 곱한 뒤 절편을 더해 예측값을 구한다. 직접 계산하는 문제는 중요하지 않음.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-10-04" data-id="app-10-04" data-tab="app" data-ans="4" data-group="p10a">
+</article><article class="q" id="app-10-04" data-id="app-10-04" data-tab="app" data-ans="5" data-group="p10a">
 <div class="meta"><span class="num">50</span><span class="kind k-app">계산</span><span class="src">10주 · 기울기 적용</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">수능이 100점 오를 때 예측 학점은 얼마나 변하는가?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">변하지 않음</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">0.06점</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">6점</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">0.006점</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">0.6점</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">0.006 × 100 = <b>0.6점</b> 증가.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">0.006 × 100 = <b>0.6점</b> 증가.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-10-05" data-id="app-10-05" data-tab="app" data-ans="2" data-group="p10a">
+</article><article class="q" id="app-10-05" data-id="app-10-05" data-tab="app" data-ans="1" data-group="p10a">
 <div class="meta"><span class="num">51</span><span class="kind k-app">해석</span><span class="src">10주 · 예측오차</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">학생 1(예측 3.5, 실제 3.2)의 예측오차 Y − Ŷ와 의미는?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">−0.3, 실제가 예측보다 낮다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">+0.3, 실제가 예측보다 높다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">−0.8, 실제가 예측보다 낮다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">0, 정확히 맞혔다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">+0.8, 실제가 예측보다 높다</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">Y − Ŷ = 3.2 − 3.5 = <b>−0.3</b> (실제가 예측보다 낮음). 학생 2는 3.3 − 2.5 = +0.8로 오차가 더 큼.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ①</div><div class="exp">Y − Ŷ = 3.2 − 3.5 = <b>−0.3</b> (실제가 예측보다 낮음). 학생 2는 3.3 − 2.5 = +0.8로 오차가 더 큼.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-10-06" data-id="app-10-06" data-tab="app" data-ans="3" data-group="p10a">
+</article><article class="q" id="app-10-06" data-id="app-10-06" data-tab="app" data-ans="4" data-group="p10a">
 <div class="meta"><span class="num">52</span><span class="kind k-app">개념 응용</span><span class="src">10주 · 최소자승</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">회귀선을 긋는 기준(최소자승법)으로 옳은 것은?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">R²가 0이 되는 선</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">평균을 지나지 않는 선</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">Σ(Y − Ŷ)를 0으로 만드는 선</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">오차 제곱합 Σ(Y − Ŷ)²가 최소가 되는 선</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">모든 점을 지나는 선</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">다른 직선들에 비해 <b>오차 제곱합이 최소</b>가 되는 선이 회귀선. 직선이 모든 점을 지나긴 어렵고 오차는 남음.</div><div class="nb n-prof"><b class="nl">교수님</b>교수님: 아무 정보가 없을 때 최선의 예측은 평균. 회귀선은 평균보다 더 잘 예측해야 함.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">다른 직선들에 비해 <b>오차 제곱합이 최소</b>가 되는 선이 회귀선. 직선이 모든 점을 지나긴 어렵고 오차는 남음.</div><div class="nb n-prof"><b class="nl">교수님</b>교수님: 아무 정보가 없을 때 최선의 예측은 평균. 회귀선은 평균보다 더 잘 예측해야 함.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><div class="lead" data-group="p10b"><div class="lt">단순회귀 결과표 · 수능시험 점수 → 학점</div><p class="note">교수님 슬라이드 (가상 자료)</p><div class="tw"><table><tr><th>독립변수</th><th>B</th><th>SE</th><th>β</th><th>t</th><th>R²</th><th>F</th></tr><tr><td>수능시험 점수</td><td>0.13</td><td>0.02</td><td>0.54</td><td>3.49**</td><td>0.24</td><td>11.92***</td></tr></table></div></div><article class="q" id="app-10-07" data-id="app-10-07" data-tab="app" data-ans="3" data-group="p10b">
+</article><div class="lead" data-group="p10b"><div class="lt">단순회귀 결과표 · 수능시험 점수 → 학점</div><p class="note">교수님 슬라이드 (가상 자료)</p><div class="tw"><table><tr><th>독립변수</th><th>B</th><th>SE</th><th>β</th><th>t</th><th>R²</th><th>F</th></tr><tr><td>수능시험 점수</td><td>0.13</td><td>0.02</td><td>0.54</td><td>3.49**</td><td>0.24</td><td>11.92***</td></tr></table></div></div><article class="q" id="app-10-07" data-id="app-10-07" data-tab="app" data-ans="1" data-group="p10b">
 <div class="meta"><span class="num">53</span><span class="kind k-app">해석</span><span class="src">10주 · B</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">이 표에서 B = 0.13의 해석으로 옳은 것은?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">수능 점수가 1점 오를 때마다 학점이 0.13점 증가한다.</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">수능과 학점의 상관이 .13이다.</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">수능 점수가 0.13점 오르면 학점이 1점 오른다.</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">수능 점수가 학점의 13%를 설명한다.</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">학점이 1점 오르면 수능이 0.13점 오른다.</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">B = 비표준화 계수 = 식의 기울기. X 1단위당 Y 변화량. 설명 비율은 R²(.24)로 봄.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ①</div><div class="exp">B = 비표준화 계수 = 식의 기울기. X 1단위당 Y 변화량. 설명 비율은 R²(.24)로 봄.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
 </article><article class="q" id="app-10-08" data-id="app-10-08" data-tab="app" data-ans="4" data-group="p10b">
 <div class="meta"><span class="num">54</span><span class="kind k-app">해석</span><span class="src">10주 · t와 F</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
@@ -2963,12 +3439,12 @@ td:first-child{font-weight:600;min-width:6em}
 <div class="res" hidden></div>
 <details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">단순회귀에서 <b>β = r, R² = β²</b>. .244² = .0595 ≈ 6%.</div><div class="nb n-key"><b class="nl">핵심 정리</b>중다회귀에서는 β ≠ r이라 이 관계가 성립하지 않음.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-10-15" data-id="app-10-15" data-tab="app" data-ans="4">
+</article><article class="q" id="app-10-15" data-id="app-10-15" data-tab="app" data-ans="3">
 <div class="meta"><span class="num">61</span><span class="kind k-app">해석</span><span class="src">10주 · 인과 표현</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">이 논문의 "진로정체감은 개인·정서적응에 영향을 미치는 변인"이라는 결과를 쓸 때 가장 신중한 해석은?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">진로정체감이 6.0% 오른다.</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">진로정체감을 높이면 반드시 정서적응이 높아진다.</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">진로정체감이 개인·정서적응을 유의하게 예측하며(β = .244, 설명력 6.0%), 인과 단정은 어렵다.</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">진로정체감이 개인·정서적응의 원인이다.</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">두 변수는 무관하다.</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">회귀는 상관에 기반한 <b>예측</b>이므로 인과 단정은 어려움.</div><div class="nb n-prof"><b class="nl">교수님</b>교수님: "~때문에 ~가 나타났다"는 표현은 신중하게. 인과를 말하려면 경로분석.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">회귀는 상관에 기반한 <b>예측</b>이므로 인과 단정은 어려움.</div><div class="nb n-prof"><b class="nl">교수님</b>교수님: "~때문에 ~가 나타났다"는 표현은 신중하게. 인과를 말하려면 경로분석.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
 </article><div class="lead" data-group="p10d"><div class="lt">더미 코딩 사례 (교수님 슬라이드)</div><p class="note">상담경험(없음 = 0, 있음 = 1)과 상담접근(CBT = 기준집단)</p><div class="tw"><table><tr><th>상담접근</th><th>더미1</th><th>더미2</th><th>예측값</th></tr><tr><td>CBT</td><td>0</td><td>0</td><td>b₀</td></tr><tr><td>DBT</td><td>1</td><td>0</td><td>b₀ + b₁</td></tr><tr><td>ACT</td><td>0</td><td>1</td><td>b₀ + b₂</td></tr></table></div></div><article class="q" id="app-10-16" data-id="app-10-16" data-tab="app" data-ans="4" data-group="p10d">
 <div class="meta"><span class="num">62</span><span class="kind k-app">해석</span><span class="src">10주 · 더미 B</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
@@ -2977,26 +3453,26 @@ td:first-child{font-weight:600;min-width:6em}
 <div class="res" hidden></div>
 <details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">더미변수 B = 기준집단(없음)과 비교했을 때 1로 코딩한 집단의 차이.</div><div class="nb n-key"><b class="nl">핵심 정리</b>관심 있는 집단을 1로 코딩하는 것이 해석에 유리.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-10-17" data-id="app-10-17" data-tab="app" data-ans="3" data-group="p10d">
+</article><article class="q" id="app-10-17" data-id="app-10-17" data-tab="app" data-ans="2" data-group="p10d">
 <div class="meta"><span class="num">63</span><span class="kind k-app">개념 응용</span><span class="src">10주 · 더미 개수</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">상담접근이 CBT, DBT, ACT 3개 집단일 때 필요한 더미변수의 수와 CBT 기준집단의 평균은?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">더미 3개, 평균은 b₀ + b₁ + b₂</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">더미 2개, 평균은 절편 b₀</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">더미 3개, 평균은 b₁</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">더미 1개, 평균은 b₀</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">더미 2개, 평균은 b₁ + b₂</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">범주 n개 → 더미 <b>n − 1개</b> = 2개. 기준집단(CBT)은 둘 다 0이라 예측값 = <b>절편 b₀</b>.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">범주 n개 → 더미 <b>n − 1개</b> = 2개. 기준집단(CBT)은 둘 다 0이라 예측값 = <b>절편 b₀</b>.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-10-18" data-id="app-10-18" data-tab="app" data-ans="2" data-group="p10d">
+</article><article class="q" id="app-10-18" data-id="app-10-18" data-tab="app" data-ans="4" data-group="p10d">
 <div class="meta"><span class="num">64</span><span class="kind k-app">계산</span><span class="src">10주 · 더미 예측값</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">ACT 집단의 예측값은?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">b₀ + b₁</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">b₀</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">b₁ + b₂</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">b₀ + b₂</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">b₂</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">ACT는 더미2 = 1이므로 b₀ + b₂. b₂ = <b>CBT 대비 ACT의 차이</b>.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">ACT는 더미2 = 1이므로 b₀ + b₂. b₂ = <b>CBT 대비 ACT의 차이</b>.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-10-19" data-id="app-10-19" data-tab="app" data-ans="1">
+</article><article class="q" id="app-10-19" data-id="app-10-19" data-tab="app" data-ans="2">
 <div class="meta"><span class="num">65</span><span class="kind k-app">해석</span><span class="src">10주 · 삶의 만족도 논문</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">최유선·손은령(2015)에서 성별(여 = 0, 남 = 1)의 β = .158 (양수)의 해석은?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">여자가 남자보다 삶의 만족도가 높다.</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">남자가 여자보다 삶의 만족도가 높다.</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">여자 기준이라 해석할 수 없다.</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">남학생이 15.8%이다.</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">성별은 삶의 만족도와 무관하다.</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ①</div><div class="exp">더미 계수는 기준집단(여자 = 0)과 비교. 양수 → <b>남자(1)가 더 높음</b>. 학교급(중기 0, 초기 1) β = .215 양수 → 초기청소년이 더 높음.</div><div class="nb n-con"><b class="nl">개념 정리</b>논문 설명력 28.3%, 다중공선성 문제 없음, t값: 또래관계 19.617 > 부모관계 12.437 > 학업성취 7.376.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">더미 계수는 기준집단(여자 = 0)과 비교. 양수 → <b>남자(1)가 더 높음</b>. 학교급(중기 0, 초기 1) β = .215 양수 → 초기청소년이 더 높음.</div><div class="nb n-con"><b class="nl">개념 정리</b>논문 설명력 28.3%, 다중공선성 문제 없음, t값: 또래관계 19.617 > 부모관계 12.437 > 학업성취 7.376.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
 </article><article class="q" id="app-10-20" data-id="app-10-20" data-tab="app" data-ans="3">
 <div class="meta"><span class="num">66</span><span class="kind k-app">개념 응용</span><span class="src">10주 · 삶의 만족도 논문</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
@@ -3005,19 +3481,19 @@ td:first-child{font-weight:600;min-width:6em}
 <div class="res" hidden></div>
 <details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">설명 비율은 <b>R²</b>(중다회귀는 수정 R²도 함께). β는 상대적 기여도.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><div class="lead" data-group="p10e"><div class="lt">중다회귀 결과표 · 행복도 (교수님 슬라이드, 가상 자료)</div><p class="note">행복도 = 1.5 + 2.3 × 수면시간 + 0.8 × 월소득(10만원) + 5.8 × 건강수준</p><div class="tw"><table><tr><th>독립변수</th><th>B</th><th>SE</th><th>β</th><th>t</th><th>p</th><th>수정 R²</th></tr><tr><td>(상수)</td><td>1.50</td><td>2.10</td><td></td><td>0.71</td><td>.480</td><td>0.72</td></tr><tr><td>수면시간</td><td>2.30</td><td>0.45</td><td>0.42</td><td>5.11</td><td><.001</td><td></td></tr><tr><td>월소득</td><td>0.80</td><td>0.25</td><td>0.28</td><td>3.20</td><td>.009</td><td></td></tr><tr><td>건강수준</td><td>5.80</td><td>1.10</td><td>0.35</td><td>5.27</td><td><.001</td><td></td></tr></table></div></div><article class="q" id="app-10-21" data-id="app-10-21" data-tab="app" data-ans="3" data-group="p10e">
+</article><div class="lead" data-group="p10e"><div class="lt">중다회귀 결과표 · 행복도 (교수님 슬라이드, 가상 자료)</div><p class="note">행복도 = 1.5 + 2.3 × 수면시간 + 0.8 × 월소득(10만원) + 5.8 × 건강수준</p><div class="tw"><table><tr><th>독립변수</th><th>B</th><th>SE</th><th>β</th><th>t</th><th>p</th><th>수정 R²</th></tr><tr><td>(상수)</td><td>1.50</td><td>2.10</td><td></td><td>0.71</td><td>.480</td><td>0.72</td></tr><tr><td>수면시간</td><td>2.30</td><td>0.45</td><td>0.42</td><td>5.11</td><td><.001</td><td></td></tr><tr><td>월소득</td><td>0.80</td><td>0.25</td><td>0.28</td><td>3.20</td><td>.009</td><td></td></tr><tr><td>건강수준</td><td>5.80</td><td>1.10</td><td>0.35</td><td>5.27</td><td><.001</td><td></td></tr></table></div></div><article class="q" id="app-10-21" data-id="app-10-21" data-tab="app" data-ans="2" data-group="p10e">
 <div class="meta"><span class="num">67</span><span class="kind k-app">해석</span><span class="src">10주 · 부분 기울기</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">수면시간의 B = 2.30에 대한 옳은 해석은?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">수면시간이 행복도의 2.3%를 설명한다.</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">다른 변수를 고정했을 때 수면시간이 1시간 증가할 때마다 행복도가 2.3점 증가한다.</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">수면시간이 2.3시간 늘면 행복도가 1점 오른다.</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">수면시간이 1시간이면 행복도가 2.3이다.</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">수면시간과 행복도의 상관이 2.3이다.</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">중다회귀의 계수는 <b>다른 독립변수를 고정했을 때</b> X 1단위당 Y 변화.</div><div class="nb n-prof"><b class="nl">교수님</b>교수님: "2.3시간 잤다 / 행복도가 2.3시간 증가"처럼 헷갈리게 바꿔서 시험에 내고 싶다고 직접 언급.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">중다회귀의 계수는 <b>다른 독립변수를 고정했을 때</b> X 1단위당 Y 변화.</div><div class="nb n-prof"><b class="nl">교수님</b>교수님: "2.3시간 잤다 / 행복도가 2.3시간 증가"처럼 헷갈리게 바꿔서 시험에 내고 싶다고 직접 언급.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-10-22" data-id="app-10-22" data-tab="app" data-ans="5" data-group="p10e">
+</article><article class="q" id="app-10-22" data-id="app-10-22" data-tab="app" data-ans="4" data-group="p10e">
 <div class="meta"><span class="num">68</span><span class="kind k-app">표 읽기</span><span class="src">10주 · β 비교</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">행복도에 대한 상대적 기여도가 가장 큰 변수는?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">상수</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">월소득</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">모두 같다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">수면시간 (β가 가장 크므로)</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">건강수준 (B가 가장 크므로)</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">변수 간 크기 비교는 <b>표준화 계수 β</b>로 한다: 수면 .42 > 건강 .35 > 월소득 .28. B는 단위가 달라 직접 비교 불가.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">변수 간 크기 비교는 <b>표준화 계수 β</b>로 한다: 수면 .42 > 건강 .35 > 월소득 .28. B는 단위가 달라 직접 비교 불가.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
 </article><article class="q" id="app-10-23" data-id="app-10-23" data-tab="app" data-ans="3" data-group="p10e">
 <div class="meta"><span class="num">69</span><span class="kind k-app">계산</span><span class="src">10주 · 예측</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
@@ -3040,19 +3516,19 @@ td:first-child{font-weight:600;min-width:6em}
 <div class="res" hidden></div>
 <details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">수정 R²는 독립변수가 많을수록 커지는 R²를 자유도로 보정한 값.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><div class="lead" data-group="p10f"><div class="lt">변수 선택 방법 · 실습 결과</div><p class="note">성취도를 종속변수로 한 중다회귀 (사회불안·미루기·충동성·자기효능감)</p><div class="tw"><table><tr><th>방법</th><th>결과</th></tr><tr><td>단계 선택</td><td>자기효능감 > 사회불안 > 미루기 순으로 투입, 충동성은 설명력이 낮아 최종 모형에서 제외</td></tr><tr><td>입력</td><td>Ŷ = 15.93 − 0.345 사회불안 − 0.363 미루기 + 0.111 충동성 + 0.438 자기효능감</td></tr><tr><td>연습(자기효능감 예측, 단계선택)</td><td>성취도 B = 0.611 (p < .001), 미루기 B = 0.150 (p = .049) 유의 / 나머지 비유의</td></tr></table></div></div><article class="q" id="app-10-26" data-id="app-10-26" data-tab="app" data-ans="1" data-group="p10f">
+</article><div class="lead" data-group="p10f"><div class="lt">변수 선택 방법 · 실습 결과</div><p class="note">성취도를 종속변수로 한 중다회귀 (사회불안·미루기·충동성·자기효능감)</p><div class="tw"><table><tr><th>방법</th><th>결과</th></tr><tr><td>단계 선택</td><td>자기효능감 > 사회불안 > 미루기 순으로 투입, 충동성은 설명력이 낮아 최종 모형에서 제외</td></tr><tr><td>입력</td><td>Ŷ = 15.93 − 0.345 사회불안 − 0.363 미루기 + 0.111 충동성 + 0.438 자기효능감</td></tr><tr><td>연습(자기효능감 예측, 단계선택)</td><td>성취도 B = 0.611 (p < .001), 미루기 B = 0.150 (p = .049) 유의 / 나머지 비유의</td></tr></table></div></div><article class="q" id="app-10-26" data-id="app-10-26" data-tab="app" data-ans="3" data-group="p10f">
 <div class="meta"><span class="num">72</span><span class="kind k-app">표 읽기</span><span class="src">10주 · 단계선택</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">단계 선택 결과에서 최종 모형에서 제외된 변인은?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">자기효능감</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">사회불안</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">충동성</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">미루기</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">없음</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ①</div><div class="exp">충동성은 설명력이 낮아 최종 모형에서 제외. 단계선택은 변수를 추가할 때마다 기존 변수의 유의성을 재검증해 제거.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">충동성은 설명력이 낮아 최종 모형에서 제외. 단계선택은 변수를 추가할 때마다 기존 변수의 유의성을 재검증해 제거.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-10-27" data-id="app-10-27" data-tab="app" data-ans="5" data-group="p10f">
+</article><article class="q" id="app-10-27" data-id="app-10-27" data-tab="app" data-ans="2" data-group="p10f">
 <div class="meta"><span class="num">73</span><span class="kind k-app">개념 응용</span><span class="src">10주 · 투입 방법 선택</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">"충동성을 통제하였을 때 사회불안, 미루기, 자기효능감이 성취도를 예측하는가?"를 보려면 어떤 방법이 알맞은가?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">전진 선택만</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">입력 (충동성을 투입해 통제)</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">카이제곱</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">로지스틱 회귀</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">단계 선택</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">공변인을 통제하려면 <b>입력 방법</b>(모두 동시에 투입)이 적합. 탐색적으로 변인을 고르는 것이 목적이면 단계선택.</div><div class="nb n-prof"><b class="nl">교수님</b>교수님: 입력과 단계선택의 차이가 헷갈리지만 "통제하는 경우에 입력 방식을 쓴다".</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">공변인을 통제하려면 <b>입력 방법</b>(모두 동시에 투입)이 적합. 탐색적으로 변인을 고르는 것이 목적이면 단계선택.</div><div class="nb n-prof"><b class="nl">교수님</b>교수님: 입력과 단계선택의 차이가 헷갈리지만 "통제하는 경우에 입력 방식을 쓴다".</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
 </article><article class="q" id="app-10-28" data-id="app-10-28" data-tab="app" data-ans="1" data-group="p10f">
 <div class="meta"><span class="num">74</span><span class="kind k-app">해석</span><span class="src">10주 · 입력 계수</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
@@ -3117,12 +3593,12 @@ td:first-child{font-weight:600;min-width:6em}
 <div class="res" hidden></div>
 <details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">상호작용 계수가 음수 → 한 변인이 증가할 때 다른 변인의 효과가 <b>약해짐</b>(상충). 양수면 강화.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-11-06" data-id="app-11-06" data-tab="app" data-ans="5" data-group="p11b">
+</article><article class="q" id="app-11-06" data-id="app-11-06" data-tab="app" data-ans="1" data-group="p11b">
 <div class="meta"><span class="num">83</span><span class="kind k-app">개념 응용</span><span class="src">11주 · 평균중심화</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">상호작용항을 만들 때 변인에서 평균을 빼주는(평균중심화) 주된 이유는?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">곱항과 원래 변인 간 다중공선성을 막으려고</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">오차의 평균을 0으로 만들려고</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">종속변수를 정규분포로 만들려고</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">R²를 높이려고</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">표본 크기를 늘리려고</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">곱항은 원래 변인과 상관이 높아 <b>다중공선성</b>이 생기기 쉬움 → 평균중심화로 방지.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ①</div><div class="exp">곱항은 원래 변인과 상관이 높아 <b>다중공선성</b>이 생기기 쉬움 → 평균중심화로 방지.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
 </article><article class="q" id="app-11-07" data-id="app-11-07" data-tab="app" data-ans="3" data-group="p11b">
 <div class="meta"><span class="num">84</span><span class="kind k-app">개념 응용</span><span class="src">11주 · 투입 순서</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
@@ -3180,61 +3656,356 @@ td:first-child{font-weight:600;min-width:6em}
 <div class="res" hidden></div>
 <details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">성별·연령은 통제할 공변인 → 1단계 공변인, 2단계 관심변인.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-11-15" data-id="app-11-15" data-tab="app" data-ans="4">
+</article><article class="q" id="app-11-15" data-id="app-11-15" data-tab="app" data-ans="5">
 <div class="meta"><span class="num">92</span><span class="kind k-app">분류</span><span class="src">11주 · 연구문제 유형</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">"자기자비가 자기존중감과 자기효능감을 넘어서 심리적 안정감을 추가로 예측하는가?"는 어떤 목적인가?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">이상치 제거</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">매개효과</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">조절효과</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">공변인 통제</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">모형 비교(증분 타당도)</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">기존 예측모형(자기존중감·자기효능감)에 새 변수를 추가해 <b>증분 타당도</b>를 보는 모형 비교.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">기존 예측모형(자기존중감·자기효능감)에 새 변수를 추가해 <b>증분 타당도</b>를 보는 모형 비교.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-11-16" data-id="app-11-16" data-tab="app" data-ans="2">
+</article><article class="q" id="app-11-16" data-id="app-11-16" data-tab="app" data-ans="1">
 <div class="meta"><span class="num">93</span><span class="kind k-app">분류</span><span class="src">11주 · 연구문제 유형</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">"정서적 친밀감이 관계만족에 미치는 영향이 성별에 따라 달라지는가?"는 어떤 목적인가?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">조절효과 (상호작용항 추가)</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">공변인 통제</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">정규성 검정</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">변수 선택</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">모형 비교</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">영향이 성별에 따라 달라지는지 → <b>조절효과</b>. 1단계 친밀감·성별, 2단계 친밀감 × 성별.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ①</div><div class="exp">영향이 성별에 따라 달라지는지 → <b>조절효과</b>. 1단계 친밀감·성별, 2단계 친밀감 × 성별.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article></div></details><details class="wk"><summary class="wh"><span class="car"></span><span class="wn">종합</span><span class="wt">분석 방법 고르기</span><span class="wc">6문항</span></summary><div class="wbody"><article class="q" id="app-x-01" data-id="app-x-01" data-tab="app" data-ans="2">
-<div class="meta"><span class="num">94</span><span class="kind k-app">분석 선택</span><span class="src">종합 · 교수님 사례</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+</article></div></details><details class="wk"><summary class="wh"><span class="car"></span><span class="wn">12주</span><span class="wt">경로분석 · 매개효과</span><span class="wc">42문항</span></summary><div class="wbody"><div class="lead" data-group="p12a"><div class="lt">단순매개 결과표 · 부분매개 (교수님 슬라이드: 우울 → 짐이 된 느낌 → 자살사고)</div><p class="note">슬라이드의 가상 자료. 표의 줄 순서는 a → 총효과 c → 직접효과 c′와 b</p><div class="tw"><table><tr><th>독립변인</th><th>종속변인</th><th>B</th><th>SE</th><th>β</th><th>t</th><th>R²</th></tr><tr><td>우울</td><td>짐이 된 느낌</td><td>0.46</td><td>0.09</td><td>0.45</td><td>5.11***</td><td>0.28</td></tr><tr><td>우울</td><td>자살사고</td><td>0.57</td><td>0.08</td><td>0.44</td><td>6.75***</td><td>0.31</td></tr><tr><td>우울</td><td rowspan="2">자살사고</td><td>0.29</td><td>0.07</td><td>0.28</td><td>3.63**</td><td rowspan="2">0.42</td></tr><tr><td>짐이 된 느낌</td><td>0.37</td><td>0.09</td><td>0.38</td><td>4.11***</td></tr></table></div><div class="tw"><table><tr><th>간접효과 경로</th><th>부트스트랩 B</th><th>SE</th><th>LLCI</th><th>ULCI</th></tr><tr><td>우울 → 짐이 된 느낌 → 자살사고</td><td>0.17</td><td>0.05</td><td>0.09</td><td>0.29</td></tr></table></div></div><article class="q" id="app-12-01" data-id="app-12-01" data-tab="app" data-ans="3" data-group="p12a">
+<div class="meta"><span class="num">94</span><span class="kind k-app">표 읽기</span><span class="src">12주 · 부분매개 표</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">표에서 총효과(c)와 직접효과(c′)의 B를 바르게 짝지은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">c = 0.46, c′ = 0.57</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">c = 0.29, c′ = 0.57</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">c = 0.57, c′ = 0.29</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">c = 0.37, c′ = 0.29</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">c = 0.57, c′ = 0.37</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">총효과 c는 <b>매개변수 없이</b> 우울이 자살사고를 예측한 줄(0.57), 직접효과 c′는 짐이 된 느낌을 <b>함께 투입한</b> 줄의 우울(0.29). 0.46은 a 경로(우울 → 짐이 된 느낌), 0.37은 b 경로(짐이 된 느낌 → 자살사고).</div><div class="nb n-key"><b class="nl">핵심 정리</b>결과표 줄 순서: ① 독립 → 매개(a) ② 독립 → 종속(총효과 c) ③ 독립·매개 → 종속(c′와 b)</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-02" data-id="app-12-02" data-tab="app" data-ans="4" data-group="p12a">
+<div class="meta"><span class="num">95</span><span class="kind k-app">해석</span><span class="src">12주 · 부분매개</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">이 표에서 짐이 된 느낌의 매개 유형은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">완전매개</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">매개효과 없음: 직접효과가 유의하게 남아 있으므로</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">조절효과</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">부분매개</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">표만으로는 부분매개와 완전매개를 구분할 수 없고, 부트스트랩 결과를 봐야 한다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">직접효과 c′ = 0.29(**)가 <b>유의하게 남아 있고</b> 총효과(0.57)보다 줄었으므로 부분매개. 직접효과가 유의하다고 해서 매개가 없는 것은 아님. 간접효과 자체의 유의성은 부트스트랩 CI(0.09 ~ 0.29)로 따로 확인.</div><div class="nb n-key"><b class="nl">핵심 정리</b>부분매개 = c′ 유의 / 완전매개 = c′ 비유의 (c′ = 0)</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-03" data-id="app-12-03" data-tab="app" data-ans="2" data-group="p12a">
+<div class="meta"><span class="num">96</span><span class="kind k-app">계산</span><span class="src">12주 · 간접효과</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">간접효과(ab)의 비표준화 값은 약 얼마인가? (a와 b의 B 이용)</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">0.09</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">0.17</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">0.21</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">0.57</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">0.83</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">ab = a × b = 0.46 × 0.37 = 0.1702 ≈ <b>0.17</b>. 슬라이드의 부트스트랩 추정치 0.17과 같음.</div><div class="nb n-tip"><b class="nl">슬라이드 메모</b>이 가상 표는 c = c′ + ab가 정확히 맞지 않음 (0.29 + 0.17 = 0.46 ≠ 0.57). 시험에서는 ab = a × b 계산과 해석만 가져가면 됨.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-04" data-id="app-12-04" data-tab="app" data-ans="5" data-group="p12a">
+<div class="meta"><span class="num">97</span><span class="kind k-app">해석</span><span class="src">12주 · 부트스트랩 CI</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">간접효과의 부트스트랩 결과가 B = 0.17, SE = 0.05, 95% 신뢰구간 [0.09, 0.29]일 때 옳은 해석은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">p값이 제시되지 않았으므로 유의 여부를 판단할 수 없다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">하한(0.09)이 0.05보다 크므로 유의하다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">SE(0.05)가 B(0.17)보다 작으므로 유의하다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">0.09 ~ 0.29 안의 모든 값이 같은 확률로 나타난다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">신뢰구간에 0이 포함되지 않으므로 간접효과는 유의하다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">간접효과는 p값 대신 <b>신뢰구간</b>으로 판단. 구간 안에 0이 없으면 간접효과가 0이 아니라고 볼 수 있어 유의. 하한 0.09를 유의수준 0.05와 비교하는 것은 틀린 논리.</div><div class="nb n-prof"><b class="nl">교수님</b>5,000번 구한 간접효과가 모두 이 구간 안에 있다는 뜻 (95% 신뢰). 한 번이라도 0이 나오면 간접효과가 없을 수도 있어 "탈락".</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-05" data-id="app-12-05" data-tab="app" data-ans="2" data-group="p12a">
+<div class="meta"><span class="num">98</span><span class="kind k-app">개념 응용</span><span class="src">12주 · 3단계 회귀</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">표의 세 번째 줄(R² = 0.42)에 해당하는 회귀분석은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">우울로 짐이 된 느낌을 예측하는 단순회귀</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">우울과 짐이 된 느낌을 동시에 투입해 자살사고를 예측하는 중다회귀</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">우울로 자살사고를 예측하는 단순회귀</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">짐이 된 느낌만으로 자살사고를 예측하는 단순회귀</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">우울 × 짐이 된 느낌 상호작용항을 투입한 위계적 회귀</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">Baron &amp; Kenny 3·4단계는 X와 M을 <b>동시에</b> 투입하므로 <b>중다회귀</b>. R² 0.42는 두 변인이 함께 자살사고를 설명하는 변량. 1·2단계(R² 0.28, 0.31)는 단순회귀.</div><div class="nb n-key"><b class="nl">핵심 정리</b>단계는 4개지만 3·4단계를 한 번에 보므로 실제 회귀분석은 3번</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-06" data-id="app-12-06" data-tab="app" data-ans="2" data-group="p12a">
+<div class="meta"><span class="num">99</span><span class="kind k-app">해석</span><span class="src">12주 · 표 해석</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">이 표에 대한 설명으로 옳지 않은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">우울은 짐이 된 느낌을 약 28% 설명한다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">자살사고의 R² 0.42는 짐이 된 느낌 단독의 설명력이다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">우울을 통제해도 짐이 된 느낌은 자살사고를 유의하게 예측한다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">짐이 된 느낌을 고려하면 우울의 영향이 0.57에서 0.29로 감소했다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">우울이 자살사고에 미치는 직접효과는 여전히 유의하다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">R² 0.42는 <b>우울과 짐이 된 느낌이 함께</b> 설명하는 변량. 짐이 된 느낌 단독의 설명력이 아님.</div><div class="nb n-con"><b class="nl">개념 정리</b>세 번째 줄의 계수 두 개(c′, b)는 서로를 통제한 채 구한 값</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><div class="lead" data-group="p12b"><div class="lt">단순매개 결과표 · 완전매개 (교수님 슬라이드)</div><p class="note">슬라이드의 가상 자료</p><div class="tw"><table><tr><th>독립변인</th><th>종속변인</th><th>B</th><th>SE</th><th>β</th><th>t</th><th>R²</th></tr><tr><td>우울</td><td>짐이 된 느낌</td><td>0.50</td><td>0.08</td><td>0.52</td><td>6.25***</td><td>0.30</td></tr><tr><td>우울</td><td>자살사고</td><td>0.40</td><td>0.08</td><td>0.41</td><td>5.02***</td><td>0.25</td></tr><tr><td>우울</td><td rowspan="2">자살사고</td><td>0.10</td><td>0.08</td><td>0.07</td><td>1.25</td><td rowspan="2">0.41</td></tr><tr><td>짐이 된 느낌</td><td>0.60</td><td>0.12</td><td>0.55</td><td>5.21***</td></tr></table></div></div><article class="q" id="app-12-07" data-id="app-12-07" data-tab="app" data-ans="3" data-group="p12b">
+<div class="meta"><span class="num">100</span><span class="kind k-app">해석</span><span class="src">12주 · 완전매개</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">이 표의 매개 유형과 그 근거로 옳은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">부분매개: 총효과가 유의하므로</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">부분매개: 짐이 된 느낌의 b가 유의하므로</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">완전매개: 직접효과 c′(0.10)가 유의하지 않으므로</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">완전매개: 총효과(0.40)가 직접효과(0.10)보다 크므로</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">매개효과 없음: 직접효과가 유의하지 않으므로</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">완전매개의 기준은 <b>직접효과 c′가 비유의</b> (t = 1.25, 별표 없음). 총효과가 직접효과보다 큰 것은 부분매개에서도 같음. c′가 비유의라고 매개가 없는 것이 아니라, 오히려 매개변수가 설명을 모두 가져간 것.</div><div class="nb n-key"><b class="nl">핵심 정리</b>그림에서도 c′에 별표가 없으면 완전매개</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-08" data-id="app-12-08" data-tab="app" data-ans="1" data-group="p12b">
+<div class="meta"><span class="num">101</span><span class="kind k-app">계산</span><span class="src">12주 · 효과 분해</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">표의 총효과(B = 0.40)를 직접효과와 간접효과로 분해한 것으로 옳은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">직접효과 0.10, 간접효과 0.30</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">직접효과 0.10, 간접효과 0.60</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">직접효과 0.40, 간접효과 0.10</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">직접효과 0.30, 간접효과 0.10</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">직접효과 0.50, 간접효과 0.30</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ①</div><div class="exp">간접효과 ab = 0.50 × 0.60 = 0.30, 직접효과 c′ = 0.10. <b>c = c′ + ab</b> = 0.10 + 0.30 = 0.40으로 표의 총효과와 일치.</div><div class="nb n-key"><b class="nl">핵심 정리</b>총효과 = 직접효과 + 간접효과 (이 완전매개 표는 B 열에서 정확히 맞음)</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-09" data-id="app-12-09" data-tab="app" data-ans="3" data-group="p12b">
+<div class="meta"><span class="num">102</span><span class="kind k-app">개념 응용</span><span class="src">12주 · 완전매개</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">완전매개에 대한 설명으로 옳은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">X→Y 총효과가 유의하지 않은 경우이다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">a 경로가 유의하지 않은 경우이다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">매개변수를 통제했을 때 X→Y 직접효과가 유의하지 않게 되는 경우이다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">간접효과 ab가 0이 되는 경우이다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">직접효과가 총효과보다 커지는 경우이다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">슬라이드 정의: 부분매개는 c′ ≠ 0, 완전매개는 c′ = 0. 결과표에서는 <b>c′의 비유의</b>로 판단. 간접효과가 0이면 매개 자체가 없음.</div><div class="nb n-con"><b class="nl">개념 정리</b>완전매개 해석 문장: "우울은 짐이 된 느낌을 통해서만 자살사고를 설명한다"</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-10" data-id="app-12-10" data-tab="app" data-ans="4" data-group="p12b">
+<div class="meta"><span class="num">103</span><span class="kind k-app">개념 응용</span><span class="src">12주 · 교수님 설명</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">교수님이 완전매개에 대해 설명한 내용으로 옳은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">부분매개보다 완전매개가 훨씬 흔하다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">완전매개가 나오면 연구가 실패한 것이므로 모형을 버려야 한다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">직접효과가 사라지면 간접효과도 사라진다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">X→Y를 거의 완벽하게 설명하는 매개변인을 찾은 드문 경우이다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">완전매개는 매개변인이 하나일 때만 나타난다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">교수님: 부분매개가 훨씬 흔하고, 완전매개는 "엄청난 매개변인을 찾은 것"이므로 c′가 0으로 나와도 망한 것이 아님.</div><div class="nb n-prof"><b class="nl">교수님</b>매개변인은 하나만 있는 것이 아니라 M₁, M₂, M₃처럼 여러 개일 수 있고, 그중 가장 잘 설명하는 것을 찾는 것이 핵심.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-11" data-id="app-12-11" data-tab="app" data-ans="4">
+<div class="meta"><span class="num">104</span><span class="kind k-app">개념 응용</span><span class="src">12주 · Baron &amp; Kenny</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">Baron &amp; Kenny의 매개 검증 절차에 대한 설명으로 옳지 않은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">1단계: X가 Y를 유의하게 예측해야 한다 (총효과 c)</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">2단계: X가 M을 유의하게 예측해야 한다 (a)</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">3단계: X를 통제했을 때 M이 Y를 유의하게 예측해야 한다 (b)</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">4단계: M을 통제했을 때 X의 효과가 증가해야 한다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">3·4단계는 한 번의 중다회귀로 확인하므로 실제 회귀분석은 세 번이다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">4단계는 M을 통제했을 때 직접효과가 <b>감소</b>해야 함 (c′ &lt; c). 증가가 아님.</div><div class="nb n-key"><b class="nl">핵심 정리</b>1·2단계 단순회귀 / 3·4단계 중다회귀. 효과 분해: c = c′ + ab</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-12" data-id="app-12-12" data-tab="app" data-ans="5">
+<div class="meta"><span class="num">105</span><span class="kind k-app">개념 응용</span><span class="src">12주 · 회귀식</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">다음 회귀식 중 3)에 대한 설명으로 옳은 것은?</div>
+<div class="box"><div class="lines"><div>1) y = d₁ + cX + e₁</div><div>2) Me = d₂ + aX + e₂</div><div>3) y = d₃ + b·Me + c′X + e₃</div></div></div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">총효과 c를 추정한다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">예측변인이 매개변인에 미치는 영향 a를 추정한다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">간접효과 ab의 유의성을 직접 검정한다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">d₃는 직접효과이고 e₃는 간접효과이다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">매개변인의 효과(b)와 직접효과(c′)를 동시에 추정한다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">식 3)은 X와 M을 함께 투입해 Y를 예측하므로 <b>b와 c′</b>를 동시에 추정. 식 1)은 총효과 c, 식 2)는 a. d는 절편, e는 오차이며 숫자(1, 2, 3)는 구분용 첨자.</div><div class="nb n-prof"><b class="nl">교수님</b>식의 계수 위치를 그림의 경로에 그대로 옮겨 적을 수 있어야 함. 논문에서 이 표를 보고 모형을 직접 그리기 때문.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-13" data-id="app-12-13" data-tab="app" data-ans="3">
+<div class="meta"><span class="num">106</span><span class="kind k-app">개념 응용</span><span class="src">12주 · Baron &amp; Kenny 한계</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">Baron &amp; Kenny 방식의 한계로 옳지 않은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">간접효과 ab 자체를 직접 검증하지 않는다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">a와 b가 각각 유의하지 않아도 ab는 유의할 수 있다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">a와 b가 각각 유의하면 ab의 유의성이 항상 보장된다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">총효과 c가 유의하지 않아도 ab는 유의할 수 있다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">이러한 한계는 시뮬레이션 연구를 통해 밝혀졌다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">a, b가 각각 유의하다고 해서 ab의 유의성이 <b>보장되지는 않음</b>. 반대로 a, b가 비유의해도 ab가 유의할 수 있고, c가 비유의해도 ab는 유의할 수 있어 <b>1단계가 필수가 아님</b>.</div><div class="nb n-key"><b class="nl">핵심 정리</b>ab를 직접 검정해야 한다는 문제 제기 → Sobel 검정 → 부트스트랩</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-14" data-id="app-12-14" data-tab="app" data-ans="2">
+<div class="meta"><span class="num">107</span><span class="kind k-app">개념 응용</span><span class="src">12주 · Sobel 검정</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">Sobel 검정의 한계로 옳은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">간접효과의 유의성을 검정하지 못한다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">ab의 분포가 비정규일 때 지나치게 보수적이고 검정력이 낮다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">총효과가 유의한 경우에만 사용할 수 있다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">표본이 클수록 1종 오류가 커진다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">신뢰구간 대신 p값을 제시하지 못한다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">Sobel의 Z = ab ÷ √(b²·SE<sub>a</sub>² + a²·SE<sub>b</sub>²)로 간접효과를 검정하지만, ab의 분포가 <b>정규가 아니어서</b> 지나치게 보수적이고 검정력이 낮음 → 부트스트랩이 표준.</div><div class="nb n-prof"><b class="nl">교수님</b>Baron &amp; Kenny와 Sobel을 한 세트로 쓰던 방식이 정확하지 않다고 Hayes가 확인적 모형(부트스트랩)을 제안.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-15" data-id="app-12-15" data-tab="app" data-ans="4">
+<div class="meta"><span class="num">108</span><span class="kind k-app">개념 응용</span><span class="src">12주 · 부트스트래핑</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">부트스트래핑에 대한 설명으로 옳은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">모집단에서 가상의 표본을 무한히 뽑아 표집분포를 만든다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">간접효과의 표본분포가 정규분포를 따른다는 가정이 필요하다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">매개모형의 모든 경로(a, b, c, c′)를 부트스트랩으로만 검증한다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">내 표본에서 복원추출을 반복해 통계량의 경험적 분포를 직접 만든다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">추출 횟수를 늘릴수록 좋으므로 제한을 둘 필요가 없다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">부트스트랩은 <b>표본에서 복원추출</b>을 반복(통상 5,000회)해 경험적 분포를 만드는 <b>비모수</b> 방법으로 정규성 가정이 필요 없음. 간접효과 <b>ab만</b> 부트스트랩으로 검증하고 나머지는 일반 회귀로 검증. 횟수는 컴퓨터 연산 부담 때문에 5,000~10,000회 정도로 타협.</div><div class="nb n-con"><b class="nl">개념 정리</b>표집분포는 모집단에서 가능한 모든 표본의 분포(가상), 부트스트랩은 내 표본에서 실제로 다시 뽑아 만든 분포. 내 표본이 모집단을 잘 대표한다는 가정이 숨어 있어 표집이 중요.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-16" data-id="app-12-16" data-tab="app" data-ans="2">
+<div class="meta"><span class="num">109</span><span class="kind k-app">해석</span><span class="src">12주 · 신뢰구간</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">간접효과의 95% 부트스트랩 신뢰구간 중 간접효과가 유의하지 않은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">0.2 ~ 1.3</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">−0.4 ~ 0.9</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">−2.3 ~ −0.7</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">0.09 ~ 0.29</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">0.01 ~ 0.13</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp"><b>−0.4 ~ 0.9</b>는 구간 안에 0이 포함되어 유의하지 않음. −2.3 ~ −0.7은 음수 구간이지만 0을 포함하지 않으므로 <b>유의한 음의 간접효과</b>.</div><div class="nb n-key"><b class="nl">핵심 정리</b>부호가 음수여도 구간 전체가 0 한쪽에 있으면 유의 (슬라이드 예: [0.2, 1.3], [−2.3, −0.7], [−0.4, 0.9])</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-17" data-id="app-12-17" data-tab="app" data-ans="2">
+<div class="meta"><span class="num">110</span><span class="kind k-app">개념 응용</span><span class="src">12주 · 간접효과 부호</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">간접효과 ab의 부호를 a와 b의 부호로 바르게 설명한 것은? (수업 사례: 우울 → 소속감 → 사회적 상호작용)</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">a가 (−)이고 b가 (+)이면 간접효과는 (+)이다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">a가 (−)이고 b가 (+)이면 간접효과는 (−)이다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">a가 (−)이고 b가 (−)이면 간접효과는 (−)이다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">간접효과의 부호는 b의 부호만으로 정해진다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">간접효과의 부호는 총효과의 부호와 항상 같다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">간접효과 부호 = a의 부호 × b의 부호. 우울 → 소속감(−), 소속감 → 사회적 상호작용(+)이므로 간접효과는 <b>(−)</b>. a와 b가 둘 다 (−)이면 곱은 (+).</div><div class="nb n-prof"><b class="nl">교수님</b>부호를 막 외울 필요는 없고, 최종 간접효과(회귀계수)의 부호가 (+)냐 (−)냐가 무슨 의미인지 해석하는 것이 중요.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><div class="lead" data-group="p12d"><div class="lt">논문 읽기 · 이미희(2025) 부모의 부부갈등 → 정서적 부모화 → 이성관계 만족도</div><p class="note">교수님 슬라이드 결과 기술 예시의 표준화 계수 (β)</p><div class="tw"><table><tr><th>경로</th><th>β</th><th>t</th></tr><tr><td>부모의 부부갈등 → 정서적 부모화</td><td>.62</td><td>16.90***</td></tr><tr><td>부모의 부부갈등 → 이성관계 만족도 (정서적 부모화 투입 전)</td><td>−.64</td><td>−17.65***</td></tr><tr><td>부모의 부부갈등 → 이성관계 만족도 (정서적 부모화 투입 후)</td><td>−.51</td><td>−11.36***</td></tr><tr><td>정서적 부모화 → 이성관계 만족도 (부부갈등 통제)</td><td>−.20</td><td>−4.41***</td></tr></table></div></div><article class="q" id="app-12-18" data-id="app-12-18" data-tab="app" data-ans="1" data-group="p12d">
+<div class="meta"><span class="num">111</span><span class="kind k-app">분류</span><span class="src">12주 · 논문 읽기</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">이 표에서 독립변인(X), 매개변인(M), 종속변인(Y)을 바르게 찾은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">X: 부모의 부부갈등 / M: 정서적 부모화 / Y: 이성관계 만족도</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">X: 정서적 부모화 / M: 부모의 부부갈등 / Y: 이성관계 만족도</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">X: 부모의 부부갈등 / M: 이성관계 만족도 / Y: 정서적 부모화</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">X: 이성관계 만족도 / M: 정서적 부모화 / Y: 부모의 부부갈등</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">X: 부모의 부부갈등 / 조절변인: 정서적 부모화 / Y: 이성관계 만족도</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ①</div><div class="exp">최종 결과변수(Y)를 먼저 찾으면 <b>이성관계 만족도</b>. X는 처음 원인인 부모의 부부갈등, 그 사이에서 경로를 설명하는 <b>정서적 부모화가 M</b>. 조절변인은 X→Y 경로 위에 붙는 변인.</div><div class="nb n-prof"><b class="nl">교수님</b>모형을 쪼갤 때 가장 중요한 것은 X와 Y를 찾는 것이고, 더 쉬운 것은 Y를 먼저 찾는 것.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-19" data-id="app-12-19" data-tab="app" data-ans="2" data-group="p12d">
+<div class="meta"><span class="num">112</span><span class="kind k-app">해석</span><span class="src">12주 · 논문 읽기</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">이 결과에 대한 해석으로 옳은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">직접효과가 총효과보다 작아졌으므로 완전매개이다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">직접효과(−.51)가 여전히 유의하고 총효과(−.64)보다 감소했으므로 부분매개이다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">a 경로의 β(.62)가 b 경로의 β(−.20)보다 크므로 매개효과가 없다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">간접효과의 부호가 (+)이므로 부분매개이다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">β의 부호가 서로 다르므로 조절효과이다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">정서적 부모화를 투입한 뒤에도 직접효과(β = −.51***)가 유의하고 −.64 → −.51로 감소 → <b>부분매개</b>. 간접효과 부호는 a(+) × b(−) = (−).</div><div class="nb n-con"><b class="nl">개념 정리</b>논문 문장 예: "총효과가 정서적 부모화의 효과를 통제했을 때 감소했기 때문에(β = −.64 → −.51) 정서적 부모화는 매개역할을 하는 것으로 판단할 수 있다."</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-20" data-id="app-12-20" data-tab="app" data-ans="4" data-group="p12d">
+<div class="meta"><span class="num">113</span><span class="kind k-app">계산</span><span class="src">12주 · 논문 읽기</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">표준화 계수로 계산한 간접효과(ab)는 약 얼마인가?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">.12</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">−.82</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">−.64</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">−.12</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">−.42</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">ab = a × b = .62 × (−.20) = −.124 ≈ <b>−.12</b>. 직접효과 −.51을 더하면 −.63으로 총효과 −.64와 거의 일치 (c = c′ + ab).</div><div class="nb n-tip"><b class="nl">참고</b>논문의 실제 간접효과 값은 부트스트랩 표가 필요. 여기서는 β끼리 곱해 구조를 확인하는 근사값.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><div class="lead" data-group="p12e"><div class="lt">SPSS 실습 · 사회불안 → 완벽주의 → 미루기 (Model 4)</div><p class="note">교수님 실습 결과표 (부트스트랩 5,000회, 슬라이드 값)</p><div class="tw wide"><table><tr><th>독립변인</th><th>종속변인</th><th>B</th><th>SE</th><th>β</th><th>t</th><th>R²</th></tr><tr><td>사회불안</td><td>완벽주의</td><td>0.4489</td><td>0.0589</td><td>0.4764</td><td>7.6236***</td><td>0.2269</td></tr><tr><td>사회불안</td><td>미루기</td><td>0.2013</td><td>0.0673</td><td>0.2079</td><td>2.9911**</td><td>0.0432</td></tr><tr><td>사회불안</td><td rowspan="2">미루기</td><td>−0.0611</td><td>0.066</td><td>−0.0631</td><td>−0.9262</td><td rowspan="2">0.2934</td></tr><tr><td>완벽주의</td><td>0.5846</td><td>0.070</td><td>0.5689</td><td>8.3526***</td></tr></table></div><div class="tw"><table><tr><th>간접효과 경로</th><th>부트스트랩 (표준화)</th><th>SE</th><th>LLCI</th><th>ULCI</th></tr><tr><td>사회불안 → 완벽주의 → 미루기</td><td>0.2710</td><td>0.0461</td><td>0.1809</td><td>0.3641</td></tr></table></div></div><article class="q" id="app-12-21" data-id="app-12-21" data-tab="app" data-ans="2" data-group="p12e">
+<div class="meta"><span class="num">114</span><span class="kind k-app">계산</span><span class="src">12주 · 실습 간접효과</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">표의 B로 계산한 사회불안 → 완벽주의 → 미루기의 비표준화 간접효과(ab)는?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">0.2710</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">0.2624</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">0.2013</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">0.1013</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">0.5846</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">ab = 0.4489 × 0.5846 = <b>0.2624</b>. 검산: c′ + ab = −0.0611 + 0.2624 = 0.2013 (총효과). 슬라이드 부트스트랩 값 0.2710은 표준화(β) 기준: 0.4764 × 0.5689 = 0.2710.</div><div class="nb n-prof"><b class="nl">교수님</b>간접효과를 비표준화(B)로 제시할지 표준화(β)로 제시할지는 명확히 정해져 있지 않으므로, 어느 쪽인지 표에 분명히 쓰고 β를 쓰면 열 이름을 B 대신 β로 바꾼다.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-22" data-id="app-12-22" data-tab="app" data-ans="5" data-group="p12e">
+<div class="meta"><span class="num">115</span><span class="kind k-app">해석</span><span class="src">12주 · 실습 결론</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">이 결과에 대한 해석으로 옳은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">총효과가 유의하므로 부분매개이다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">직접효과가 유의하지 않으므로 매개효과가 없다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">간접효과의 신뢰구간(0.1809 ~ 0.3641)에 0이 없으므로 간접효과는 유의하지 않다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">미루기의 R²(0.2934)는 완벽주의 단독의 설명력이다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">직접효과는 비유의이고 간접효과는 유의하므로, 사회불안은 완벽주의를 통해서만 미루기에 영향을 미친다 (완전매개)</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">총효과 0.2013(**) → 완벽주의를 투입하면 직접효과 −0.0611(t = −0.9262, 비유의)로 사라지고, 간접효과 CI에 0이 없어 유의 → <b>완전매개</b>. R² 0.2934는 사회불안과 완벽주의가 함께 설명하는 변량.</div><div class="nb n-con"><b class="nl">개념 정리</b>총효과의 p값은 .003, 직접효과 투입 후 .355로 바뀜 (교수님 설명)</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-23" data-id="app-12-23" data-tab="app" data-ans="3" data-group="p12e">
+<div class="meta"><span class="num">116</span><span class="kind k-app">개념 응용</span><span class="src">12주 · 출력 순서</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">PROCESS 출력의 "X와 M을 함께 투입해 Y를 예측한 회귀"(직접효과 c′와 b)는 논문 결과표(a → 총효과 → c′·b 순)의 몇 번째 줄에 들어가는가?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">첫 번째 줄</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">두 번째 줄</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">세 번째 줄</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">간접효과 표</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">결과표에 넣지 않는다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">PROCESS 출력은 ① M 회귀(a) ② Y 회귀(c′, b) ③ Total effect model(c) 순. 논문 표는 a → <b>c</b> → <b>c′·b</b> 순이므로 출력의 두 번째 회귀가 표의 <b>세 번째 줄</b>, Total effect model이 두 번째 줄.</div><div class="nb n-prof"><b class="nl">교수님</b>"두 번째와 세 번째가 바뀌어 있다"며 눈을 크게 뜨고 옮기라고 강조. 통계 분석은 5초면 끝나고, 결과표를 해석해 칸에 옮기는 것이 중요.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-24" data-id="app-12-24" data-tab="app" data-ans="5" data-group="p12e">
+<div class="meta"><span class="num">117</span><span class="kind k-app">개념 응용</span><span class="src">12주 · PROCESS 설정</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">PROCESS로 단순 매개효과를 분석하는 설정으로 옳은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">Model number는 1번을 지정한다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">변수명은 한글 그대로 두고 레이블만 영문으로 쓴다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">부트스트랩은 기본 100회이며 줄일수록 정확하다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">모든 경로(a, b, c, c′)의 유의성을 부트스트랩 신뢰구간으로 제시한다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">변수명을 영문 8자 이내로 바꾸고, Show total effect model과 Standardized effects 옵션으로 총효과와 β를 얻는다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">단순 매개는 <b>Model 4</b>, 부트스트랩은 기본 5,000회, 신뢰구간은 간접효과에만 제시. 변수명은 한국어 불가, 영문 8자 이내(넘으면 에러), 레이블에 원래 이름을 적어 둠.</div><div class="nb n-key"><b class="nl">핵심 정리</b>Model 1 단순 조절 / 4 단순·다중 매개 / 6 순차 매개 / 7·14 조절된 매개</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-25" data-id="app-12-25" data-tab="app" data-ans="2" data-group="p12e">
+<div class="meta"><span class="num">118</span><span class="kind k-app">분류</span><span class="src">12주 · Model 번호</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">분석과 PROCESS Model 번호가 바르게 짝지어진 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">단순 조절효과 – Model 4</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">단순 매개효과 – Model 4</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">순차 매개효과 – Model 1</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">조절된 매개효과 – Model 6</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">단순 조절효과 – Model 7</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">단순 매개 = <b>4</b>(다중 매개도 4), 순차 매개 = <b>6</b>, 단순 조절 = <b>1</b>, 조절된 매개 = 7, 14, 58 등, 매개된 조절 = 5, 8, 15 등.</div><div class="nb n-prof"><b class="nl">교수님</b>1번(단순 조절)과 4번(단순 매개)이 가장 기초적인 모형의 벽돌. 이 둘을 붙여 복잡한 모형이 된다.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-26" data-id="app-12-26" data-tab="app" data-ans="2" data-group="p12e">
+<div class="meta"><span class="num">119</span><span class="kind k-app">개념 응용</span><span class="src">12주 · 부트스트랩 변동</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">같은 자료로 PROCESS를 다시 돌렸더니 간접효과의 부트스트랩 값이 소수점 아래에서 조금 달라졌다. 옳은 설명은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">프로그램 오류이므로 다시 설치해야 한다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">매번 새로 복원추출을 하므로 정상이며, 시드를 고정하면 같은 값이 나오게 할 수 있다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">표본이 바뀌었기 때문이다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">신뢰구간의 0 포함 여부도 반드시 달라진다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">5,000회가 너무 많아서 생기는 현상이다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">부트스트랩은 분석할 때마다 <b>다시 추출</b>하므로 값이 조금씩 변함(슬라이드: "분석 시마다 값이 변화"). 시드(seed) 고정으로 같은 값을 얻을 수 있음. 보통 결론(CI에 0 포함 여부)은 같음.</div><div class="nb n-prof"><b class="nl">교수님</b>실습에서 일부 학생이 0.0001 다르게 나왔을 때 "달라질 수 있다, 고정할 수도 있다"고 설명.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-27" data-id="app-12-27" data-tab="app" data-ans="4">
+<div class="meta"><span class="num">120</span><span class="kind k-app">분류</span><span class="src">12주 · 연구문제 유형</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">"외상경험이 플래시백과 사회적 철수를 차례로 거쳐 우울에 영향을 미치는가?"의 유형은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">단순 매개효과</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">다중(병렬) 매개효과</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">조절효과</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">순차 매개효과</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">조절된 매개효과</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">외상경험 → 플래시백 → 사회적 철수 → 우울처럼 매개변수가 <b>연쇄적으로</b> 이어지면 순차 매개. 다중 매개는 X→M₁→Y, X→M₂→Y처럼 병렬.</div><div class="nb n-key"><b class="nl">핵심 정리</b>순차 = 연쇄(M₁→M₂), 다중 = 병렬</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-28" data-id="app-12-28" data-tab="app" data-ans="1">
+<div class="meta"><span class="num">121</span><span class="kind k-app">분류</span><span class="src">12주 · 조절된 매개</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">"성별에 따라 청소년의 신체적 성숙도가 또래의 관심을 통해 자아존중감에 미치는 영향이 달라지는가?"에서 매개변수와 조절변수를 순서대로 고른 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">매개: 또래의 관심 / 조절: 성별</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">매개: 성별 / 조절: 또래의 관심</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">매개: 자아존중감 / 조절: 성별</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">매개: 신체적 성숙도 / 조절: 또래의 관심</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">매개: 또래의 관심 / 조절: 자아존중감</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ①</div><div class="exp">Y = 자아존중감(최종 목적지), X = 신체적 성숙도. X와 Y 사이에서 경로를 설명하는 <b>또래의 관심이 M</b>, 전체가 달라지게 하는 <b>성별이 조절변수</b>. → 조절된 매개효과.</div><div class="nb n-prof"><b class="nl">교수님</b>신체적 성숙도가 빠를 때 남아는 자아존중감이 높아지지만 여아는 급격히 낮아질 수 있어 성별에 따라 효과의 방향 자체가 달라짐.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-29" data-id="app-12-29" data-tab="app" data-ans="2">
+<div class="meta"><span class="num">122</span><span class="kind k-app">분류</span><span class="src">12주 · 조절효과</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">"인지적 유연성이 높은 사람은 실패경험을 해도 수치심이 덜 나타난다"가 설명하는 효과는?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">매개효과</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">조절효과</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">순차 매개효과</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">간접효과</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">제3변수 효과</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">실패경험 → 수치심은 이미 있는 관계이고, 인지적 유연성이라는 <b>조건</b>에 따라 이 관계가 약화됨 → 조절효과(조건부 효과).</div><div class="nb n-prof"><b class="nl">교수님</b>조절은 "x가 y로 가는 것 자체에 영향을 미치는 또 다른 변인(조건)", 매개는 "x와 y 사이에 있는 중간 변인".</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-30" data-id="app-12-30" data-tab="app" data-ans="2">
+<div class="meta"><span class="num">123</span><span class="kind k-app">개념 응용</span><span class="src">12주 · 매개 vs 조절</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">매개와 조절에 대한 설명으로 옳지 않은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">매개는 X가 Y로 가는 경로의 메커니즘(how)을, 조절은 작동 조건(when)을 설명한다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">Y를 증가시키는 변수는 매개변수이고 Y를 감소시키는 변수는 조절변수이다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">조절변수는 X→Y 관계의 강도나 방향을 바꿀 수 있다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">매개와 조절 모두 X→Y 관계가 있다는 전제 위에서 다룬다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">매개에서도 조절에서도 효과의 부호는 +와 − 모두 가능하다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">효과가 +인지 −인지는 매개와 조절을 <b>구분하는 기준이 아님</b>. 구분 기준은 "기존 관계에 새로 영향을 미치는가(조절)" 대 "관계 사이의 경로인가(매개)".</div><div class="nb n-prof"><b class="nl">교수님</b>수업 중 "Y를 증가시키면 매개, 감소시키면 조절이라고 이해하면 틀리냐"는 질문에 아니라고 답함: 둘 다 +/− 가능.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-31" data-id="app-12-31" data-tab="app" data-ans="5">
+<div class="meta"><span class="num">124</span><span class="kind k-app">개념 응용</span><span class="src">12주 · 경로분석 가정</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">경로분석의 기본 가정으로 옳지 않은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">독립변수와 종속변수의 관계는 선형적이다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">관측치와 잔차는 서로 독립이다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">예측값의 범위에서 오차분산이 일정하다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">변수의 측정오차는 없다고 가정한다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">변수들은 명목척도 이상으로 측정되면 충분하다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">변수들은 최소한 <b>등간척도 이상</b>이어야 함(회귀분석 기반). 측정오차는 없다고 가정하며(구조방정식은 측정오차를 고려), PROCESS 5.0부터 신뢰도 추정치로 고려 가능.</div><div class="nb n-key"><b class="nl">핵심 정리</b>선형성 · 독립성 · 등분산성 · 측정오차 없음 · 등간척도 이상</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-32" data-id="app-12-32" data-tab="app" data-ans="2">
+<div class="meta"><span class="num">125</span><span class="kind k-app">개념 응용</span><span class="src">12주 · 인과 주장</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">경로분석에서 변수 간 인과 방향을 설정하는 근거로 가장 적절한 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">경로분석은 실험 설계에 기초하므로 통계만으로 인과가 증명된다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">통계적 기초는 상관(공분산)이지만, 이론적 배경과 선행연구에 근거해 방향을 정한다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">부트스트랩을 사용하므로 인과가 증명된다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">표준화 계수가 클수록 인과관계가 성립한다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">회귀분석보다 표본 크기 요건이 낮기 때문이다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">경로분석은 인과를 주장하지만 통계적으로는 <b>상관에 기초</b>. 그래서 각 경로(X→M, M→Y)를 뒷받침하는 <b>선행연구와 이론적 배경</b>이 회귀분석보다 더 중요.</div><div class="nb n-prof"><b class="nl">교수님</b>프로포즈 때 지도교수님이 a→b 관계를 주장하는 선행연구를 여러 편 찾아 정리하라고 함. 인과 주장의 근거가 필요하기 때문.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-33" data-id="app-12-33" data-tab="app" data-ans="4">
+<div class="meta"><span class="num">126</span><span class="kind k-app">개념 응용</span><span class="src">12주 · ΔR² 정정</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">11주 슬라이드의 "ΔR² = 부분결정계수" 표현에 대해 교수님이 정정한 내용으로 옳은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">ΔR²는 부분(partial) 결정계수가 맞다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">ΔR²는 상관계수 r의 변화량이다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">ΔR²는 오차분산이 줄어든 비율이다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">ΔR²는 부분이 아니라 준부분(semi-partial), 곧 증분결정계수이다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">ΔR²는 첫 번째 블록의 R²와 같다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">ΔR²는 R²에서 <b>추가된 만큼</b>을 뜻하는 <b>준부분(semi-partial) 결정계수(증분결정계수)</b>. 예: .86 − .51 = .35는 교우관계를 제외하고 성취경험이 단독으로 추가 설명하는 부분.</div><div class="nb n-tip"><b class="nl">참고</b>11주 개념 정리의 "부분결정계수" 표기는 이 정정에 맞게 고치는 것이 좋음 (수정은 상의 후 반영).</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-34" data-id="app-12-34" data-tab="app" data-ans="2">
+<div class="meta"><span class="num">127</span><span class="kind k-app">개념 응용</span><span class="src">12주 · 조절 검증</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">위계적 회귀분석으로 조절효과를 검증하는 절차로 옳은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">1단계에 X만, 2단계에 W를 추가한다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">1단계에 X와 W, 2단계에 상호작용항(X×W)을 추가하고 ΔR²의 유의성을 확인한다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">1단계에 X×W만, 2단계에 X와 W를 추가한다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">1단계에 M, 2단계에 X를 추가하고 부트스트랩으로 검증한다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">단계 구분 없이 모두 동시에 투입하고 전체 R²만 본다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">1단계에 X와 조절변인 W, 2단계에 <b>X×W</b>를 추가해 <b>ΔR²가 유의</b>하게 증가하거나 상호작용항 계수가 유의하면 조절효과가 있다고 판단. (매개는 부트스트랩, 조절은 상호작용항.)</div><div class="nb n-key"><b class="nl">핵심 정리</b>조절 = 상호작용효과 = 이원분산분석의 A×B와 같은 개념. 회귀에서는 부호까지 해석 가능</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-35" data-id="app-12-35" data-tab="app" data-ans="3">
+<div class="meta"><span class="num">128</span><span class="kind k-app">개념 응용</span><span class="src">12주 · 평균중심화</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">평균중심화에 대한 설명으로 옳지 않은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">각 변수에서 평균을 뺀 값으로 상호작용항을 만든다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">상호작용항과 원래 변수 간 다중공선성을 줄여준다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">평균중심화를 하면 상호작용 효과의 유의성이 달라진다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">주효과를 W가 평균일 때 X의 효과로 해석하기 쉬워진다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">조절효과 분석에서는 평균중심화를 하는 것이 기본이다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">평균중심화를 해도 <b>상호작용 효과의 유의성은 변하지 않음</b>. 목적은 곱항과 원래 변수가 매우 비슷해서 생기는 다중공선성(VIF) 완화와 주효과 해석의 용이성.</div><div class="nb n-prof"><b class="nl">교수님</b>변인들을 곱한 항은 원래 변인과 당연히 비슷하므로 다중공선성 문제가 반드시 생기고, 평균을 빼준 뒤 곱하면 해결됨. 조절효과를 볼 때는 반드시 이 조치를 하라고 강조.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><div class="lead" data-group="p12m"><div class="lt">조절효과 실습 · 완벽주의 → 미루기, 충동성의 조절 (Model 1)</div><p class="note">슬라이드(13주 수업 예정) 값. 평균중심화·단순기울기(−1SD, 평균, +1SD) 옵션 사용</p><div class="tw wide"><table><tr><th>독립변인</th><th>종속변인</th><th>B</th><th>SE</th><th>t</th><th>R²</th><th>ΔR²</th></tr><tr><td>완벽주의 (A)</td><td rowspan="3">미루기</td><td>0.6044</td><td>0.0565</td><td>10.6962***</td><td rowspan="3">0.4185</td><td></td></tr><tr><td>충동성 (B)</td><td>−0.0047</td><td>0.0514</td><td>−0.0912</td><td></td></tr><tr><td>(A)×(B)</td><td>−0.3759</td><td>0.0572</td><td>−6.5600***</td><td>0.1279</td></tr></table></div><div class="tw wide"><table><tr><th>효과 경로</th><th>조절변인(충동성)</th><th>효과</th><th>SE</th><th>LLCI</th><th>ULCI</th></tr><tr><td rowspan="3">완벽주의 → 미루기</td><td>−1SD (낮음)</td><td>0.9637</td><td>0.0839</td><td>0.7983</td><td>1.1291</td></tr><tr><td>평균 (보통)</td><td>0.6044</td><td>0.0565</td><td>0.4930</td><td>0.7158</td></tr><tr><td>+1SD (높음)</td><td>0.2451</td><td>0.0731</td><td>0.1009</td><td>0.3892</td></tr></table></div></div><article class="q" id="app-12-36" data-id="app-12-36" data-tab="app" data-ans="2" data-group="p12m">
+<div class="meta"><span class="num">129</span><span class="kind k-app">해석</span><span class="src">12주 · 조절 실습(슬라이드)</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">상호작용항 (A)×(B)의 B = −0.3759(***)에 대한 해석으로 옳은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">충동성이 높을수록 완벽주의가 미루기에 미치는 효과가 강해진다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">충동성이 높을수록 완벽주의가 미루기에 미치는 효과가 약해진다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">충동성은 미루기를 유의하게 감소시킨다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">완벽주의와 충동성은 서로 독립이다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">조절효과가 유의하지 않다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">상호작용항이 유의(−)이므로 W(충동성)가 클수록 X(완벽주의)의 효과가 줄어듦. 충동성의 주효과(−0.0047)는 비유의이므로 충동성이 미루기를 유의하게 감소시킨다는 말은 틀림.</div><div class="nb n-key"><b class="nl">핵심 정리</b>상호작용항 부호: 양수 강화 / 음수 약화·상충 (X→Y가 +일 때)</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-37" data-id="app-12-37" data-tab="app" data-ans="4" data-group="p12m">
+<div class="meta"><span class="num">130</span><span class="kind k-app">해석</span><span class="src">12주 · 조건부 효과(슬라이드)</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">조건부 효과 표(−1SD 0.9637, 평균 0.6044, +1SD 0.2451)에 대한 해석으로 옳은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">충동성이 낮을수록 효과가 작아지고 +1SD에서만 유의하다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">충동성 수준과 관계없이 효과가 같다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">충동성이 높아지면 효과가 사라져 +1SD에서 비유의하다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">충동성이 높아질수록 효과는 줄어들지만 +1SD에서도 신뢰구간(0.1009 ~ 0.3892)에 0이 없어 유의하다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">충동성이 낮을수록 완벽주의의 효과가 가장 작다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ④</div><div class="exp">충동성이 낮은 집단(−1SD)에서 효과가 가장 크고 높은 집단(+1SD)에서 줄지만, +1SD의 CI도 0을 포함하지 않으므로 여전히 유의.</div><div class="nb n-prof"><b class="nl">슬라이드</b>충동성이 낮은 집단에서 완벽주의가 미루기에 미치는 영향이 가장 크고, 높은 집단에서 감소함.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-38" data-id="app-12-38" data-tab="app" data-ans="2" data-group="p12m">
+<div class="meta"><span class="num">131</span><span class="kind k-app">계산</span><span class="src">12주 · 조절 실습(슬라이드)</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">상호작용항을 투입하기 전(완벽주의와 충동성만 투입)의 R²는 약 얼마인가?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">.13</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">.29</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">.42</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">.55</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">.71</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">표의 R² .4185는 상호작용항까지 넣은 전체 모형의 값이고 ΔR²(R2-chng) = .1279. 상호작용항 투입 전 R² = .4185 − .1279 = <b>.2906 ≈ .29</b>. (.55는 더한 값)</div><div class="nb n-con"><b class="nl">개념 정리</b>ΔR² = 큰 모형 R² − 작은 모형 R². 상호작용항이 추가로 설명하는 비율</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-39" data-id="app-12-39" data-tab="app" data-ans="3">
+<div class="meta"><span class="num">132</span><span class="kind k-app">개념 응용</span><span class="src">12주 · 순차매개(슬라이드)</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">X → M₁ → M₂ → Y 순차매개모형의 간접효과 경로 수와 총효과로 옳은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">1개이고, 총효과 = 직접효과 + 간접효과 1개</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">2개이고, 총효과 = 직접효과 + 간접효과 2개</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">3개(X→M₁→Y, X→M₂→Y, X→M₁→M₂→Y)이고, 총효과 = 직접효과 + 세 간접효과의 합</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">3개이고, 총효과 = 직접효과와 같다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">4개이고, 총효과 = 직접효과 + 네 간접효과의 합</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">순차매개의 간접경로는 X→M₁→Y, X→M₂→Y, X→M₁→M₂→Y의 <b>3개</b>. 총효과 = 직접효과 + (1) + (2) + (3). M₁→M₂ 순서는 이론적 근거로 정함.</div><div class="nb n-key"><b class="nl">핵심 정리</b>다중(병렬) 매개는 간접경로 2개: X→M₁→Y, X→M₂→Y</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><div class="lead" data-group="p12s"><div class="lt">순차매개 간접효과 (슬라이드: 대인관계 갈등 → 내적 성찰 → 정신화 역량 → 심리적 성장)</div><p class="note">부트스트랩 95% 신뢰구간 (LLCI, ULCI)</p><div class="tw"><table><tr><th>간접효과 경로</th><th>B</th><th>SE</th><th>LLCI</th><th>ULCI</th></tr><tr><td>갈등 → 내적 성찰 → 성장</td><td>0.06</td><td>0.03</td><td>0.01</td><td>0.13</td></tr><tr><td>갈등 → 정신화 → 성장</td><td>0.04</td><td>0.04</td><td>−0.01</td><td>0.08</td></tr><tr><td>갈등 → 내적 성찰 → 정신화 → 성장</td><td>0.11</td><td>0.03</td><td>0.04</td><td>0.21</td></tr></table></div></div><article class="q" id="app-12-40" data-id="app-12-40" data-tab="app" data-ans="2" data-group="p12s">
+<div class="meta"><span class="num">133</span><span class="kind k-app">표 읽기</span><span class="src">12주 · 순차매개(슬라이드)</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">표에서 유의하지 않은 간접경로는?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">갈등 → 내적 성찰 → 성장</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">갈등 → 정신화 → 성장</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">갈등 → 내적 성찰 → 정신화 → 성장</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">세 경로 모두 유의하다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">세 경로 모두 유의하지 않다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">갈등 → 정신화 → 성장의 CI(−0.01 ~ 0.08)가 <b>0을 포함</b>하므로 비유의. 나머지 두 경로는 0을 포함하지 않아 유의 (순차경로 0.04 ~ 0.21).</div><div class="nb n-key"><b class="nl">핵심 정리</b>각 간접경로의 유의성은 부트스트랩 신뢰구간으로 판단</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-41" data-id="app-12-41" data-tab="app" data-ans="1">
+<div class="meta"><span class="num">134</span><span class="kind k-app">개념 응용</span><span class="src">12주 · 조절된 매개(슬라이드)</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">조절된 매개효과의 PROCESS Model 7과 14의 차이로 옳은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">Model 7은 a 경로(X→M), Model 14는 b 경로(M→Y)를 조절한다</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">Model 7은 b 경로, Model 14는 a 경로를 조절한다</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">Model 7은 직접효과 c′만 조절한다</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">두 모델 모두 a 경로를 조절하고, 14는 변수가 하나 더 있다</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">Model 7은 순차매개, Model 14는 단순 조절이다</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ①</div><div class="exp">Model 7: M = a₀ + a₁X + a₂W + a₃XW → <b>a 경로 조절</b>. Model 14: Y = b₀ + c′X + b₁M + b₂W + b₃MW → <b>b 경로 조절</b>. 교수님도 7번은 한쪽 날개, 14번은 반대쪽 날개를 조절한다고 설명.</div><div class="nb n-prof"><b class="nl">교수님</b>조절된 매개와 매개된 조절은 다르고 매개된 조절은 많이 쓰지 않음. 조절된 매개는 7번과 14번이 가장 많이 사용됨.</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article><article class="q" id="app-12-42" data-id="app-12-42" data-tab="app" data-ans="3">
+<div class="meta"><span class="num">135</span><span class="kind k-app">개념 응용</span><span class="src">12주 · SEM 적합도(슬라이드)</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="stem">표본 크기에 영향을 덜 받는 적합도 지수만 묶은 것은?</div>
+<ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">NFI, GFI, AGFI</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">CFI, GFI, RMSEA</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">RMSEA, TLI, CFI</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">NFI, TLI, RMSEA</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">GFI, AGFI, TLI</span></button></li></ol>
+<div class="res" hidden></div>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">표본 크기에 영향 받지 않는(덜 민감한) 지수는 <b>RMSEA, TLI, CFI</b>. NFI, GFI, AGFI는 표본 크기에 민감. 상대 적합도는 NFI·TLI·CFI, 절대 적합도는 GFI·AGFI·RMSEA.</div><div class="nb n-key"><b class="nl">핵심 정리</b>기준: NFI·TLI·CFI·GFI &gt; .90, RMSEA &lt; .05 (슬라이드 표 기준)</div></div></details>
+<button type="button" class="retry" hidden>다시 풀기</button>
+</article></div></details><details class="wk"><summary class="wh"><span class="car"></span><span class="wn">종합</span><span class="wt">분석 방법 고르기</span><span class="wc">6문항</span></summary><div class="wbody"><article class="q" id="app-x-01" data-id="app-x-01" data-tab="app" data-ans="3">
+<div class="meta"><span class="num">136</span><span class="kind k-app">분석 선택</span><span class="src">종합 · 교수님 사례</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">"상담자 경력(초심/숙련)에 따라 선호하는 이론적 접근(4가지)에 차이가 있는가?"에 알맞은 분석은?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">일원 분산분석</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">독립표본 t 검정</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">카이제곱 검정</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">단순회귀</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">Pearson 상관</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">독립변인도 종속변인도 <b>범주형</b> → 카이제곱(교차분석).</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ③</div><div class="exp">독립변인도 종속변인도 <b>범주형</b> → 카이제곱(교차분석).</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-x-02" data-id="app-x-02" data-tab="app" data-ans="5">
-<div class="meta"><span class="num">95</span><span class="kind k-app">분석 선택</span><span class="src">종합 · 교수님 사례</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+</article><article class="q" id="app-x-02" data-id="app-x-02" data-tab="app" data-ans="1">
+<div class="meta"><span class="num">137</span><span class="kind k-app">분석 선택</span><span class="src">종합 · 교수님 사례</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">수능점수가 입학 후 학점을 얼마나 예측하는가?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">단순회귀분석</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">대응표본 t</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">로지스틱 회귀</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">이원분산분석</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">카이제곱</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ⑤</div><div class="exp">독립 1개(연속), 종속 연속 → 단순회귀.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ①</div><div class="exp">독립 1개(연속), 종속 연속 → 단순회귀.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
 </article><article class="q" id="app-x-03" data-id="app-x-03" data-tab="app" data-ans="2">
-<div class="meta"><span class="num">96</span><span class="kind k-app">분석 선택</span><span class="src">종합 · 교수님 사례</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="meta"><span class="num">138</span><span class="kind k-app">분석 선택</span><span class="src">종합 · 교수님 사례</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">불안, 우울, 물질중독, 충동성 중 자살사고에 가장 크게 영향을 미치는 변수를 알고 싶다.</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">파이계수</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">중다회귀분석 (β로 상대 크기 비교)</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">카이제곱</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">단순회귀분석</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">반복측정 분산분석</span></button></li></ol>
 <div class="res" hidden></div>
 <details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">독립변수 2개 이상 + 연속형 종속 → 중다회귀. 상대적 영향 비교는 표준화 계수 β.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-x-04" data-id="app-x-04" data-tab="app" data-ans="2">
-<div class="meta"><span class="num">97</span><span class="kind k-app">분석 선택</span><span class="src">종합 · 교수님 사례</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+</article><article class="q" id="app-x-04" data-id="app-x-04" data-tab="app" data-ans="1">
+<div class="meta"><span class="num">139</span><span class="kind k-app">분석 선택</span><span class="src">종합 · 교수님 사례</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">상담 중도탈락 여부(탈락/지속)를 예측하고 싶다.</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">이항 로지스틱 회귀분석</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">단순회귀분석</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">Pearson 상관</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">일원 분산분석</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">반복측정 분산분석</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">종속변수가 <b>범주형(2개)</b> → 이항 로지스틱 회귀. (3개 이상 다항, 서열이면 순서형)</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ①</div><div class="exp">종속변수가 <b>범주형(2개)</b> → 이항 로지스틱 회귀. (3개 이상 다항, 서열이면 순서형)</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
 </article><article class="q" id="app-x-05" data-id="app-x-05" data-tab="app" data-ans="2">
-<div class="meta"><span class="num">98</span><span class="kind k-app">분석 선택</span><span class="src">종합 · 슬라이드 사례</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+<div class="meta"><span class="num">140</span><span class="kind k-app">분석 선택</span><span class="src">종합 · 슬라이드 사례</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">자기자비가 자기존중감과 자기효능감을 넘어 심리적 안정감을 추가로 예측하는지 보려 한다.</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">단계선택만</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">위계적 회귀분석</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">카이제곱</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">독립표본 t 검정</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">단순회귀분석</span></button></li></ol>
 <div class="res" hidden></div>
 <details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">기존 변인을 투입한 뒤 새 변인의 <b>추가 설명력(ΔR²)</b> → 위계적 회귀.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
-</article><article class="q" id="app-x-06" data-id="app-x-06" data-tab="app" data-ans="2">
-<div class="meta"><span class="num">99</span><span class="kind k-app">분석 선택</span><span class="src">종합 · 상관계수 종류</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
+</article><article class="q" id="app-x-06" data-id="app-x-06" data-tab="app" data-ans="1">
+<div class="meta"><span class="num">141</span><span class="kind k-app">분석 선택</span><span class="src">종합 · 상관계수 종류</span><button type="button" class="flag" aria-pressed="false">☆ 오답</button></div>
 <div class="stem">학급 석차와 수능시험 석차 간의 관계에 알맞은 상관계수는?</div>
 <ol class="opts"><li><button type="button" class="opt" data-i="1"><span class="no">①</span><span class="ot">Spearman 등위상관</span></button></li><li><button type="button" class="opt" data-i="2"><span class="no">②</span><span class="ot">Pearson 적률상관</span></button></li><li><button type="button" class="opt" data-i="3"><span class="no">③</span><span class="ot">사분상관</span></button></li><li><button type="button" class="opt" data-i="4"><span class="no">④</span><span class="ot">파이계수</span></button></li><li><button type="button" class="opt" data-i="5"><span class="no">⑤</span><span class="ot">점이연상관</span></button></li></ol>
 <div class="res" hidden></div>
-<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ②</div><div class="exp">서열 × 서열 → Spearman(Kendall 타우). 시험 합격 여부 × 삶의 만족도는 점이연, 성별 × 찬성/반대는 파이.</div></div></details>
+<details class="ans"><summary>정답·해설 보기</summary><div class="in"><div class="a">정답 ①</div><div class="exp">서열 × 서열 → Spearman(Kendall 타우). 시험 합격 여부 × 삶의 만족도는 점이연, 성별 × 찬성/반대는 파이.</div></div></details>
 <button type="button" class="retry" hidden>다시 풀기</button>
 </article></div></details><p class="empty" hidden>조건에 맞는 문제가 없어.</p></section>
 
